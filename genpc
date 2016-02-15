@@ -1,0 +1,10 @@
+#!/bin/sh
+cat << EOF
+Name: $1
+Description: $2
+Version: 5.9
+Requires:
+Conflicts:
+Libs: $3
+Cflags:
+EOF

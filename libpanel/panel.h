@@ -28,12 +28,13 @@
 #ifndef	_PANEL_H_
 #define	_PANEL_H_
 
-#include <sys/cdefs.h>
 #include <curses.h>
 
 typedef struct __panel PANEL;
 
-__BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 PANEL  *new_panel(WINDOW *);
 int     del_panel(PANEL *);
 
@@ -56,6 +57,8 @@ PANEL  *panel_below(PANEL *);
 int     move_panel(PANEL *, int, int);
 
 void    update_panels(void);
-__END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif	/* _PANEL_H_ */

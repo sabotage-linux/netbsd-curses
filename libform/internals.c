@@ -37,7 +37,9 @@ __RCSID("$NetBSD: internals.c,v 1.37 2013/11/26 01:17:00 christos Exp $");
 #include <stdio.h>
 #include <stdlib.h>
 #include <strings.h>
+#include <string.h>
 #include <assert.h>
+#include <sys/queue.h>
 #include "internals.h"
 #include "form.h"
 

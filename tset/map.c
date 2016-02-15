@@ -44,6 +44,7 @@ __RCSID("$NetBSD: map.c,v 1.13 2011/09/06 18:34:12 joerg Exp $");
 #include <string.h>
 #include <term.h>
 #include <termios.h>
+#include <termcap.h>
 #include "extern.h"
 
 static int	baudrate(char *);

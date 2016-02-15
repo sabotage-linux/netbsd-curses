@@ -35,6 +35,7 @@ __RCSID("$NetBSD: type_enum.c,v 1.11 2010/05/13 17:52:12 tnozaki Exp $");
 #include <ctype.h>
 #include <stdlib.h>
 #include <strings.h>
+#include <string.h>
 #include "form.h"
 #include "internals.h"
 

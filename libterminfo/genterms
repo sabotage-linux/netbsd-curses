@@ -32,7 +32,7 @@
 set -e
 : ${TOOL_TIC:=tic}
 : ${NETBSDSRCDIR:=/usr/src}
-: ${TERMINFO:=${NETBSDSRCDIR}/share/terminfo/terminfo}
+: ${TERMINFO:=${TERMINFODIR}/terminfo}
 
 echo "/* DO NOT EDIT"
 echo " * Automatically generated from terminfo */"

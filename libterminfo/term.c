@@ -26,14 +26,13 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#include <sys/stat.h>
 
 #include <sys/cdefs.h>
 __RCSID("$NetBSD: term.c,v 1.19 2015/11/26 01:03:22 christos Exp $");
 
-#include <sys/stat.h>
-
 #include <assert.h>
-#include <cdbr.h>
+#include <sys/cdbr.h>
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -43,6 +42,7 @@ __RCSID("$NetBSD: term.c,v 1.19 2015/11/26 01:03:22 christos Exp $");
 #include <string.h>
 #include <term_private.h>
 #include <term.h>
+#include <sys/endian.h>
 
 #define _PATH_TERMINFO		"/usr/share/misc/terminfo"
 

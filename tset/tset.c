@@ -36,6 +36,7 @@ __RCSID("$NetBSD: tset.c,v 1.20 2011/09/06 18:34:12 joerg Exp $");
 
 #include <sys/types.h>
 #include <sys/ioctl.h>
+#include <sys/ttydefaults.h>
 #include <ctype.h>
 #include <err.h>
 #include <errno.h>
@@ -49,7 +50,7 @@ __RCSID("$NetBSD: tset.c,v 1.20 2011/09/06 18:34:12 joerg Exp $");
 
 static void	obsolete(char *[]);
 static void	report(const char *, int, u_int);
-__dead static void	usage(void);
+__dead static void	usage(char*);
 
 struct termios mode, oldmode;
 
@@ -59,6 +60,7 @@ int	nlines, ncolumns;	/* window size */
 int
 main(int argc, char *argv[])
 {
+	char *a0 = argv[0];
 #ifdef TIOCGWINSZ
 	struct winsize win;
 #endif
@@ -141,14 +143,14 @@ main(int argc, char *argv[])
 			break;
 		case '?':
 		default:
-			usage();
+			usage(a0);
 		}
 	}
 	argc -= optind;
 	argv += optind;
 
 	if (argc > 1)
-		usage();
+		usage(a0);
 
 	ttype = get_terminfo_entry(*argv);
 
@@ -277,10 +279,10 @@ obsolete(char *argv[])
 }
 
 static void
-usage(void)
+usage(char *a0)
 {
 	(void)fprintf(stderr,
 "usage: %s [-EIQrSs] [-] [-e ch] [-i ch] [-k ch] [-m mapping] [terminal]\n",
-	getprogname());
+	a0);
 	exit(1);
 }

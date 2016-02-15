@@ -54,7 +54,7 @@ __RCSID("$NetBSD: tput.c,v 1.26 2013/02/05 11:31:56 roy Exp $");
 #include <term.h>
 #include <unistd.h>
 
-static void   usage(void) __dead;
+static void   usage(char*) __dead;
 static char **process(const char *, const char *, char **);
 
 int
@@ -73,7 +73,7 @@ main(int argc, char **argv)
 			break;
 		case '?':
 		default:
-			usage();
+			usage(argv[0]);
 		}
 	argc -= optind;
 	argv += optind;
@@ -186,10 +186,10 @@ process(const char *cap, const char *str, char **argv)
 }
 
 static void
-usage(void)
+usage(char*a0)
 {
 	(void)fprintf(stderr,
 	    "Usage: %s [-T term] attribute [attribute-args] ...\n",
-	    getprogname());
+	    a0);
 	exit(2);
 }

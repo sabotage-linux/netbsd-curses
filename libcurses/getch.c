@@ -42,9 +42,15 @@ __RCSID("$NetBSD: getch.c,v 1.59 2012/04/21 12:27:28 roy Exp $");
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
+#include "term.h"
+
 #include "curses.h"
 #include "curses_private.h"
 #include "keymap.h"
+
+#ifdef NCURSES_VERSION
+#error "including ncurses!"
+#endif
 
 short	state;		/* state of the inkey function */
 

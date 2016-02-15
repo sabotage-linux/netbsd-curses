@@ -1939,9 +1939,9 @@ typedef struct {
 } TERMINAL;
 #endif
 
-#include <sys/cdefs.h>
-
-__BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 extern TERMINAL *cur_term;
 
@@ -2001,5 +2001,7 @@ char *		captoinfo(char *);
 /* POSIX says that term.h should also pull in our termcap definitions. */
 #include <termcap.h>
 
-__END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif

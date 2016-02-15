@@ -37,7 +37,11 @@ __RCSID("$NetBSD: set.c,v 1.18 2015/06/21 08:23:22 mlelstv Exp $");
 #include <term.h>
 #include <termios.h>
 #include <unistd.h>
+#include <sys/ttydefaults.h>
 #include "extern.h"
+#ifndef OXTABS
+#define OXTABS              0x00000004U     /* expand tabs to spaces */
+#endif
 
 #define	CHK(val, dft)	(val <= 0 ? dft : val)
 

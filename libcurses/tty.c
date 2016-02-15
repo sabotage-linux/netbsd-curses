@@ -43,7 +43,7 @@ __RCSID("$NetBSD: tty.c,v 1.43 2011/08/29 11:07:38 christos Exp $");
 #include <stdlib.h>
 #include <termios.h>
 #include <unistd.h>
-#include <sys/fcntl.h>
+#include <fcntl.h>
 #include <sys/ioctl.h>
 
 #include "curses.h"
@@ -579,6 +579,12 @@ bool
 isendwin(void)
 {
 	return _cursesi_screen->endwin ? TRUE : FALSE;
+}
+
+static int fpurge(FILE *f) {
+	dprintf(666, "warning: called fpurge\n");
+	fflush(f);
+	return 0;
 }
 
 int

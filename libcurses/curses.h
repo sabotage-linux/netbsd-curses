@@ -41,11 +41,23 @@
 #define	_CURSES_H_
 
 #include <sys/types.h>
-#include <sys/cdefs.h>
 #include <wchar.h>
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdarg.h>
+#define __va_list va_list
+#ifndef __printflike
+#if __GNUC__ >= 3
+#define __printflike(fmtarg, firstvararg)       \
+            __attribute__((__format__ (__printf__, fmtarg, firstvararg)))
+#define __scanflike(fmtarg, firstvararg)        \
+            __attribute__((__format__ (__scanf__, fmtarg, firstvararg)))
+#else
+#define __printflike(fmtarg, firstvararg)       /* nothing */
+#define __scanflike(fmtarg, firstvararg)        /* nothing */
+#endif
+#endif
 
 /*
  * attr_t must be the same size as wchar_t (see <wchar.h>) to avoid padding
@@ -527,7 +539,9 @@ extern int	 TABSIZE;		/* Size of a tab. */
 
 #else
 /* Use functions not macros... */
-__BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 int	 addbytes(const char *, int);
 int	 addch(chtype);
 int	 addchnstr(const chtype *, int);
@@ -606,7 +620,9 @@ int	 mvwgetnstr(WINDOW *, int, int, char *, int);
 int	 mvwgetstr(WINDOW *, int, int, char *);
 chtype	 mvwinch(WINDOW *, int, int);
 int	 mvwinsch(WINDOW *, int, int, chtype);
-__END_DECLS
+#ifdef __cplusplus
+}
+#endif
 #endif /* _CURSES_USE_MACROS */
 
 #define	getyx(w, y, x)		(y) = getcury(w), (x) = getcurx(w)
@@ -615,7 +631,9 @@ __END_DECLS
 #define	getparyx(w, y, x)	(y) = getpary(w), (x) = getparx(w)
 
 /* Public function prototypes. */
-__BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 int	 assume_default_colors(short, short);
 int	 baudrate(void);
 int	 beep(void);
@@ -928,6 +946,8 @@ int	 __waddbytes(WINDOW *, const char *, int, attr_t);
 #ifdef HAVE_WCHAR
 int __cputwchar( wchar_t );
 #endif /* HAVE_WCHAR */
-__END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* !_CURSES_H_ */

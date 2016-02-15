@@ -27,10 +27,13 @@
  *
  *
  */
-
+#define _GNU_SOURCE
+#include <string.h>
+#undef _GNU_SOURCE
+#define _BSD_SOURCE
+#include <stdlib.h>
 #include <sys/cdefs.h>
 __RCSID("$NetBSD: field.c,v 1.30 2015/12/11 21:22:57 joerg Exp $");
-
 #include <sys/param.h>
 #include <stdlib.h>
 #include <strings.h>

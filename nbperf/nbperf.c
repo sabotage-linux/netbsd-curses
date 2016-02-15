@@ -48,21 +48,22 @@ __RCSID("$NetBSD: nbperf.c,v 1.5 2013/01/31 16:32:02 joerg Exp $");
 #include <unistd.h>
 
 #include "nbperf.h"
+extern void mi_vector_hash(const void *restrict, size_t, uint32_t, uint32_t[3]);
 
 static int predictable;
 
 static __dead
-void usage(void)
+void usage(char *a0)
 {
 	fprintf(stderr,
 	    "%s [-ps] [-c utilisation] [-i iterations] [-n name] "
 	    "[-o output] input\n",
-	    getprogname());
+	    a0);
 	exit(1);
 }
 
-#if HAVE_NBTOOL_CONFIG_H && !defined(__NetBSD__)
-#define	arc4random() rand()
+#if !defined(__NetBSD__)
+#define	arc4random() 0x4c957f2d
 #endif
 
 static void
@@ -188,7 +189,7 @@ main(int argc, char **argv)
 			nbperf.static_hash = 1;
 			break;
 		default:
-			usage();
+			usage(argv[0]);
 		}
 	}
 
@@ -196,7 +197,7 @@ main(int argc, char **argv)
 	argv += optind;
 
 	if (argc > 1)
-		usage();
+		usage(argv[0]);
 
 	if (argc == 1) {
 		input = fopen(argv[0], "r");

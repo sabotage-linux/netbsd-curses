@@ -43,11 +43,20 @@ __RCSID("$NetBSD: printw.c,v 1.22 2011/07/17 20:54:34 joerg Exp $");
 #include "curses.h"
 #include "curses_private.h"
 
+#if 0
+#warning "funopen unimplemented!"
+static inline void* funopen(void* a, ...) {
+	dprintf(666, "warning: funopen unimplemented\n");
+	return 0;
+}
+#endif
+
 /*
  * printw and friends.
  */
-
+#if 0
 static int __winwrite __P((void *, const char *, int));
+#endif
 
 /*
  * printw --
@@ -112,6 +121,7 @@ mvwprintw(WINDOW * win, int y, int x, const char *fmt,...)
 	va_end(ap);
 	return (ret);
 }
+#if 0
 /*
  * Internal write-buffer-to-window function.
  */
@@ -134,6 +144,7 @@ __winwrite(cookie, buf, n)
 	}
 	return (n);
 }
+#endif
 /*
  * vw_printw --
  *	This routine actually executes the printf and adds it to the window.
@@ -141,12 +152,23 @@ __winwrite(cookie, buf, n)
 int
 vw_printw(WINDOW *win, const char *fmt, va_list ap)
 {
+#if 0
 	FILE   *f;
 
 	if ((f = funopen(win, NULL, __winwrite, NULL, NULL)) == NULL)
 		return (ERR);
 	(void) vfprintf(f, fmt, ap);
 	return (fclose(f) ? ERR : OK);
+#else
+	char buf[4096], *p = buf;
+	int c, ret = vsnprintf(buf, sizeof buf, fmt, ap);
+	if(ret < 0 || ret >= sizeof buf) return ERR;
+	for (c = ret; --c >= 0;)
+		if (waddch(win, (chtype) (*p++ & __CHARTEXT)) == ERR)
+                        return ERR;
+	return OK;
+#endif
 }
 
 __strong_alias(vwprintw, vw_printw)
+

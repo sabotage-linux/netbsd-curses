@@ -36,7 +36,8 @@ __RCSID("$NetBSD: acs.c,v 1.20 2012/04/21 12:27:27 roy Exp $");
 
 #include "curses.h"
 #include "curses_private.h"
-
+#include "term.h"
+#include <string.h>
 chtype _acs_char[NUM_ACS];
 #ifdef HAVE_WCHAR
 #include <assert.h>

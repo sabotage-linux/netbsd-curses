@@ -33,6 +33,7 @@
 __RCSID("$NetBSD: driver.c,v 1.18 2013/11/26 01:17:00 christos Exp $");
 
 #include <ctype.h>
+#include <sys/queue.h>
 #include "form.h"
 #include "internals.h"
 

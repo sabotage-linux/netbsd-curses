@@ -31,10 +31,24 @@
 
 #ifndef FORM_H
 #define FORM_H 1
+#if 0
 #include <sys/queue.h>
+#endif
 #include <stdarg.h>
 #include <curses.h>
 #include <eti.h>
+
+#ifndef __printflike
+#if __GNUC__ >= 3
+#define __printflike(fmtarg, firstvararg)       \
+            __attribute__((__format__ (__printf__, fmtarg, firstvararg)))
+#define __scanflike(fmtarg, firstvararg)        \
+            __attribute__((__format__ (__scanf__, fmtarg, firstvararg)))
+#else
+#define __printflike(fmtarg, firstvararg)       /* nothing */
+#define __scanflike(fmtarg, firstvararg)        /* nothing */
+#endif
+#endif
 
 /* Define the types of field justification that can be used. */
 #define NO_JUSTIFICATION  (0)
@@ -231,7 +245,14 @@ struct _form_field {
 	void *userptr;  /* user defined pointer. */
 	FIELD *link; /* used if fields are linked */
 	FIELDTYPE *type; /* type struct for the field */
+#if 0
 	TAILQ_ENTRY(_form_field) glue; /* tail queue glue for sorting fields */
+#else
+	struct {
+		struct _form_field* tqe_next;
+		struct _form_field** tqe_prev;
+	} glue;
+#endif
 	char *args; /* args for field type. */
 	_FORMI_FIELD_LINES *alines; /* array of the starts and ends of lines */
 	_FORMI_FIELD_LINES *free; /* list of lines available for reuse */
@@ -291,13 +312,22 @@ struct _form_struct {
 	int max_page; /* number of pages in the form */
 	_FORMI_PAGE_START *page_starts; /* dynamic array of fields that start
 					   the pages */
+#if 0
 	TAILQ_HEAD(_formi_sort_head, _form_field) sorted_fields; /* sorted field
 								list */
+#else
+	struct _formi_sort_head {                                                           \
+		struct _form_field *tqh_first;           /* first element */             \
+		struct _form_field **tqh_last;      /* addr of last next element */ \
+	} sorted_fields; /* sorted field list */
+#endif
 	FIELD **fields; /* array of fields attached to this form. */
 };
 
 /* Public function prototypes. */
-__BEGIN_DECLS
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 FIELD       *current_field(FORM *);
 int          data_ahead(FORM *);
@@ -377,6 +407,8 @@ int          set_max_field(FIELD *, int);
 int          set_new_page(FIELD *, int);
 int          unpost_form(FORM *);
 
-__END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* FORM_H */

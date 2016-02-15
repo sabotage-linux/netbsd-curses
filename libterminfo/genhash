@@ -97,6 +97,10 @@ cat <<EOF
 #include <string.h>
 #include <term_private.h>
 #include <term.h>
+#ifndef __arraycount
+#define __arraycount(a) (sizeof(a) / sizeof(*(a)))
+#endif
+extern void mi_vector_hash(const void *restrict, size_t, uint32_t, uint32_t[3]);
 EOF
 
 genent flag FLAG

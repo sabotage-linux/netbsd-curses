@@ -44,7 +44,7 @@ __RCSID("$NetBSD: term.c,v 1.17 2011/09/06 18:34:12 joerg Exp $");
 #include <stdlib.h>
 #include <string.h>
 #include <term.h>
-#include <ttyent.h>
+//#include <ttyent.h>
 #include <unistd.h>
 #include "extern.h"
 
@@ -71,6 +71,7 @@ get_terminfo_entry(const char *userarg)
 	if ((ttype = getenv("TERM")) != NULL)
 		goto map;
 
+#ifdef HAVE_GETTTYNAM
 	/* Try ttyname(3); check for dialup or other mapping. */
 	if ((ttypath = ttyname(STDERR_FILENO)) != NULL) {
 		if ((p = strrchr(ttypath, '/')) != NULL)
@@ -82,7 +83,7 @@ get_terminfo_entry(const char *userarg)
 			goto map;
 		}
 	}
-
+#endif
 	/* If still undefined, use "unknown". */
 	ttype = "unknown";
 
