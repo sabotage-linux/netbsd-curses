@@ -37,4 +37,16 @@ set -e
 echo "/* DO NOT EDIT"
 echo " * Automatically generated from terminfo */"
 echo
-${TOOL_TIC} -Sx ${TERMINFO} ansi dumb vt100 vt220 wsvt25 xterm
+TERMLIST="
+xterm
+linux
+xterm-256color
+ansi
+dumb
+vt100
+screen
+rxvt-unicode
+rxvt-unicode-256color
+"
+
+${TOOL_TIC} -Sx ${TERMINFO} ${TERMLIST}
