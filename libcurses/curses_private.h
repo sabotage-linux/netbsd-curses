@@ -180,7 +180,9 @@ struct __pair {
 };
 
 /* Maximum colours */
-#define	MAX_COLORS	64
+#ifndef MAX_COLORS
+#define	MAX_COLORS	256
+#endif
 /* Maximum colour pairs - determined by number of colour bits in attr_t */
 #define	MAX_PAIRS	PAIR_NUMBER(__COLOR)
 
