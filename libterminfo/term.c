@@ -370,6 +370,7 @@ _ti_findterm(TERMINAL *term, const char *name, int flags)
 			return _ti_dbgetterm(term, e, name, flags);
 
 	c = NULL;
+#ifdef USE_TERMCAP
 	if (e == NULL && (c = getenv("TERMCAP")) != NULL) {
 		if (*c != '\0' && *c != '/') {
 			c = strdup(c);
@@ -379,7 +380,7 @@ _ti_findterm(TERMINAL *term, const char *name, int flags)
 			}
 		}
 	}
-
+#endif
 	if (e != NULL) {
 		if (c == NULL)
 			e = strdup(e); /* So we don't destroy env */
