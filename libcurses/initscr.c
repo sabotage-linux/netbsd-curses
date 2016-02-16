@@ -65,8 +65,10 @@ initscr(void)
 		sp = Def_term;
 
 	/* LINTED const castaway; newterm does not modify sp! */
-	if ((_cursesi_screen = newterm((char *) sp, stdout, stdin)) == NULL)
-		return NULL;
+	if ((_cursesi_screen = newterm((char *) sp, stdout, stdin)) == NULL) {
+		fprintf(stderr,	"Error opening terminal: %s.\n", sp);
+		exit(1);
+	}
 
 	__echoit = _cursesi_screen->echoit;
         __pfast = _cursesi_screen->pfast;
