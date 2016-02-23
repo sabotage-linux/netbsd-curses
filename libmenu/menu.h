@@ -32,6 +32,12 @@
 #include <curses.h>
 #include <eti.h>
 
+#define MENU_NOOP_SPACING
+#ifdef MENU_NOOP_SPACING
+#define set_menu_spacing(a,b,c,d) (E_BAD_ARGUMENT)
+#define menu_spacing(a,b,c,d) (E_BAD_ARGUMENT)
+#endif
+
 /* requests for the menu_driver call */
 #define REQ_BASE_NUM      (KEY_MAX + 0x200)
 #define REQ_LEFT_ITEM     (KEY_MAX + 0x201)
