@@ -82,6 +82,8 @@ can_change_color(void)
 		return(FALSE);
 }
 
+static int init_color_local(short color, short red, short green, short blue);
+
 /*
  * start_color --
  *	Initialise colour support.
@@ -191,21 +193,21 @@ start_color(void)
 
 	/* Set up initial 8 colours */
 	if (COLORS >= COLOR_BLACK)
-		(void) init_color(COLOR_BLACK, 0, 0, 0);
+		(void) init_color_local(COLOR_BLACK, 0, 0, 0);
 	if (COLORS >= COLOR_RED)
-		(void) init_color(COLOR_RED, 1000, 0, 0);
+		(void) init_color_local(COLOR_RED, 680, 0, 0);
 	if (COLORS >= COLOR_GREEN)
-		(void) init_color(COLOR_GREEN, 0, 1000, 0);
+		(void) init_color_local(COLOR_GREEN, 0, 680, 0);
 	if (COLORS >= COLOR_YELLOW)
-		(void) init_color(COLOR_YELLOW, 1000, 1000, 0);
+		(void) init_color_local(COLOR_YELLOW, 680, 680, 0);
 	if (COLORS >= COLOR_BLUE)
-		(void) init_color(COLOR_BLUE, 0, 0, 1000);
+		(void) init_color_local(COLOR_BLUE, 0, 0, 680);
 	if (COLORS >= COLOR_MAGENTA)
-		(void) init_color(COLOR_MAGENTA, 1000, 0, 1000);
+		(void) init_color_local(COLOR_MAGENTA, 680, 0, 680);
 	if (COLORS >= COLOR_CYAN)
-		(void) init_color(COLOR_CYAN, 0, 1000, 1000);
+		(void) init_color_local(COLOR_CYAN, 0, 680, 680);
 	if (COLORS >= COLOR_WHITE)
-		(void) init_color(COLOR_WHITE, 1000, 1000, 1000);
+		(void) init_color_local(COLOR_WHITE, 680, 680, 680);
 
 	/* Initialise other colours */
 	for (i = 8; i < COLORS; i++) {
@@ -380,13 +382,7 @@ pair_content(short pair, short *forep, short *backp)
 	return(OK);
 }
 
-/*
- * init_color --
- *	Set colour red, green and blue values.
- */
-int
-init_color(short color, short red, short green, short blue)
-{
+static int init_color_local(short color, short red, short green, short blue) {
 #ifdef DEBUG
 	__CTRACE(__CTRACE_COLOR, "init_color: %d, %d, %d, %d\n",
 	    color, red, green, blue);
@@ -397,8 +393,21 @@ init_color(short color, short red, short green, short blue)
 	_cursesi_screen->colours[color].red = red;
 	_cursesi_screen->colours[color].green = green;
 	_cursesi_screen->colours[color].blue = blue;
-	/* XXX Not yet implemented */
-	return(ERR);
+	return (OK);
+}
+
+/*
+ * init_color --
+ *	Set colour red, green and blue values.
+ */
+int
+init_color(short color, short red, short green, short blue)
+{
+	if((ERR) == init_color_local(color, red, green, blue)) return (ERR);
+
+	if(!can_change || initialize_color == NULL) return (ERR);
+	tputs(tiparm(t_initialize_color(_cursesi_screen->term), color, red, green, blue), 0, __cputchar);
+	return (OK);
 	/* XXX: need to initialise Tek style (Ic) and support HLS */
 }
 
