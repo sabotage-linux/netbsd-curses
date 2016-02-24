@@ -1,4 +1,4 @@
-/* $NetBSD: tic.c,v 1.24 2014/07/20 20:20:16 christos Exp $ */
+/* $NetBSD: tic.c,v 1.25 2016/02/24 12:01:44 roy Exp $ */
 
 /*
  * Copyright (c) 2009, 2010 The NetBSD Foundation, Inc.
@@ -170,7 +170,7 @@ process_entry(TBUF *buf, int flags)
 	char *p, *e, *alias;
 	TERM *term;
 	TIC *tic;
-	
+
 	if (buf->bufpos == 0)
 		return 0;
 	/* Terminate the string */
@@ -210,7 +210,7 @@ process_entry(TBUF *buf, int flags)
 		}
 		free(alias);
 	}
-	
+
 	return 0;
 }
 
@@ -425,7 +425,7 @@ print_dump(int argc, char **argv)
 				printf("\t\t\"");
 				col = 16;
 			}
-			
+
 			col += printf("\\%03o", (uint8_t)buf[j]);
 			if (col > 75) {
 				printf("\"%s\n",
@@ -548,7 +548,7 @@ main(int argc, char **argv)
 		*/
 		if (!isspace((unsigned char)*buf) && tbuf.bufpos != 0)
 			process_entry(&tbuf, flags);
-		
+
 		/* Grow the buffer if needed */
 		grow_tbuf(&tbuf, len);
 		/* Append the string */
@@ -593,7 +593,6 @@ main(int argc, char **argv)
 	}
 	hdestroy1(free, NULL);
 #endif
-
 
 	return EXIT_SUCCESS;
 }
