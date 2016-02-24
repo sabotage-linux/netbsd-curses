@@ -456,6 +456,7 @@ extern cchar_t _wacs_char[NUM_ACS];
 #define	ACS_BSSS	ACS_TTEE
 #define	ACS_SBSB	ACS_VLINE
 #define	_acs_map	_acs_char
+#define	acs_map		_acs_char
 
 /*
  * Color definitions (ANSI color numbers)
