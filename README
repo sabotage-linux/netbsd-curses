@@ -66,6 +66,24 @@ Why do we need an ncurses replacement ?
   lot better since its Makefile is fully parallelizable, while ncurses spends a
   lot of time in a single process executing the configure script.
 
+Differences from ncurses
+------------------------
+- the structures used differ. some programs access ncurses structure members directly,
+  they must be patched to use a portable approach.
+- mouse handling is lacking. ncurses mouse handling routines are provided as no-op
+  macros, so software using it builds without having to patch it.
+- some rarely used functions like vidputs() are missing. users must be patched.
+- the terminfo database is compiled (via tic) into a binary database in CDB format.
+- "only" 510 color pairs are supported.
+- some functionality like tgetent() lives in libterminfo rather than in libcurses.
+  it may be necessary to add -lterminfo to LDFLAGS for packages using those functions.
+
+TODO
+----
+- manpage installation
+- installation of global terminfo db
+  (rather than just a small built-in, handpicked set)
+
 References
 ----------
 [0] http://trac.sagemath.org/ticket/18301
