@@ -80,6 +80,11 @@ typedef struct __menu_str {
         int length;
 } MENU_STR;
 
+typedef struct __mark_str {
+        char string[15];
+        unsigned char length;
+} MARK_STR;
+
 typedef struct __menu MENU;
 typedef struct __item ITEM;
 
@@ -111,8 +116,8 @@ struct __menu {
 	int item_cols; /* number of item columns we have */
         int cur_row; /* current cursor row */
         int cur_col; /* current cursor column */
-        MENU_STR mark; /* menu mark string */
-        MENU_STR unmark; /* menu unmark string */
+        MARK_STR mark; /* menu mark string */
+        MARK_STR unmark; /* menu unmark string */
         OPTIONS opts; /* options for the menu */
         char *pattern; /* the pattern buffer */
 	int plen;  /* pattern buffer length */

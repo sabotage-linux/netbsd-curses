@@ -42,8 +42,8 @@ MENU _menui_default_menu = {
 	0,          /* number of columns of items we have */
         0,          /* current cursor row */
         0,          /* current cursor column */
-        {NULL, 0},  /* mark string */
-        {NULL, 0},  /* unmark string */
+        {"", 0},    /* mark string */
+        {"", 0},    /* unmark string */
         O_ONEVALUE, /* menu options */
         NULL,       /* the pattern buffer */
 	0,          /* length of pattern buffer */
@@ -71,29 +71,27 @@ MENU _menui_default_menu = {
 };
 
 
-	
+static int set_markstring(MENU *m, char *mark, int isunmark) {
+	MENU *menu = m;
+
+	if (m == NULL) menu = &_menui_default_menu;
+	MARK_STR *s = isunmark ? &menu->unmark : &menu->mark;
+	int l = snprintf(s->string, sizeof s->string, "%s", mark);
+	s->length = (l >= sizeof s->string) ? sizeof s->string -1 : l;
+
+	/* max item size may have changed - recalculate. */
+	_menui_max_item_size(menu);
+        return E_OK;
+}
+
+
 /*
  * Set the menu mark character
  */
 int
 set_menu_mark(MENU *m, char *mark)
 {
-	MENU *menu = m;
-	
-	if (m == NULL) menu = &_menui_default_menu;
-	
-          /* if there was an old mark string, free it first */
-        if (menu->mark.string != NULL) free(menu->mark.string);
-
-        if ((menu->mark.string = (char *) malloc(strlen(mark) + 1)) == NULL)
-                return E_SYSTEM_ERROR;
-
-        strcpy(menu->mark.string, mark);
-	menu->mark.length = strlen(mark);
-
-	  /* max item size may have changed - recalculate. */
-	_menui_max_item_size(menu);
-        return E_OK;
+	return set_markstring(m, mark, 0);
 }
 
 /*
@@ -102,10 +100,7 @@ set_menu_mark(MENU *m, char *mark)
 char *
 menu_mark(MENU *menu)
 {
-	if (menu == NULL)
-		return _menui_default_menu.mark.string;
-	else
-		return menu->mark.string;
+	return menu ? menu->mark.string : _menui_default_menu.mark.string;
 }
 
 /*
@@ -114,21 +109,7 @@ menu_mark(MENU *menu)
 int
 set_menu_unmark(MENU *m, char *mark)
 {
-	MENU *menu = m;
-
-	if (m == NULL) menu = &_menui_default_menu;
-	
-          /* if there was an old mark string, free it first */
-        if (menu->unmark.string != NULL) free(menu->unmark.string);
-
-        if ((menu->unmark.string = (char *) malloc(strlen(mark) + 1)) == NULL)
-                return E_SYSTEM_ERROR;
-
-        strcpy(menu->unmark.string, mark);
-	menu->unmark.length = strlen(mark);
-	  /* max item size may have changed - recalculate. */
-	_menui_max_item_size(menu);
-        return E_OK;
+	return set_markstring(m, mark, 1);
 }
 
 /*
@@ -137,10 +118,7 @@ set_menu_unmark(MENU *m, char *mark)
 char *
 menu_unmark(MENU *menu)
 {
-	if (menu == NULL)
-		return _menui_default_menu.unmark.string;
-	else
-		return menu->unmark.string;
+	return menu ? menu->unmark.string : _menui_default_menu.unmark.string;
 }
 
 /*
@@ -445,50 +423,19 @@ MENU *
 new_menu(ITEM **items)
 {
         MENU *the_menu;
-        char mark[2];
 
-        if ((the_menu = (MENU *)malloc(sizeof(MENU))) == NULL)
-                return NULL;
+        if (!(the_menu = malloc(sizeof(MENU)))) return NULL;
 
           /* copy the defaults */
 	(void)memcpy(the_menu, &_menui_default_menu, sizeof(MENU));
 
-	  /* set a default window if none already set. */
+	/* set a default window if none already set. */
 	if (the_menu->menu_win == NULL)
 		the_menu->scrwin = stdscr;
 
-	  /* make a private copy of the mark string */
-	if (_menui_default_menu.mark.string != NULL) {
-		if ((the_menu->mark.string =
-		     (char *) malloc((unsigned) _menui_default_menu.mark.length + 1))
-		    == NULL) {
-			free(the_menu);
-			return NULL;
-		}
-
-		strlcpy(the_menu->mark.string, _menui_default_menu.mark.string,
-			(unsigned) _menui_default_menu.mark.length + 1);
-	}
-	
-	  /* make a private copy of the unmark string too */
-	if (_menui_default_menu.unmark.string != NULL) {
-		if ((the_menu->unmark.string =
-		     (char *) malloc((unsigned) _menui_default_menu.unmark.length + 1))
-		    == NULL) {
-			free(the_menu);
-			return NULL;
-		}
-
-		strlcpy(the_menu->unmark.string,
-			_menui_default_menu.unmark.string,
-			(unsigned) _menui_default_menu.unmark.length+ 1 );
-	}
-
-	/* default mark needs to be set */
-	mark[0] = '-';
-	mark[1] = '\0';
-
-	set_menu_mark(the_menu, mark);
+	/* default mark needs to be set, the default unmark string is
+	   already covered by the above memcpy(). */
+	set_markstring(the_menu, "-", 0);
 
           /* now attach the items, if any */
         if (items != NULL) {
@@ -501,7 +448,7 @@ new_menu(ITEM **items)
 			return NULL;
 		}
 	}
-	
+
 	return the_menu;
 }
 
@@ -521,9 +468,6 @@ free_menu(MENU *menu)
 	
 	if (menu->pattern != NULL)
 		free(menu->pattern);
-
-	if (menu->mark.string != NULL)
-		free(menu->mark.string);
 
 	if (menu->items != NULL) {
 		  /* disconnect the items from this menu */
