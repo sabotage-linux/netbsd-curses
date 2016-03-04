@@ -29,7 +29,7 @@
  *
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 __RCSID("$NetBSD: type_regex.c,v 1.7 2004/11/24 11:57:09 blymn Exp $");
 
 #include <stdlib.h>

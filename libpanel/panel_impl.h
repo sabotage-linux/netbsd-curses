@@ -30,7 +30,7 @@
 
 #include "panel.h"
 
-#include <sys/queue.h>
+#include <netbsd_sys/queue.h>
 
 #define DECK_HEAD(head)		TAILQ_HEAD(head, __panel)
 #define DECK_ENTRY		TAILQ_ENTRY(__panel)
@@ -56,7 +56,7 @@ extern PANEL _stdscr_panel __dso_hidden;
 
 
 /*
- * Hidden panels are not in the deck.  <sys/queue.h> macros don't have
+ * Hidden panels are not in the deck.  <netbsd_sys/queue.h> macros don't have
  * a concept of an entry not on the list, so provide a kludge that
  * digs into internals.
  */

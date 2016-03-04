@@ -26,7 +26,7 @@
  *
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 #ifndef lint
 __RCSID("$NetBSD: nodelay.c,v 1.6 2003/12/04 21:24:36 jdc Exp $");
 #endif				/* not lint */

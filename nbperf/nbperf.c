@@ -35,10 +35,10 @@
 #include "nbtool_config.h"
 #endif
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 __RCSID("$NetBSD: nbperf.c,v 1.5 2013/01/31 16:32:02 joerg Exp $");
 
-#include <sys/endian.h>
+#include <netbsd_sys/endian.h>
 #include <err.h>
 #include <errno.h>
 #include <inttypes.h>

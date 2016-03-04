@@ -26,7 +26,7 @@
  *
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 #ifndef lint
 __RCSID("$NetBSD: keypad.c,v 1.12 2010/02/03 15:34:40 roy Exp $");
 #endif				/* not lint */

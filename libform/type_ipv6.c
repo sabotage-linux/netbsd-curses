@@ -32,7 +32,7 @@
  *
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 __RCSID("$NetBSD: type_ipv6.c,v 1.10 2004/11/24 11:57:09 blymn Exp $");
 
 #include <sys/types.h>

@@ -34,7 +34,7 @@
 #include "nbtool_config.h"
 #endif
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 __RCSID("$NetBSD: nbperf-chm.c,v 1.3 2011/10/21 23:47:11 joerg Exp $");
 
 #include <err.h>

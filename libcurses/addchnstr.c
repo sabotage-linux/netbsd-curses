@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 #ifndef lint
 __RCSID("$NetBSD: addchnstr.c,v 1.6 2013/11/09 11:16:59 blymn Exp $");
 #endif				/* not lint */

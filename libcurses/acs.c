@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 #ifndef lint
 __RCSID("$NetBSD: acs.c,v 1.20 2012/04/21 12:27:27 roy Exp $");
 #endif				/* not lint */

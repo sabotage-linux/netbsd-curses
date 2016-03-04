@@ -28,11 +28,11 @@
  */
 #include <sys/stat.h>
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 __RCSID("$NetBSD: term.c,v 1.19 2015/11/26 01:03:22 christos Exp $");
 
 #include <assert.h>
-#include <sys/cdbr.h>
+#include <netbsd_sys/cdbr.h>
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -42,7 +42,7 @@ __RCSID("$NetBSD: term.c,v 1.19 2015/11/26 01:03:22 christos Exp $");
 #include <string.h>
 #include <term_private.h>
 #include <term.h>
-#include <sys/endian.h>
+#include <netbsd_sys/endian.h>
 
 #define _PATH_TERMINFO		"/usr/share/misc/terminfo"
 

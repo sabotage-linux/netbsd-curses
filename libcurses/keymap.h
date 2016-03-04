@@ -37,7 +37,7 @@
 #ifndef _KEYMAP_H_
 #define _KEYMAP_H_
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 #ifndef lint
 __RCSID("$NetBSD: keymap.h,v 1.4 2012/04/21 12:27:28 roy Exp $");
 #endif                          /* not lint */

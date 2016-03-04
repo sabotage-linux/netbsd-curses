@@ -32,7 +32,7 @@
 #ifndef FORM_H
 #define FORM_H 1
 #if 0
-#include <sys/queue.h>
+#include <netbsd_sys/queue.h>
 #endif
 #include <stdarg.h>
 #include <curses.h>

@@ -35,7 +35,7 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 #ifndef lint
 #if 0
 static char sccsid[] = "@(#)resize.c   blymn 2001/08/26";

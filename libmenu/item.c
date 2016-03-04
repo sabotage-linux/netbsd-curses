@@ -26,7 +26,7 @@
  *
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 __RCSID("$NetBSD: item.c,v 1.12 2012/03/21 05:33:27 matt Exp $");
 
 #include <menu.h>

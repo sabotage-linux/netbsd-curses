@@ -34,7 +34,7 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 #ifndef lint
 __RCSID("$NetBSD: echo_wchar.c,v 1.2 2007/05/28 15:01:55 blymn Exp $");
 #endif						  /* not lint */

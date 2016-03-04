@@ -34,7 +34,7 @@
 #ifndef	_CDBR_H
 #define	_CDBR_H
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 #if defined(_KERNEL) || defined(_STANDALONE)
 #include <sys/types.h>
 #else

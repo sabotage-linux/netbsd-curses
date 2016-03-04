@@ -34,7 +34,7 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 #ifndef lint
 __RCSID("$NetBSD: ins_wstr.c,v 1.7 2013/10/16 19:59:29 roy Exp $");
 #endif						  /* not lint */

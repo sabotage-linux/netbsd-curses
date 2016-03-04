@@ -26,7 +26,7 @@
  *
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 __RCSID("$NetBSD: internals.c,v 1.17 2013/10/18 19:53:59 christos Exp $");
 
 #include <menu.h>

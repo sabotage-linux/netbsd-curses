@@ -29,7 +29,7 @@
  *
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 #ifndef lint
 __RCSID("$NetBSD: line.c,v 1.6 2010/02/23 19:48:26 drochner Exp $");
 #endif				/* not lint */

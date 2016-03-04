@@ -35,7 +35,7 @@
 #include "nbtool_config.h"
 #endif
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 __RCSID("$NetBSD: graph2.c,v 1.4 2011/10/21 23:47:11 joerg Exp $");
 
 #include <err.h>

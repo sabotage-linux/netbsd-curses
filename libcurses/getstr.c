@@ -30,7 +30,7 @@
  */
 
 #include <assert.h>
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 #ifndef lint
 #if 0
 static char sccsid[] = "@(#)getstr.c	8.2 (Berkeley) 5/4/94";

@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 #ifndef lint
 __RCSID("$NetBSD: inch.c,v 1.10 2009/10/06 20:03:27 jdc Exp $");
 #endif				/* not lint */

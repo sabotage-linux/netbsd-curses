@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 #ifndef lint
 __RCSID("$NetBSD: clearok.c,v 1.5 2008/04/28 20:23:01 martin Exp $");
 #endif				/* not lint */

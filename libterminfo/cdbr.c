@@ -37,7 +37,7 @@
 
 #include <sys/stat.h>
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 __RCSID("$NetBSD: cdbr.c,v 1.1 2013/12/11 01:24:08 joerg Exp $");
 
 #if !defined(_KERNEL) && !defined(_STANDALONE)
@@ -48,11 +48,11 @@ __RCSID("$NetBSD: cdbr.c,v 1.1 2013/12/11 01:24:08 joerg Exp $");
 //#include <sys/bitops.h>
 #endif
 #if !HAVE_NBTOOL_CONFIG_H || HAVE_SYS_ENDIAN_H
-#include <sys/endian.h>
+#include <netbsd_sys/endian.h>
 #endif
 
 #if defined(_KERNEL) || defined(_STANDALONE)
-#include <sys/cdbr.h>
+#include <netbsd_sys/cdbr.h>
 #include <sys/kmem.h>
 #include <sys/systm.h>
 #include <lib/libkern/libkern.h>
@@ -61,7 +61,7 @@ __RCSID("$NetBSD: cdbr.c,v 1.1 2013/12/11 01:24:08 joerg Exp $");
 #define free(ptr) kmem_free(ptr, sizeof(struct cdbr))
 #else
 #include <sys/mman.h>
-#include <sys/cdbr.h>
+#include <netbsd_sys/cdbr.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <inttypes.h>

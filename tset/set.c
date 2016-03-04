@@ -29,7 +29,7 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 __RCSID("$NetBSD: set.c,v 1.18 2015/06/21 08:23:22 mlelstv Exp $");
 
 #include <err.h>

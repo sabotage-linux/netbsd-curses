@@ -35,15 +35,15 @@
 #include "nbtool_config.h"
 #endif
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 __RCSID("$NetBSD: cdbw.c,v 1.5 2012/07/21 22:49:37 joerg Exp $");
 
 //#include "namespace.h"
 
 #if !HAVE_NBTOOL_CONFIG_H || HAVE_SYS_ENDIAN_H
-#include <sys/endian.h>
+#include <netbsd_sys/endian.h>
 #endif
-#include <sys/queue.h>
+#include <netbsd_sys/queue.h>
 #include <cdbw.h>
 #include <stdlib.h>
 #include <string.h>

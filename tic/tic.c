@@ -32,14 +32,14 @@
 #endif
 #include <sys/stat.h>
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 __RCSID("$NetBSD: tic.c,v 1.24 2014/07/20 20:20:16 christos Exp $");
 
 #include <sys/types.h>
-#include <sys/queue.h>
+#include <netbsd_sys/queue.h>
 
 #if !HAVE_NBTOOL_CONFIG_H || HAVE_SYS_ENDIAN_H
-#include <sys/endian.h>
+#include <netbsd_sys/endian.h>
 #endif
 
 #include <cdbw.h>

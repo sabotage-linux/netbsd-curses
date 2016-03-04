@@ -34,7 +34,7 @@
 #ifndef	_CDBW_H
 #define	_CDBW_H
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 #include <inttypes.h>
 #include <stddef.h>
 
