@@ -80,7 +80,8 @@ TERMINAL *
 set_curterm(TERMINAL *nterm)
 {
 	TERMINAL *oterm;
-	size_t l, n;
+	size_t l;
+	int n;
 	char *p;
 
 	oterm = cur_term;
@@ -99,13 +100,13 @@ set_curterm(TERMINAL *nterm)
 
 		p = ttytype;
 		l = sizeof(ttytype);
-		if ((n = strlcpy(p, nterm->name, l)) == strlen(p)) {
+		if ((n = snprintf(p, l, "%s", nterm->name)) == strlen(p)) {
 			p += n;
 			l -= n;
 			*p++ = '|';
 			l--;
 			if (nterm->_alias  &&
-				(n = strlcpy(p, nterm->_alias, l)) == strlen(p))
+				(n = snprintf(p, l, "%s", nterm->_alias)) == strlen(p))
 			{
 				p += n;
 				l -= n;
@@ -113,7 +114,7 @@ set_curterm(TERMINAL *nterm)
 				l--;
 			}
 			if (nterm->desc  &&
-				(n = strlcpy(p, nterm->desc, l)) == strlen(p))
+				(n = snprintf(p, l, "%s", nterm->desc)) == strlen(p))
 			{
 				p += n;
 				l -= n;
