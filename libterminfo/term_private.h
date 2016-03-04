@@ -62,6 +62,7 @@
  */
 
 #include <sys/types.h>
+#include <stdint.h>
 
 #define _TERMINFO
 
