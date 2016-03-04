@@ -218,7 +218,7 @@ static wchar_t	inbuf[INBUF_SZ];
 static int	start, end, working; /* pointers for manipulating inbuf data */
 
 /* prototypes for private functions */
-static void add_key_sequence(SCREEN *screen, char *sequence, int key_type);
+static void add_key_sequence(SCREEN *screen, const char *sequence, int key_type);
 static key_entry_t *add_new_key(keymap_t *current, char ch, int key_type,
         int symbol);
 static void delete_key_sequence(keymap_t *current, int key_type);
@@ -385,7 +385,7 @@ delete_key_sequence(keymap_t *current, int key_type)
  * for the given key symbol.
  */
 void
-add_key_sequence(SCREEN *screen, char *sequence, int key_type)
+add_key_sequence(SCREEN *screen, const char *sequence, int key_type)
 {
 	key_entry_t *tmp_key;
 	keymap_t *current;
@@ -444,13 +444,9 @@ add_key_sequence(SCREEN *screen, char *sequence, int key_type)
 void
 __init_getch(SCREEN *screen)
 {
-	char entry[1024], *p;
 	const char *s;
 	int     i;
-	size_t limit, l;
-#ifdef DEBUG
-	int k, length;
-#endif
+	size_t limit = 1023, l;
 
 	/* init the inkey state variable */
 	state = INKEY_NORM;
@@ -464,27 +460,11 @@ __init_getch(SCREEN *screen)
 	/* now do the terminfo snarfing ... */
 
 	for (i = 0; i < num_tcs; i++) {
-		p = entry;
-		limit = 1023;
 		s = screen->term->strs[tc[i].code];
-		if (s == NULL)
-			continue;
+		if (!s)	continue;
 		l = strlen(s) + 1;
-		if (limit < l)
-			continue;
-		strlcpy(p, s, limit);
-		p += l;
-		limit -= l;
-#ifdef DEBUG
-			__CTRACE(__CTRACE_INIT,
-			    "Processing terminfo entry %d, sequence ",
-			    tc[i].code);
-			length = (int) strlen(entry);
-			for (k = 0; k <= length -1; k++)
-				__CTRACE(__CTRACE_INIT, "%s", unctrl(entry[k]));
-			__CTRACE(__CTRACE_INIT, "\n");
-#endif
-		add_key_sequence(screen, entry, tc[i].symbol);
+		if (limit < l) continue;
+		add_key_sequence(screen, s, tc[i].symbol);
 	}
 }
 
