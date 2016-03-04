@@ -1,3 +1,6 @@
+#ifndef NETBSD_SYS_CDEFS_H
+#define NETBSD_SYS_CDEFS_H
+
 #define __RCSID(X)
 #define __BEGIN_DECLS
 #define __END_DECLS
@@ -51,5 +54,7 @@
 #else
 #define __predict_true(exp)     (exp)
 #define __predict_false(exp)    (exp)
+#endif
+
 #endif
 
