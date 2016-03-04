@@ -218,7 +218,7 @@ static wchar_t	inbuf[INBUF_SZ];
 static int	start, end, working; /* pointers for manipulating inbuf data */
 
 /* prototypes for private functions */
-static void add_key_sequence(SCREEN *screen, const char *sequence, int key_type);
+static void add_key_sequence(SCREEN *screen, const char *sequence, int key_type, size_t sequence_len);
 static key_entry_t *add_new_key(keymap_t *current, char ch, int key_type,
         int symbol);
 static void delete_key_sequence(keymap_t *current, int key_type);
@@ -384,12 +384,13 @@ delete_key_sequence(keymap_t *current, int key_type)
  * Add the sequence of characters given in sequence as the key mapping
  * for the given key symbol.
  */
-void
-add_key_sequence(SCREEN *screen, const char *sequence, int key_type)
+static void
+add_key_sequence(SCREEN *screen, const char *sequence, int key_type, size_t sequence_len)
 {
 	key_entry_t *tmp_key;
 	keymap_t *current;
-	int length, j, key_ent;
+	unsigned length, j;
+	int key_ent;
 
 #ifdef DEBUG
 	__CTRACE(__CTRACE_MISC, "add_key_sequence: add key sequence: %s(%s)\n",
@@ -397,7 +398,7 @@ add_key_sequence(SCREEN *screen, const char *sequence, int key_type)
 #endif /* DEBUG */
 	current = screen->base_keymap;	/* always start with
 					 * base keymap. */
-	length = (int) strlen(sequence);
+	length = sequence_len;
 
 	/*
 	 * OK - we really should never get a zero length string here, either
@@ -464,7 +465,7 @@ __init_getch(SCREEN *screen)
 		if (!s)	continue;
 		l = strlen(s) + 1;
 		if (limit < l) continue;
-		add_key_sequence(screen, s, tc[i].symbol);
+		add_key_sequence(screen, s, tc[i].symbol, l-1);
 	}
 }
 
@@ -773,7 +774,7 @@ define_key(char *sequence, int symbol)
 #endif
 		delete_key_sequence(_cursesi_screen->base_keymap, symbol);
 	} else
-		add_key_sequence(_cursesi_screen, sequence, symbol);
+		add_key_sequence(_cursesi_screen, sequence, symbol, strlen(sequence));
 
 	return OK;
 }
