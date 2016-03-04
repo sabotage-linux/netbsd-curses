@@ -283,7 +283,7 @@ _ti_dbgetterm(TERMINAL *term, const char *path, const char *name, int flags)
 	else if (memcmp(data8 + 3, name, klen))
 		goto fail;
 
-	strlcpy(database, path, sizeof(database));
+	snprintf(database, sizeof database, "%s", path);
 	_ti_database = database;
 
 	r = _ti_readterm(term, data, len, flags);
