@@ -335,8 +335,7 @@ field_buffer_init(FIELD *field, int buffer, unsigned int len)
 			return E_SYSTEM_ERROR;
 		field->alines->string = newp;
 		field->alines->allocated = len + 1;
-		strlcpy(field->alines->string, field->buffers[buffer].string,
-			(size_t) len + 1);
+		snprintf(field->alines->string, len + 1, "%s", field->buffers[buffer].string);
 		field->alines->expanded =
 			_formi_tab_expanded_length(field->alines->string,
 						   0, field->alines->length);
@@ -450,7 +449,7 @@ set_field_buffer(FIELD *field, int buffer, const char *value)
 			      (size_t) len + 1)) == NULL)
 		return E_SYSTEM_ERROR;
 
-	strlcpy(field->buffers[buffer].string, value, (size_t) len + 1);
+	snprintf(field->buffers[buffer].string, len + 1, "%s", value);
 	field->buffers[buffer].length = len;
 	field->buffers[buffer].allocated = len + 1;
 	status = field_buffer_init(field, buffer, len);
