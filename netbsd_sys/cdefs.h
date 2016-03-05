@@ -2,8 +2,10 @@
 #define NETBSD_SYS_CDEFS_H
 
 #define __RCSID(X)
+#ifndef __BEGIN_DECLS
 #define __BEGIN_DECLS
 #define __END_DECLS
+#endif
 #define __unused
 #define __COPYRIGHT(X)
 
@@ -20,7 +22,9 @@
 #endif
 
 #define __warn_references(a, b)
+#ifndef __P
 #define __P(X) X
+#endif
 #define __dead __attribute__((__noreturn__))
 #define __UNCONST(a)   (void *)(intptr_t)(a)
 # define __STRING(x)    #x
