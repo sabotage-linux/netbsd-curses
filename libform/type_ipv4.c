@@ -29,6 +29,7 @@
  *
  */
 
+#define _GNU_SOURCE
 #include <netbsd_sys/cdefs.h>
 __RCSID("$NetBSD: type_ipv4.c,v 1.10 2007/01/17 23:24:22 hubertf Exp $");
 

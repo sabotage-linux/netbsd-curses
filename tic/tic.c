@@ -27,6 +27,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#define _GNU_SOURCE
 #if HAVE_NBTOOL_CONFIG_H
 #include "nbtool_config.h"
 #endif

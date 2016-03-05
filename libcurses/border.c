@@ -29,6 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#define _XOPEN_SOURCE 700
 #include <netbsd_sys/cdefs.h>
 #ifndef lint
 __RCSID("$NetBSD: border.c,v 1.15 2013/05/05 14:23:16 jdc Exp $");

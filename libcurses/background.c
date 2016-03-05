@@ -29,6 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#define _XOPEN_SOURCE 700
 #include <netbsd_sys/cdefs.h>
 #ifndef lint
 __RCSID("$NetBSD: background.c,v 1.15 2009/07/22 16:57:14 roy Exp $");

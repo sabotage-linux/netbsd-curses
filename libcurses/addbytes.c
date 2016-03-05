@@ -29,6 +29,7 @@
  * SUCH DAMAGE.
  */
 
+#define _XOPEN_SOURCE 700
 #include <netbsd_sys/cdefs.h>
 #ifndef lint
 #if 0
@@ -38,6 +39,7 @@ __RCSID("$NetBSD: addbytes.c,v 1.42 2013/11/10 03:14:16 christos Exp $");
 #endif
 #endif				/* not lint */
 
+#include <wchar.h>
 #include <stdlib.h>
 #include <string.h>
 #include "curses.h"

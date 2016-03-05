@@ -29,6 +29,8 @@
  *
  */
 
+#define _BSD_SOURCE
+#define _XOPEN_SOURCE 700
 #include <netbsd_sys/cdefs.h>
 __RCSID("$NetBSD: type_enum.c,v 1.11 2010/05/13 17:52:12 tnozaki Exp $");
 
