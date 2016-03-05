@@ -1,3 +1,6 @@
+#ifndef NETBSD_SYS_ENDIAN_H
+#define NETBSD_SYS_ENDIAN_H
+
 #include <endian.h>
 #include <stdint.h>
 #define __CAST(__dt, __st)        ((__dt)(__st))
@@ -34,4 +37,6 @@ le32enc(void *buf, uint32_t u)
         p[2] = __CAST(uint8_t, ((u >> 16) & 0xff));
         p[3] = __CAST(uint8_t, ((u >> 24) & 0xff));
 }
+
+#endif
 
