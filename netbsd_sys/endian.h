@@ -3,6 +3,27 @@
 
 #include <endian.h>
 #include <stdint.h>
+
+#ifndef le32toh
+#if __BYTE_ORDER == __LITTLE_ENDIAN
+#define le32toh(x) (uint32_t)(x)
+#define le16toh(x) (uint16_t)(x)
+#else
+#ifndef __bswap32
+static __inline uint32_t __bswap32(uint32_t __x)
+{
+	return __x>>24 | __x>>8&0xff00 | __x<<8&0xff0000 | __x<<24;
+}
+static __inline uint16_t __bswap16(uint16_t __x)
+{
+	return __x<<8 | __x>>8;
+}
+#endif
+#define le32toh(x) __bswap32(x)
+#define le16toh(x) __bswap16(x)
+#endif
+#endif
+
 #define __CAST(__dt, __st)        ((__dt)(__st))
 static inline uint16_t
 le16dec(const void *buf)
