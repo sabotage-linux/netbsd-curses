@@ -582,7 +582,7 @@ isendwin(void)
 }
 
 static int fpurge(FILE *f) {
-	dprintf(666, "warning: called fpurge\n");
+	//dprintf(666, "warning: called fpurge\n");
 	fflush(f);
 	return 0;
 }
