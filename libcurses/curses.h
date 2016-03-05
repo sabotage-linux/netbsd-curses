@@ -41,6 +41,7 @@
 #define	_CURSES_H_
 
 #include <sys/types.h>
+#include <stdint.h>
 #include <wchar.h>
 
 #include <stdio.h>
@@ -472,9 +473,9 @@ extern cchar_t _wacs_char[NUM_ACS];
 #define	COLOR_WHITE	0x07
 
 #ifdef __cplusplus
-#define __UINT32_CAST(a)	static_cast<u_int32_t>(a)
+#define __UINT32_CAST(a)	static_cast<uint32_t>(a)
 #else
-#define __UINT32_CAST(a)	(u_int32_t)(a)
+#define __UINT32_CAST(a)	(uint32_t)(a)
 #endif
 #define	COLOR_PAIR(n)	(((__UINT32_CAST(n)) << 17) & A_COLOR)
 #define	PAIR_NUMBER(n)	(((__UINT32_CAST(n)) & A_COLOR) >> 17)
