@@ -45,9 +45,7 @@
 #include <netbsd_sys/cdefs.h>
 __RCSID("$NetBSD: mi_vector_hash.c,v 1.1 2013/12/11 01:24:08 joerg Exp $");
 
-#if !HAVE_NBTOOL_CONFIG_H || HAVE_SYS_ENDIAN_H
 #include <netbsd_sys/endian.h>
-#endif
 
 #if defined(_KERNEL) || defined(_STANDALONE)
 #include <sys/types.h>
