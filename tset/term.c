@@ -57,9 +57,7 @@ static const	char *askuser(const char *);
 const char *
 get_terminfo_entry(const char *userarg)
 {
-	struct ttyent *t;
 	int rval;
-	char *p, *ttypath;
 	const char *ttype;
 
 	if (userarg) {
@@ -72,6 +70,9 @@ get_terminfo_entry(const char *userarg)
 		goto map;
 
 #ifdef HAVE_GETTTYNAM
+	struct ttyent *t;
+	char *p, *ttypath;
+
 	/* Try ttyname(3); check for dialup or other mapping. */
 	if ((ttypath = ttyname(STDERR_FILENO)) != NULL) {
 		if ((p = strrchr(ttypath, '/')) != NULL)
