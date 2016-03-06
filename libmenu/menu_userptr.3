@@ -40,10 +40,10 @@
 .Lb libmenu
 .Sh SYNOPSIS
 .In menu.h
-.Ft char *
+.Ft void *
 .Fn menu_userptr "MENU *menu"
 .Ft int
-.Fn set_menu_userptr "MENU *menu" "char *ptr"
+.Fn set_menu_userptr "MENU *menu" "void *ptr"
 .Sh DESCRIPTION
 The
 .Fn menu_userptr
