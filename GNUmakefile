@@ -66,6 +66,9 @@ TI_LIBSO=libterminfo/libterminfo$(SO_SUFFIX)
 TI_OBJS=$(TI_SRCS:.c=.o)
 TI_LOBJS=$(TI_SRCS:.c=.lo)
 
+libterminfo/term.o: CPPFLAGS+=-DINSTALL_PREFIX=\"$(PREFIX)\"
+libterminfo/term.lo: CPPFLAGS+=-DINSTALL_PREFIX=\"$(PREFIX)\"
+
 CU_SRCS_=acs.c addbytes.c addch.c addchnstr.c addnstr.c attributes.c \
 	background.c bell.c border.c box.c chgat.c clear.c clearok.c \
 	clrtobot.c clrtoeol.c color.c copywin.c cr_put.c \

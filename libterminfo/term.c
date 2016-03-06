@@ -45,7 +45,13 @@ __RCSID("$NetBSD: term.c,v 1.19 2015/11/26 01:03:22 christos Exp $");
 #include <term.h>
 #include <netbsd_sys/endian.h>
 
+#ifndef _PATH_TERMINFO
+#ifndef INSTALL_PREFIX
 #define _PATH_TERMINFO		"/usr/share/misc/terminfo"
+#else
+#define _PATH_TERMINFO INSTALL_PREFIX "/share/terminfo"
+#endif
+#endif
 
 static char database[PATH_MAX];
 static char pathbuf[PATH_MAX];
