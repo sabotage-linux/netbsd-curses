@@ -147,7 +147,17 @@ TS_OBJS=$(TS_SRCS:.c=.o)
 TP_SRCS=tput/tput.c
 TP_OBJS=tput/tput.o
 
-all: $(TOOL_TTIC) $(TI_LIBA) $(CU_LIBA) $(CU_LIBSO) $(TI_LIBSO) $(PA_LIBA) $(PA_LIBSO) $(ME_LIBA) $(ME_LIBSO) $(FO_LIBA) $(FO_LIBSO) tset/tset tput/tput
+STALIBS=$(TI_LIBA) $(CU_LIBA) $(PA_LIBA) $(ME_LIBA) $(FO_LIBA)
+DYNLIBS=$(TI_LIBSO) $(CU_LIBSO) $(PA_LIBSO) $(ME_LIBSO) $(FO_LIBSO)
+PROGS=$(TOOL_TTIC) tset/tset tput/tput
+TI_LINKLIB=$(TI_LIBA)
+
+all: $(STALIBS) $(DYNLIBS) $(PROGS)
+
+all-static: $(STALIBS) $(PROGS)
+
+all-dynamic: TI_LINKLIB=$(TI_LIBSO)
+all-dynamic: $(DYNLIBS) $(PROGS)
 
 install-tic: $(TOOL_TTIC)
 	$(INSTALL) -Dm 755 $(TOOL_TTIC) $(DESTDIR)$(BINDIR)/tic
@@ -258,6 +268,10 @@ install-pcs: install-pc-form install-pc-menu install-pc-panel install-pc-terminf
 
 install: install-headers install-libs install-progs install-pcs
 
+install-static: install-headers install-progs install-pcs install-stalibs
+install-dynamic: TI_LINKLIB=$(TI_LIBSO)
+install-dynamic: install-headers install-progs install-pcs install-dynlibs
+
 # TODO: gen (if necessary) and install manpages
 
 clean:
@@ -273,13 +287,13 @@ clean:
 $(TOOL_NBPERF): $(NBPERF_OBJS)
 	$(HOSTCC) $(LDFLAGS_HOST) $^ -o $@
 
-tset/tset: $(TI_LIBA)
+tset/tset: $(TI_LINKLIB)
 tset/tset: $(TS_OBJS)
-	$(CC) -o $@ $^ -L./libterminfo -lterminfo -static
+	$(CC) -o $@ $^ -L./libterminfo -lterminfo $(LDFLAGS)
 
-tput/tput: $(TI_LIBA)
+tput/tput: $(TI_LINKLIB)
 tput/tput: $(TP_OBJS)
-	$(CC) -o $@ $^ -L./libterminfo -lterminfo -static
+	$(CC) -o $@ $^ -L./libterminfo -lterminfo $(LDFLAGS)
 
 tset/%.o: tset/%.c
 	$(CC) $(CPPFLAGS) -I./tset -I. -I./libterminfo $(CFLAGS) -c -o $@ $<
