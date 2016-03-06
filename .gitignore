@@ -1,4 +1,12 @@
 *.o
+*.lo
+*.ho
 *.so
 *.a
+*.xz
+nbperf/nbperf
+tic/tic
+tic/host_tic
+tput/tput
+tset/tset
 
