@@ -51,17 +51,18 @@ Why do we need an ncurses replacement ?
   using ncurses and autoconf fails to cross-compile when unpatched.
 - Size and build time.
 
-  Table 1: Comparison between ncurses and netbsd curses
-  --------------------------------------------------------------
-  |                             | NCURSES      | NETBSD CURSES |
-  --------------------------------------------------------------
-  | Size of extracted source    | 15.8 MB      | 3.3 MB        |
-  | Installed size              | 15.9 MB      | 1.3 MB        |
-  | Installed size w/debuginfo  | 128.3 MB     | 19.9 MB       |
-  | Build time (make -j2)       | 59 sec       | 9 sec         |
-  | size of libncursesw.so      | 346 KB       | 150 KB        |
-  | size of static linked nano  | 334 KB       | 288 KB        |
-  --------------------------------------------------------------
+Table 1: Comparison between ncurses and netbsd curses
+-----------------------------------------------------
+|                             | NCURSES      | NETBSD CURSES |
+|:----------------------------|:------------:|:-------------:|
+| Size of extracted source    | 15.8 MB      | 3.3 MB        |
+| Installed size              | 15.9 MB      | 1.3 MB        |
+| Installed size w/debuginfo  | 128.3 MB     | 19.9 MB       |
+| Build time (make -j2)       | 59 sec       | 9 sec         |
+| size of libncursesw.so      | 346 KB       | 150 KB        |
+| size of static linked nano  | 334 KB       | 288 KB        |
+
+  
   when scaling up to more build jobs, it is expected that netbsd curses fares a
   lot better since its Makefile is fully parallelizable, while ncurses spends a
   lot of time in a single process executing the configure script.
@@ -98,12 +99,12 @@ i.e. make -j2 all install.
 ncurses and netbsd curses were both configured with support for widechars, and
 built-in terminfo database for a handful of terminals.
 
-CFLAGS (optimized for size):
--g0 -fdata-sections -ffunction-sections -Os -fno-unwind-tables
--fno-asynchronous-unwind-tables -Wa,--noexecstack
+    CFLAGS (optimized for size):
+    -g0 -fdata-sections -ffunction-sections -Os -fno-unwind-tables
+    -fno-asynchronous-unwind-tables -Wa,--noexecstack
 
-LDFLAGS:
--s -Wl,--gc-sections -Wl,-z,relro,-z,now
+    LDFLAGS:
+    -s -Wl,--gc-sections -Wl,-z,relro,-z,now
 
 netbsd curses was installed without manpages (ncurses: 1.1 MB) and terminfo
 database (ncurses: 6.4MB).
