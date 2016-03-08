@@ -30,8 +30,8 @@ Why do we need an ncurses replacement ?
   code:
   - extremely complicated build process with several layers of preprocessing
     using tools like awk, sed and the output of the C preprocessor with reliance
-    on implementation details, as shown by the recent breakage when distros
-    updated to GCC 5 [0].
+    on implementation details, [as shown by the recent breakage when distros
+    updated to GCC 5](http://trac.sagemath.org/ticket/18301).
   - heavy use of macros, making the code hard to read.
   - very much code (bloat).
 - Usability.
@@ -42,7 +42,7 @@ Why do we need an ncurses replacement ?
   this makes it hard to guess which files to link against and which headers to
   use when building a package against ncurses.
   -lncurses ? -lncursesw -lterminfo -ltic ? curses.h ? ncurses/ncursesw.h ?
-  this filename chaos is often fixed in a distro-specific manner [1].
+  this filename chaos [is often fixed in a distro-specific manner](https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/log/scripts/kconfig/lxdialog/check-lxdialog.sh).
   to accomodate for this, ncurses ships its own config tool ncurses(w)5-config
   instead of a standardized pkg-config description file (disabled by default)
   to query the necessary CFLAGS and LDFLAGS.
@@ -84,11 +84,6 @@ TODO
 - manpage installation
 - installation of global terminfo db
   (rather than just a small built-in, handpicked set)
-
-References
-----------
-[0] http://trac.sagemath.org/ticket/18301
-[1] https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/log/scripts/kconfig/lxdialog/check-lxdialog.sh
 
 APPENDIX A: Test Setup used for comparison in Table 1
 -----------------------------------------------------
