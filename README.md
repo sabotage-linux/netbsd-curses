@@ -31,7 +31,7 @@ Why do we need an ncurses replacement ?
   - extremely complicated build process with several layers of preprocessing
     using tools like awk, sed and the output of the C preprocessor with reliance
     on implementation details, [as shown by the recent breakage when distros
-    updated to GCC 5](http://trac.sagemath.org/ticket/18301).
+    updated to GCC 5][0].
   - heavy use of macros, making the code hard to read.
   - very much code (bloat).
 - Usability.
@@ -39,16 +39,17 @@ Why do we need an ncurses replacement ?
   features several dozens of configure options to customize the build,
   for example making it split up in several smaller libraries, with or without
   widechar support, etc.
-  this makes it hard to guess which files to link against and which headers to
-  use when building a package against ncurses.
-  -lncurses ? -lncursesw -lterminfo -ltic ? curses.h ? ncurses/ncursesw.h ?
-  this filename chaos [is often fixed in a distro-specific manner](https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/log/scripts/kconfig/lxdialog/check-lxdialog.sh).
-  to accomodate for this, ncurses ships its own config tool ncurses(w)5-config
-  instead of a standardized pkg-config description file (disabled by default)
-  to query the necessary CFLAGS and LDFLAGS.
-  unfortunately like every other homebrewn pkg-config replacement, this config
-  utility was designed without cross-compilation in mind, so almost any package
-  using ncurses and autoconf fails to cross-compile when unpatched.
+  - this makes it hard to guess which files to link against and which headers to
+    use when building a package against ncurses.
+    `-lncurses`? `-lncursesw -lterminfo -ltic`? `curses.h`? `ncurses/ncursesw.h`?
+    this filename chaos [is often fixed in a distro-specific manner][1].
+
+    to accomodate for this, ncurses ships its own config tool ncurses(w)5-config
+    instead of a standardized pkg-config description file (disabled by default)
+    to query the necessary CFLAGS and LDFLAGS.
+    unfortunately like every other homebrewed pkg-config replacement, this config
+    utility was designed without cross-compilation in mind, so almost any package
+    using ncurses and autoconf fails to cross-compile when unpatched.
 - Size and build time.
 
 Table 1: Comparison between ncurses and netbsd curses
@@ -87,7 +88,7 @@ TODO
 
 APPENDIX A: Test Setup used for comparison in Table 1
 -----------------------------------------------------
-all test done on a dual core x86_64 sabotage linux system, with the following
+All tests were done on a dual core x86_64 sabotage linux system, with the following
 features:
 installation of shared and static libs, headers, etc,
 i.e. make -j2 all install.
@@ -105,3 +106,6 @@ netbsd curses was installed without manpages (ncurses: 1.1 MB) and terminfo
 database (ncurses: 6.4MB).
 the debug info build was created with -g3 and debuginfo stripped into external
 files via objcopy.
+
+[0]:http://trac.sagemath.org/ticket/18301
+[1]:https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/log/scripts/kconfig/lxdialog/check-lxdialog.sh
