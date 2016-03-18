@@ -39,17 +39,18 @@ Why do we need an ncurses replacement ?
   features several dozens of configure options to customize the build,
   for example making it split up in several smaller libraries, with or without
   widechar support, etc.
-  - this makes it hard to guess which files to link against and which headers to
-    use when building a package against ncurses.
-    `-lncurses`? `-lncursesw -lterminfo -ltic`? `curses.h`? `ncurses/ncursesw.h`?
-    this filename chaos [is often fixed in a distro-specific manner][1].
 
-    to accomodate for this, ncurses ships its own config tool ncurses(w)5-config
-    instead of a standardized pkg-config description file (disabled by default)
-    to query the necessary CFLAGS and LDFLAGS.
-    unfortunately like every other homebrewed pkg-config replacement, this config
-    utility was designed without cross-compilation in mind, so almost any package
-    using ncurses and autoconf fails to cross-compile when unpatched.
+  this makes it hard to guess which files to link against and which headers to
+  use when building a package against ncurses.
+  `-lncurses`? `-lncursesw -lterminfo -ltic`? `curses.h`? `ncurses/ncursesw.h`?
+  this filename chaos [is often fixed in a distro-specific manner][1].
+
+  to accomodate for this, ncurses ships its own config tool ncurses(w)5-config
+  instead of a standardized pkg-config description file (disabled by default)
+  to query the necessary CFLAGS and LDFLAGS.
+  unfortunately like every other homebrewed pkg-config replacement, this config
+  utility was designed without cross-compilation in mind, so almost any package
+  using ncurses and autoconf fails to cross-compile when unpatched.
 - Size and build time.
 
 Table 1: Comparison between ncurses and netbsd curses
