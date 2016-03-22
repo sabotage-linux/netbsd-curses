@@ -289,11 +289,11 @@ $(TOOL_NBPERF): $(NBPERF_OBJS)
 
 tset/tset: $(TI_LINKLIB)
 tset/tset: $(TS_OBJS)
-	$(CC) -o $@ $^ -L./libterminfo -lterminfo $(LDFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 tput/tput: $(TI_LINKLIB)
 tput/tput: $(TP_OBJS)
-	$(CC) -o $@ $^ -L./libterminfo -lterminfo $(LDFLAGS)
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 tset/%.o: tset/%.c
 	$(CC) $(CPPFLAGS) -I./tset -I. -I./libterminfo $(CFLAGS) -c -o $@ $<
