@@ -31,6 +31,13 @@ else
 ALLPIC=0
 endif
 
+ifneq (,$(findstring -static,$(LDFLAGS)))
+#LDFLAGS contains -static, so the user wants to build static binaries
+STATIC_BINS=1
+else
+STATIC_BINS=0
+endif
+
 CFLAGS+=-Werror-implicit-function-declaration
 CPPFLAGS+= -I. -I./libterminfo
 
@@ -146,13 +153,17 @@ TP_OBJS=tput/tput.o
 STALIBS=$(TI_LIBA) $(CU_LIBA) $(PA_LIBA) $(ME_LIBA) $(FO_LIBA)
 DYNLIBS=$(TI_LIBSO) $(CU_LIBSO) $(PA_LIBSO) $(ME_LIBSO) $(FO_LIBSO)
 PROGS=$(TOOL_TTIC) tset/tset tput/tput
+
+ifeq ($(STATIC_BINS),0)
+TI_LINKLIB=$(TI_LIBSO)
+else
 TI_LINKLIB=$(TI_LIBA)
+endif
 
 all: $(STALIBS) $(DYNLIBS) $(PROGS)
 
 all-static: $(STALIBS) $(PROGS)
 
-all-dynamic: TI_LINKLIB=$(TI_LIBSO)
 all-dynamic: $(DYNLIBS) $(PROGS)
 
 install-tic: $(TOOL_TTIC)
