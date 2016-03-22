@@ -18,10 +18,6 @@ INCDIR=$(PREFIX)/include
 
 -include config.mak
 
-ifdef SMALL
-CPPFLAGS+=-DSMALL
-endif
-
 ifneq ($(HOSTCC),$(CC))
 CROSSCOMPILING=1
 else
