@@ -43,6 +43,113 @@ __RCSID("$NetBSD: keyname.c,v 1.6 2008/04/28 20:23:01 martin Exp $");
 #define KEYNAMEMAX (size_t) 14	/* "KEY_BACKSPACE\0" */
 static char name[KEYNAMEMAX + 1];
 
+#define KT_ENTRY(START, KV, KEY) [KV - START] = KEY
+
+static const char keytab1[][5] = {
+	KT_ENTRY(0x101, KEY_BREAK, "BREAK"),
+	KT_ENTRY(0x101, KEY_DOWN, "DOWN"),
+	KT_ENTRY(0x101, KEY_UP, "UP"),
+	KT_ENTRY(0x101, KEY_LEFT, "LEFT"),
+	KT_ENTRY(0x101, KEY_RIGHT, "RIGHT"),
+	KT_ENTRY(0x101, KEY_HOME, "HOME"),
+};
+
+static const char keytab2[][6] = {
+	KT_ENTRY(0x148, KEY_DL, "DL"),
+	KT_ENTRY(0x148, KEY_IL, "IL"),
+	KT_ENTRY(0x148, KEY_DC, "DC"),
+	KT_ENTRY(0x148, KEY_IC, "IC"),
+	KT_ENTRY(0x148, KEY_EIC, "EIC"),
+	KT_ENTRY(0x148, KEY_CLEAR, "CLEAR"),
+	KT_ENTRY(0x148, KEY_EOS, "EOS"),
+	KT_ENTRY(0x148, KEY_EOL, "EOL"),
+	KT_ENTRY(0x148, KEY_SF, "SF"),
+	KT_ENTRY(0x148, KEY_SR, "SR"),
+	KT_ENTRY(0x148, KEY_NPAGE, "NPAGE"),
+	KT_ENTRY(0x148, KEY_PPAGE, "PPAGE"),
+	KT_ENTRY(0x148, KEY_STAB, "STAB"),
+	KT_ENTRY(0x148, KEY_CTAB, "CTAB"),
+	KT_ENTRY(0x148, KEY_CATAB, "CATAB"),
+	KT_ENTRY(0x148, KEY_ENTER, "ENTER"),
+	KT_ENTRY(0x148, KEY_SRESET, "SRESET"),
+	KT_ENTRY(0x148, KEY_RESET, "RESET"),
+	KT_ENTRY(0x148, KEY_PRINT, "PRINT"),
+	KT_ENTRY(0x148, KEY_LL, "LL"),
+	KT_ENTRY(0x148, KEY_A1, "A1"),
+	KT_ENTRY(0x148, KEY_A3, "A3"),
+	KT_ENTRY(0x148, KEY_B2, "B2"),
+	KT_ENTRY(0x148, KEY_C1, "C1"),
+	KT_ENTRY(0x148, KEY_C3, "C3"),
+	KT_ENTRY(0x148, KEY_BTAB, "BTAB"),
+	KT_ENTRY(0x148, KEY_BEG, "BEG"),
+	KT_ENTRY(0x148, KEY_CANCEL, "CANCEL"),
+	KT_ENTRY(0x148, KEY_CLOSE, "CLOSE"),
+};
+
+#define KEYTAB3_START KEY_COMMAND
+static const char keytab3[][9] = {
+	KT_ENTRY(KEYTAB3_START, KEY_COMMAND, "COMMAND"),
+	KT_ENTRY(KEYTAB3_START, KEY_COPY, "COPY"),
+	KT_ENTRY(KEYTAB3_START, KEY_CREATE, "CREATE"),
+	KT_ENTRY(KEYTAB3_START, KEY_END, "END"),
+	KT_ENTRY(KEYTAB3_START, KEY_EXIT, "EXIT"),
+	KT_ENTRY(KEYTAB3_START, KEY_FIND, "FIND"),
+	KT_ENTRY(KEYTAB3_START, KEY_HELP, "HELP"),
+	KT_ENTRY(KEYTAB3_START, KEY_MARK, "MARK"),
+	KT_ENTRY(KEYTAB3_START, KEY_MESSAGE, "MESSAGE"),
+	KT_ENTRY(KEYTAB3_START, KEY_MOVE, "MOVE"),
+	KT_ENTRY(KEYTAB3_START, KEY_NEXT, "NEXT"),
+	KT_ENTRY(KEYTAB3_START, KEY_OPEN, "OPEN"),
+	KT_ENTRY(KEYTAB3_START, KEY_OPTIONS, "OPTIONS"),
+	KT_ENTRY(KEYTAB3_START, KEY_PREVIOUS, "PREVIOUS"),
+	KT_ENTRY(KEYTAB3_START, KEY_REDO, "REDO"),
+	KT_ENTRY(KEYTAB3_START, KEY_REFERENCE, "REFERENCE"),
+	KT_ENTRY(KEYTAB3_START, KEY_REFRESH, "REFRESH"),
+	KT_ENTRY(KEYTAB3_START, KEY_REPLACE, "REPLACE"),
+	KT_ENTRY(KEYTAB3_START, KEY_RESTART, "RESTART"),
+	KT_ENTRY(KEYTAB3_START, KEY_RESUME, "RESUME"),
+	KT_ENTRY(KEYTAB3_START, KEY_SAVE, "SAVE"),
+	KT_ENTRY(KEYTAB3_START, KEY_SBEG, "SBEG"),
+	KT_ENTRY(KEYTAB3_START, KEY_SCANCEL, "SCANCEL"),
+	KT_ENTRY(KEYTAB3_START, KEY_SCOMMAND, "SCOMMAND"),
+	KT_ENTRY(KEYTAB3_START, KEY_SCOPY, "SCOPY"),
+	KT_ENTRY(KEYTAB3_START, KEY_SCREATE, "SCREATE"),
+	KT_ENTRY(KEYTAB3_START, KEY_SDC, "SDC"),
+	KT_ENTRY(KEYTAB3_START, KEY_SDL, "SDL"),
+	KT_ENTRY(KEYTAB3_START, KEY_SELECT, "SELECT"),
+	KT_ENTRY(KEYTAB3_START, KEY_SEND, "SEND"),
+	KT_ENTRY(KEYTAB3_START, KEY_SEOL, "SEOL"),
+	KT_ENTRY(KEYTAB3_START, KEY_SEXIT, "SEXIT"),
+	KT_ENTRY(KEYTAB3_START, KEY_SFIND, "SFIND"),
+	KT_ENTRY(KEYTAB3_START, KEY_SHELP, "SHELP"),
+	KT_ENTRY(KEYTAB3_START, KEY_SHOME, "SHOME"),
+	KT_ENTRY(KEYTAB3_START, KEY_SIC, "SIC"),
+	KT_ENTRY(KEYTAB3_START, KEY_SLEFT, "SLEFT"),
+	KT_ENTRY(KEYTAB3_START, KEY_SMESSAGE, "SMESSAGE"),
+	KT_ENTRY(KEYTAB3_START, KEY_SMOVE, "SMOVE"),
+	KT_ENTRY(KEYTAB3_START, KEY_SNEXT, "SNEXT"),
+	KT_ENTRY(KEYTAB3_START, KEY_SOPTIONS, "SOPTIONS"),
+	KT_ENTRY(KEYTAB3_START, KEY_SPREVIOUS, "SPREVIOUS"),
+	KT_ENTRY(KEYTAB3_START, KEY_SPRINT, "SPRINT"),
+	KT_ENTRY(KEYTAB3_START, KEY_SREDO, "SREDO"),
+	KT_ENTRY(KEYTAB3_START, KEY_SREPLACE, "SREPLACE"),
+	KT_ENTRY(KEYTAB3_START, KEY_SRIGHT, "SRIGHT"),
+	KT_ENTRY(KEYTAB3_START, KEY_SRSUME, "SRSUME"),
+	KT_ENTRY(KEYTAB3_START, KEY_SSAVE, "SSAVE"),
+	KT_ENTRY(KEYTAB3_START, KEY_SSUSPEND, "SSUSPEND"),
+	KT_ENTRY(KEYTAB3_START, KEY_SUNDO, "SUNDO"),
+	KT_ENTRY(KEYTAB3_START, KEY_SUSPEND, "SUSPEND"),
+	KT_ENTRY(KEYTAB3_START, KEY_UNDO, "UNDO"),
+	KT_ENTRY(KEYTAB3_START, KEY_MOUSE, "MOUSE"),
+};
+
+static char *make_key(const char* s, size_t l) {
+	memcpy(name, "KEY_", 4);
+	memcpy(name+4,s,l);
+	name[4+l]=0;
+	return name;
+}
+
 /*
  * keyname --
  *	Return name of key or NULL;
@@ -50,21 +157,8 @@ static char name[KEYNAMEMAX + 1];
 char *
 keyname(int key)
 {
-/* We don't bother with the large keyname table if SMALL is defined. */
-#ifdef SMALL
-	strcpy(name, "-1\0");
-	return name;
-#else
-	if (key < 0) {
-		strcpy(name, "-1\0");
-		return name;
-	}
-
-	/* No name. */
-	if (key == 0x100) {
-		strcpy(name, "-1\0");
-		return name;
-	}
+	if (key < 0 || key == 0x100 /* No name. */)
+		return "-1";
 
 	/* Control codes */
 	if (key < 0x20) {
@@ -82,14 +176,11 @@ keyname(int key)
 	}
 
 	/* Delete key */
-	if (key == 0x7F) {
-		strcpy(name, "^?\0");
-		return name;
-	}
+	if (key == 0x7F) return "^?";
 
 	/* Meta + control codes */
 	if (key < 0x9F) {
-		strcpy(name, "M-^"); 
+		memcpy(name, "M-^", 4);
 		name[3] = (char) (key - 64);	/* Offset of '@' */
 		name[4] = '\0';
 		return name;
@@ -97,393 +188,39 @@ keyname(int key)
 
 	/* Meta + "normal" keys */
 	if (key < 0xFF) {
-		strcpy (name, "M-");
+		name[0] = 'M';
+		name[1] = '-';
 		name[2] = (char) (key - 128);
 		name[3] = '\0';
 		return name;
 	}
 
 	/* Meta + delete key */
-	if (key == 0xFF) {
-		strcpy(name, "M-^?\0");
-		return name;
-	}
+	if (key == 0xFF) return "M-^?";
 
 	/* Key names.  Synchronise this with curses.h. */
-	if (key == 0x101) {
-		strncpy(name, "KEY_BREAK\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x102) {
-		strncpy(name, "KEY_DOWN\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x103) {
-		strncpy(name, "KEY_UP\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x104) {
-		strncpy(name, "KEY_LEFT\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x105) {
-		strncpy(name, "KEY_RIGHT\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x106) {
-		strncpy(name, "KEY_HOME\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x107) {
-		strncpy(name, "KEY_BACKSPACE\0", KEYNAMEMAX);
-		return name;
-	}
+	if (key <= 0x106)
+		return make_key(keytab1[key-0x101], 5);
+
+	if (key == 0x107)
+		return "KEY_BACKSPACE";
+
 	/* Function key block (64 keys). */
 	if (key < 0x148) {
-		int i;
+		snprintf(name, sizeof name, "KEY_F(%d)", key - 0x108);
+		return name;
+	}
+	if(key < KEYTAB3_START)
+		return make_key(keytab2[key-0x148], 6);
 
-		strcpy(name, "KEY_F(");
-		i = snprintf(&name[6], (size_t) 3, "%d", key - 0x108);
-		name[6 + i] = ')';
-		name[7 + i] = '\0';
-		return name;
-	}
-	if (key == 0x148) {
-		strncpy(name, "KEY_DL\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x149) {
-		strncpy(name, "KEY_IL\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x14A) {
-		strncpy(name, "KEY_DC\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x14B) {
-		strncpy(name, "KEY_IC\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x14C) {
-		strncpy(name, "KEY_EIC\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x14D) {
-		strncpy(name, "KEY_CLEAR\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x14E) {
-		strncpy(name, "KEY_EOS\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x14F) {
-		strncpy(name, "KEY_EOL\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x150) {
-		strncpy(name, "KEY_SF\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x151) {
-		strncpy(name, "KEY_SR\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x152) {
-		strncpy(name, "KEY_NPAGE\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x153) {
-		strncpy(name, "KEY_PPAGE\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x154) {
-		strncpy(name, "KEY_STAB\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x155) {
-		strncpy(name, "KEY_CTAB\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x156) {
-		strncpy(name, "KEY_CATAB\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x157) {
-		strncpy(name, "KEY_ENTER\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x158) {
-		strncpy(name, "KEY_SRESET\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x159) {
-		strncpy(name, "KEY_RESET\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x15A) {
-		strncpy(name, "KEY_PRINT\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x15B) {
-		strncpy(name, "KEY_LL\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x15C) {
-		strncpy(name, "KEY_A1\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x15D) {
-		strncpy(name, "KEY_A3\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x15E) {
-		strncpy(name, "KEY_B2\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x15F) {
-		strncpy(name, "KEY_C1\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x160) {
-		strncpy(name, "KEY_C3\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x161) {
-		strncpy(name, "KEY_BTAB\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x162) {
-		strncpy(name, "KEY_BEG\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x163) {
-		strncpy(name, "KEY_CANCEL\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x164) {
-		strncpy(name, "KEY_CLOSE\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x165) {
-		strncpy(name, "KEY_COMMAND\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x166) {
-		strncpy(name, "KEY_COPY\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x167) {
-		strncpy(name, "KEY_CREATE\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x168) {
-		strncpy(name, "KEY_END\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x169) {
-		strncpy(name, "KEY_EXIT\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x16A) {
-		strncpy(name, "KEY_FIND\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x16B) {
-		strncpy(name, "KEY_HELP\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x16C) {
-		strncpy(name, "KEY_MARK\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x16D) {
-		strncpy(name, "KEY_MESSAGE\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x16E) {
-		strncpy(name, "KEY_MOVE\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x16F) {
-		strncpy(name, "KEY_NEXT\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x170) {
-		strncpy(name, "KEY_OPEN\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x171) {
-		strncpy(name, "KEY_OPTIONS\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x172) {
-		strncpy(name, "KEY_PREVIOUS\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x173) {
-		strncpy(name, "KEY_REDO\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x174) {
-		strncpy(name, "KEY_REFERENCE\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x175) {
-		strncpy(name, "KEY_REFRESH\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x176) {
-		strncpy(name, "KEY_REPLACE\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x177) {
-		strncpy(name, "KEY_RESTART\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x178) {
-		strncpy(name, "KEY_RESUME\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x179) {
-		strncpy(name, "KEY_SAVE\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x17A) {
-		strncpy(name, "KEY_SBEG\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x17B) {
-		strncpy(name, "KEY_SCANCEL\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x17C) {
-		strncpy(name, "KEY_SCOMMAND\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x17D) {
-		strncpy(name, "KEY_SCOPY\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x17E) {
-		strncpy(name, "KEY_SCREATE\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x17F) {
-		strncpy(name, "KEY_SDC\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x180) {
-		strncpy(name, "KEY_SDL\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x181) {
-		strncpy(name, "KEY_SELECT\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x182) {
-		strncpy(name, "KEY_SEND\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x183) {
-		strncpy(name, "KEY_SEOL\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x184) {
-		strncpy(name, "KEY_SEXIT\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x185) {
-		strncpy(name, "KEY_SFIND\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x186) {
-		strncpy(name, "KEY_SHELP\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x187) {
-		strncpy(name, "KEY_SHOME\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x188) {
-		strncpy(name, "KEY_SIC\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x189) {
-		strncpy(name, "KEY_SLEFT\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x18A) {
-		strncpy(name, "KEY_SMESSAGE\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x18B) {
-		strncpy(name, "KEY_SMOVE\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x18C) {
-		strncpy(name, "KEY_SNEXT\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x18D) {
-		strncpy(name, "KEY_SOPTIONS\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x18E) {
-		strncpy(name, "KEY_SPREVIOUS\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x18F) {
-		strncpy(name, "KEY_SPRINT\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x190) {
-		strncpy(name, "KEY_SREDO\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x191) {
-		strncpy(name, "KEY_SREPLACE\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x192) {
-		strncpy(name, "KEY_SRIGHT\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x193) {
-		strncpy(name, "KEY_SRSUME\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x194) {
-		strncpy(name, "KEY_SSAVE\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x195) {
-		strncpy(name, "KEY_SSUSPEND\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x196) {
-		strncpy(name, "KEY_SUNDO\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x197) {
-		strncpy(name, "KEY_SUSPEND\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x198) {
-		strncpy(name, "KEY_UNDO\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x199) {
-		strncpy(name, "KEY_MOUSE\0", KEYNAMEMAX);
-		return name;
-	}
-	if (key == 0x200) {
-		strncpy(name, "KEY_RESIZE\0", KEYNAMEMAX);
-		return name;
-	}
+	if(key <= 0x199)
+		return make_key(keytab3[key-KEYTAB3_START], 9);
+
+	if(key == KEY_RESIZE)
+		return "KEY_RESIZE";
+
 	/* No more names. */
-	strncpy(name, "UNKOWN KEY\0", KEYNAMEMAX);
-	return name;
-#endif
+	return "UNKNOWN KEY";
 }
 /*
  * key_name --
@@ -495,14 +232,14 @@ key_name(wchar_t key)
 #ifndef HAVE_WCHAR
 	return NULL;
 #else
-	(void) keyname((int) key);
-
-	if (!strncmp(name, "M-", 2)) {
+	char *s = keyname((int) key);
+	if (s[0] == 'M' && s[1] == '-') {
 		/* Remove the "M-" */
-		name[0] = name[2];
-		name[1] = '\0';
+		name[0] = s[2];
+		name[1] = 0;
+		s = name;
 	}
-	return name;
+	return s;
 #endif /* HAVE_WCHAR */
 }
 
