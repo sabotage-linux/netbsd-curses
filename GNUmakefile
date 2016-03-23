@@ -153,9 +153,12 @@ TP_OBJS=tput/tput.o
 IC_SRCS=infocmp/infocmp.c
 IC_OBJS=infocmp/infocmp.o
 
+TA_SRCS=tabs/tabs.c
+TA_OBJS=tabs/tabs.o
+
 STALIBS=$(TI_LIBA) $(CU_LIBA) $(PA_LIBA) $(ME_LIBA) $(FO_LIBA)
 DYNLIBS=$(TI_LIBSO) $(CU_LIBSO) $(PA_LIBSO) $(ME_LIBSO) $(FO_LIBSO)
-PROGS=$(TOOL_TTIC) tset/tset tput/tput infocmp/infocmp
+PROGS=$(TOOL_TTIC) tset/tset tput/tput infocmp/infocmp tabs/tabs
 
 ifeq ($(STATIC_BINS),0)
 TI_LINKLIB=$(TI_LIBSO)
@@ -183,7 +186,10 @@ install-tput: tput/tput tput/clear.sh
 install-infocmp: infocmp/infocmp
 	$(INSTALL) -Dm 755 infocmp/infocmp $(DESTDIR)$(BINDIR)/infocmp
 
-install-progs: install-tic install-tset install-tput install-infocmp
+install-tabs: tabs/tabs
+	$(INSTALL) -Dm 755 tabs/tabs $(DESTDIR)$(BINDIR)/tabs
+
+install-progs: install-tic install-tset install-tput install-infocmp install-tabs
 
 install-headers-curses: libcurses/curses.h libcurses/unctrl.h
 	$(INSTALL) -Dm 644 libcurses/curses.h $(DESTDIR)$(INCDIR)/curses.h
@@ -296,7 +302,7 @@ clean:
 	      $(ME_LIBA) $(ME_LIBSO) $(ME_OBJS) $(ME_LOBJS) \
 	      $(FO_LIBA) $(FO_LIBSO) $(FO_OBJS) $(FO_LOBJS) \
 	      $(TS_OBJS) tset/tset $(TP_OBJS) tput/tput \
-	      $(IC_OBJS) infocmp/infocmp
+	      $(IC_OBJS) infocmp/infocmp $(TA_OBJS) tabs/tabs
 
 $(TOOL_NBPERF): $(NBPERF_OBJS)
 	$(HOSTCC) $(LDFLAGS_HOST) $^ -o $@
@@ -313,11 +319,17 @@ infocmp/infocmp: $(TI_LINKLIB)
 infocmp/infocmp: $(IC_OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
+tabs/tabs: $(TI_LINKLIB)
+tabs/tabs: $(TA_OBJS)
+	$(CC) -o $@ $^ $(LDFLAGS)
+
 tset/%.o: tset/%.c
 	$(CC) $(CPPFLAGS) -I./tset -I. -I./libterminfo $(CFLAGS) -c -o $@ $<
 tput/%.o: tput/%.c
 	$(CC) $(CPPFLAGS) -I./tset -I. -I./libterminfo $(CFLAGS) -c -o $@ $<
 infocmp/%.o: infocmp/%.c
+	$(CC) $(CPPFLAGS) -I. -I./libterminfo $(CFLAGS) -c -o $@ $<
+tabs/%.o: tabs/%.c
 	$(CC) $(CPPFLAGS) -I. -I./libterminfo $(CFLAGS) -c -o $@ $<
 nbperf/%.o: nbperf/%.c
 	$(HOSTCC) $(CPPFLAGS) -O0 -g0 $(CFLAGS_HOST) -c -o $@ $<
