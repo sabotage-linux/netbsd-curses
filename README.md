@@ -87,6 +87,82 @@ TODO
 - installation of global terminfo db
   (rather than just a small built-in, handpicked set)
 
+Compilation
+-----------
+netbsd-curses ships without a configure script, and requires GNU make.
+variables for compilation can be passed directly to make, or be saved into config.mak.
+recognized variables are:
+
+- CC - the C compiler
+- HOSTCC - the C compiler used for host programs when crosscompiling.
+  if set, and different from CC, cross-compilation is assumed.
+- CFLAGS - flags for the compiler
+- CPPFLAGS - flags for the preprocessor
+- LDFLAGS - flags for the linker
+- PREFIX - filesystem prefix used for hardcoded paths and installation
+- DESTDIR - staging directory for installation
+
+examples:
+
+    make CFLAGS="-Os -Wall -fPIC" PREFIX=/usr/local -j4 all install
+    make CFLAGS=-O2 LDFLAGS=-static PREFIX=/usr all-static install-static
+
+example config.mak:
+
+    CFLAGS = -O3 -Wall
+    PREFIX = /usr
+    DESTDIR = foo
+
+if you're using config.mak, you can just run `make && make install` and the
+variables will be picked up automatically.
+
+the `all` and `install` Makefile targets will build/install all programs,
+shared and static libs, and headers.
+the `all-static` and `install-static` targets will build/install all programs,
+static libs, and headers.
+the `all-dynamic` and `install-dynamic` targets will build/install all programs
+shared libs, and headers.
+
+the `all` build can be sped up by putting `-fPIC` in CFLAGS.
+this has the effect that the same object files will be used for the dynamic and
+static libs; otherwise they will be compiled twice with different CFLAGS.
+
+Compiling software against netbsd-curses
+----------------------------------------
+the functionality that ncurses offers is usually (if not configured to split
+into several separate libs) available in a single `libncurses` library.
+netbsd-curses on the other hand has it always split into `libcurses` and
+`libterminfo`.
+this difference requires to give the build system a hint that it needs to
+link to both libcurses and libterminfo.
+
+- programs using pkg-config(1) automatically get the right options
+  due to the supplied .pc files.
+
+- for autoconf based software (using a configure script) it is usually
+  sufficient to invoke configure like this:
+
+    LIBS="-lcurses -lterminfo" ./configure ...
+
+- for Makefile-only based build systems, it should be sufficient to add
+  the libs to LDFLAGS:
+
+    make LDFLAGS="-lcurses -lterminfo" ...
+
+with these instructions it is easy to compile the majority of ncurses apps
+without problems against netbsd-curses.
+
+a small percentage of apps written for ncurses poke at internals and need
+light patching:
+
+[patch for midnight commander][2]
+[patch for python 2.7][3]
+
+if you have trouble compiling a specific package, first look at the
+[sabotage linux build recipes][4].
+if you still can't get the package to compile, feel free to open an issue
+[at the netbsd-curses issue tracker][5].
+
 APPENDIX A: Test Setup used for comparison in Table 1
 -----------------------------------------------------
 All tests were done on a dual core x86_64 sabotage linux system, with the following
@@ -110,3 +186,8 @@ files via objcopy.
 
 [0]:http://trac.sagemath.org/ticket/18301
 [1]:https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/log/scripts/kconfig/lxdialog/check-lxdialog.sh
+[2]:https://github.com/sabotage-linux/sabotage/blob/3f0a6bb9/KEEP/mc-curses.patch
+[3]:https://github.com/sabotage-linux/sabotage/blob/06a4a815/KEEP/python2710-curses.patch
+[4]:https://github.com/sabotage-linux/sabotage/tree/master/pkg
+[5]:https://github.com/sabotage-linux/netbsd-curses/issues
+
