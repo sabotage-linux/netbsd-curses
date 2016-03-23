@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 #ifndef lint
 __COPYRIGHT("@(#) Copyright (c) 2008 \
 The NetBSD Foundation, inc. All rights reserved.");
