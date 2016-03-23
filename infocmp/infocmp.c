@@ -27,7 +27,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
+#include <netbsd_sys/cdefs.h>
 __RCSID("$NetBSD: infocmp.c,v 1.8 2013/10/01 09:01:49 roy Exp $");
 
 #include <sys/ioctl.h>
@@ -699,7 +699,7 @@ main(int argc, char **argv)
 			fprintf(stderr,
 			    "usage: %s [-1acnqux] [-A database] [-B database] "
 			    "[-w cols] [term]\n",
-			    getprogname());
+			    argv[0]);
 			return EXIT_FAILURE;
 		}
 	cols--;
