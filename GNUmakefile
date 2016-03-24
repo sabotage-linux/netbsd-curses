@@ -489,3 +489,14 @@ $(FO_LIBSO): $(CU_LIBSO)
 $(FO_LIBSO): $(FO_LOBJS)
 	$(CC) -shared -o $@ $^ -Wl,-soname=$(notdir $@)
 
+.PHONY: all all-static all-dynamic install install-tic install-tset \
+	install-tput install-infocmp install-tabs install-progs \
+	install-headers-curses install-headers-terminfo \
+	install-headers-panel install-headers-menu install-headers-form \
+	install-headers install-stalib-curses install-stalib-terminfo \
+	install-stalib-panel install-stalib-menu install-stalib-form \
+	install-stalibs install-dynlib-curses install-dynlib-terminfo \
+	install-dynlib-panel install-dynlib-menu install-dynlib-form \
+	install-dynlibs install-libs install-pc-dir install-pc-curses \
+	install-pc-terminfo install-pc-panel install-pc-menu \
+	install-pc-form install-pcs install-static install-dynamic clean
