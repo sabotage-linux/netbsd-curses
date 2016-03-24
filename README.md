@@ -83,7 +83,6 @@ Differences from ncurses
 
 TODO
 ----
-- manpage installation
 - installation of global terminfo db
   (rather than just a small built-in, handpicked set)
 
