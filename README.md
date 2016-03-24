@@ -154,8 +154,8 @@ without problems against netbsd-curses.
 a small percentage of apps written for ncurses poke at internals and need
 light patching:
 
-[patch for midnight commander][2]
-[patch for python 2.7][3]
+- [patch for midnight commander][2]
+- [patch for python 2.7][3]
 
 if you have trouble compiling a specific package, first look at the
 [sabotage linux build recipes][4].
