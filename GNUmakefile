@@ -15,6 +15,9 @@ PREFIX=/usr/local
 BINDIR=$(PREFIX)/bin
 LIBDIR=$(PREFIX)/lib
 INCDIR=$(PREFIX)/include
+MANDIR=$(PREFIX)/share/man
+MAN1DIR=$(MANDIR)/man1
+MAN3DIR=$(MANDIR)/man3
 
 -include config.mak
 
@@ -56,6 +59,7 @@ CLEANFILES+=tic/hash.c
 TIC_OBJS=$(TIC_SRCS:.c=.o)
 TIC_HOBJS=$(TIC_SRCS:.c=.ho)
 TOOL_TIC=$(TOOL_HOSTTIC)
+TIC_MAN=$(sort $(wildcard tic/*.1))
 
 TI_SRCS= libterminfo/term.c libterminfo/ti.c libterminfo/setupterm.c \
          libterminfo/curterm.c libterminfo/tparm.c libterminfo/tputs.c
@@ -68,6 +72,7 @@ TI_LIBA=libterminfo/libterminfo.a
 TI_LIBSO=libterminfo/libterminfo$(SO_SUFFIX)
 TI_OBJS=$(TI_SRCS:.c=.o)
 TI_LOBJS=$(TI_SRCS:.c=.lo)
+TI_MAN =$(sort $(wildcard libterminfo/*.3))
 
 libterminfo/term.o: CPPFLAGS+=-DINSTALL_PREFIX=\"$(PREFIX)\"
 libterminfo/term.lo: CPPFLAGS+=-DINSTALL_PREFIX=\"$(PREFIX)\"
@@ -101,6 +106,7 @@ CU_OBJS=$(CU_SRCS:.c=.o)
 CU_LIBA=libcurses/libcurses.a
 CU_LIBSO=libcurses/libcurses$(SO_SUFFIX)
 CU_LOBJS=$(CU_SRCS:.c=.lo)
+CU_MAN =$(sort $(wildcard libcurses/*.3))
 
 PA_SRCS_ = _deck.c above.c below.c bottom.c del.c getuser.c hidden.c
 PA_SRCS_+= hide.c move.c new.c replace.c setuser.c show.c top.c
@@ -111,15 +117,10 @@ PA_OBJS=$(PA_SRCS:.c=.o)
 PA_LIBA=libpanel/libpanel.a
 PA_LIBSO=libpanel/libpanel$(SO_SUFFIX)
 PA_LOBJS=$(PA_SRCS:.c=.lo)
-PA_MAN_=move_panel.3 new_panel.3 panel.3 panel_above.3 panel_hidden.3 \
-	panel_userptr.3 update_panels.3
+PA_MAN =$(sort $(wildcard libpanel/*.3))
 
 ME_SRCS_=menu.c item.c userptr.c internals.c driver.c post.c attributes.c
-ME_MAN=	menu_attributes.3 menu_item_name.3 menu_items.3 menu_userptr.3 \
-	menu_cursor.3 menu_item_new.3 menu_mark.3 menu_win.3 menu_driver.3 \
-	menu_item_opts.3 menu_new.3 menus.3 menu_format.3 menu_item_userptr.3 \
-	menu_opts.3 menu_hook.3 menu_item_value.3 menu_pattern.3 \
-	menu_item_current.3 menu_item_visible.3 menu_post.3
+ME_MAN = $(sort $(wildcard libmenu/*.3))
 ME_SRCS=$(patsubst %,libmenu/%,$(ME_SRCS_))
 ME_INCS=libmenu/menu.h libmenu/eti.h
 ME_OBJS=$(ME_SRCS:.c=.o)
@@ -130,12 +131,7 @@ ME_LOBJS=$(ME_SRCS:.c=.lo)
 FO_SRCS_=driver.c field_types.c internals.c field.c form.c post.c type_alnum.c \
         type_alpha.c type_integer.c type_numeric.c type_enum.c type_regex.c \
 	type_ipv4.c type_ipv6.c
-FO_MAN=	form_cursor.3 form_data.3 form_driver.3 form_field.3 \
-	form_field_attributes.3 form_field_buffer.3 form_field_info.3 \
-	form_field_just.3 form_field_new.3 form_field_opts.3 \
-	form_field_userptr.3 form_field_validation.3 form_fieldtype.3 \
-	form_hook.3 form_new.3 form_new_page.3 form_opts.3 form_page.3 \
-	form_post.3 form_userptr.3 form_win.3 forms.3
+FO_MAN=	$(sort $(wildcard libform/*.3))
 FO_SRCS=$(patsubst %,libform/%,$(FO_SRCS_))
 FO_INCS=libform/form.h
 FO_OBJS=$(FO_SRCS:.c=.o)
@@ -146,15 +142,19 @@ FO_LOBJS=$(FO_SRCS:.c=.lo)
 TS_SRCS_=map.c misc.c set.c term.c tset.c
 TS_SRCS=$(patsubst %,tset/%,$(TS_SRCS_))
 TS_OBJS=$(TS_SRCS:.c=.o)
+TS_MAN= $(sort $(wildcard tset/*.1))
 
 TP_SRCS=tput/tput.c
 TP_OBJS=tput/tput.o
+TP_MAN =$(sort $(wildcard tput/*.1))
 
 IC_SRCS=infocmp/infocmp.c
 IC_OBJS=infocmp/infocmp.o
+IC_MAN =$(sort $(wildcard infocmp/*.1))
 
 TA_SRCS=tabs/tabs.c
 TA_OBJS=tabs/tabs.o
+TA_MAN =$(sort $(wildcard tabs/*.1))
 
 STALIBS=$(TI_LIBA) $(CU_LIBA) $(PA_LIBA) $(ME_LIBA) $(FO_LIBA)
 DYNLIBS=$(TI_LIBSO) $(CU_LIBSO) $(PA_LIBSO) $(ME_LIBSO) $(FO_LIBSO)
@@ -285,7 +285,51 @@ install-pc-form: install-pc-dir
 
 install-pcs: install-pc-form install-pc-menu install-pc-panel install-pc-terminfo install-pc-curses
 
-install: install-headers install-libs install-progs install-pcs
+INSTALL_MANPAGES_COMMAND=test -L $< && $(INSTALL) -Dl `readlink $<` $@ || $(INSTALL) -Dm 644 $< $@
+
+$(DESTDIR)$(MAN1DIR)/%: tic/%
+	$(INSTALL_MANPAGES_COMMAND)
+$(DESTDIR)$(MAN1DIR)/%: tset/%
+	$(INSTALL_MANPAGES_COMMAND)
+$(DESTDIR)$(MAN1DIR)/%: tput/%
+	$(INSTALL_MANPAGES_COMMAND)
+$(DESTDIR)$(MAN1DIR)/%: infocmp/%
+	$(INSTALL_MANPAGES_COMMAND)
+$(DESTDIR)$(MAN1DIR)/%: tabs/%
+	$(INSTALL_MANPAGES_COMMAND)
+
+$(DESTDIR)$(MAN3DIR)/%: libterminfo/%
+	$(INSTALL_MANPAGES_COMMAND)
+$(DESTDIR)$(MAN3DIR)/%: libcurses/%
+	$(INSTALL_MANPAGES_COMMAND)
+$(DESTDIR)$(MAN3DIR)/%: libpanel/%
+	$(INSTALL_MANPAGES_COMMAND)
+$(DESTDIR)$(MAN3DIR)/%: libmenu/%
+	$(INSTALL_MANPAGES_COMMAND)
+$(DESTDIR)$(MAN3DIR)/%: libform/%
+	$(INSTALL_MANPAGES_COMMAND)
+
+install-man-tic: $(TIC_MAN:tic/%=$(DESTDIR)$(MAN1DIR)/%)
+install-man-tset: $(TS_MAN:tset/%=$(DESTDIR)$(MAN1DIR)/%)
+install-man-tput: $(TP_MAN:tput/%=$(DESTDIR)$(MAN1DIR)/%)
+install-man-infocmp: $(IC_MAN:infocmp/%=$(DESTDIR)$(MAN1DIR)/%)
+install-man-tabs: $(TA_MAN:tabs/%=$(DESTDIR)$(MAN1DIR)/%)
+
+install-prog-manpages: install-man-tic install-man-tset install-man-tput \
+	install-man-infocmp install-man-tabs
+
+install-man-terminfo: $(TI_MAN:libterminfo/%=$(DESTDIR)$(MAN3DIR)/%)
+install-man-curses: $(CU_MAN:libcurses/%=$(DESTDIR)$(MAN3DIR)/%)
+install-man-panel: $(PA_MAN:libpanel/%=$(DESTDIR)$(MAN3DIR)/%)
+install-man-menu: $(ME_MAN:libmenu/%=$(DESTDIR)$(MAN3DIR)/%)
+install-man-form: $(FO_MAN:libform/%=$(DESTDIR)$(MAN3DIR)/%)
+
+install-lib-manpages: install-man-terminfo install-man-curses \
+	install-man-panel install-man-menu install-man-form
+
+install-manpages: install-prog-manpages install-lib-manpages
+
+install: install-headers install-libs install-progs install-pcs install-manpages
 
 install-static: install-headers install-progs install-pcs install-stalibs
 install-dynamic: TI_LINKLIB=$(TI_LIBSO)
@@ -499,4 +543,9 @@ $(FO_LIBSO): $(FO_LOBJS)
 	install-dynlib-panel install-dynlib-menu install-dynlib-form \
 	install-dynlibs install-libs install-pc-dir install-pc-curses \
 	install-pc-terminfo install-pc-panel install-pc-menu \
-	install-pc-form install-pcs install-static install-dynamic clean
+	install-pc-form install-pcs install-static install-dynamic clean \
+	install-man-tic install-man-tset install-man-tput \
+	install-man-infocmp install-man-tabs install-prog-manpages \
+	install-man-terminfo install-man-curses install-man-panel \
+	install-man-menu install-man-form install-lib-manpages \
+	install-manpages
