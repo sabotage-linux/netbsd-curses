@@ -4,7 +4,7 @@ AR ?= ar
 RANLIB ?= ranlib
 HOST_SH ?= /bin/sh
 LN ?= ln
-INSTALL ?= install
+INSTALL ?= ./install.sh
 MKDIR ?= mkdir
 
 SO_SUFFIX ?= .so
