@@ -9,7 +9,7 @@ changes.
 it supports widechar (like the ncursesw build variant) and is close to being
 a 100% feature-complete drop-in replacement for ncurses.
 
-to this date, there are only 3 implementation of the curses API:
+to this date, there are only 3 implementations of the curses API:
 
 - the ubiquitous ncurses library, which is used on almost every UNIX system
   (Linux, Mac OS X, FreeBSD, OpenBSD and others).
@@ -49,8 +49,8 @@ Why do we need an ncurses replacement ?
   instead of a standardized pkg-config description file (disabled by default)
   to query the necessary CFLAGS and LDFLAGS.
   unfortunately like every other homebrewed pkg-config replacement, this config
-  utility was designed without cross-compilation in mind, so almost any package
-  using ncurses and autoconf fails to cross-compile when unpatched.
+  utility was designed without cross-compilation in mind, so many packages
+  using ncurses and autoconf fail to cross-compile when unpatched.
 - Size and build time.
 
 Table 1: Comparison between ncurses and netbsd curses
