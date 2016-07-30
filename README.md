@@ -154,7 +154,7 @@ without problems against netbsd-curses.
 a small percentage of apps written for ncurses poke at internals and need
 light patching:
 
-- [patch for midnight commander][2]
+- [patch for midnight commander][2] - merged upstream as rev 38d4c655d
 - [patch for python 2.7][3]
 
 if you have trouble compiling a specific package, first look at the
@@ -185,7 +185,7 @@ files via objcopy.
 
 [0]:http://trac.sagemath.org/ticket/18301
 [1]:https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/log/scripts/kconfig/lxdialog/check-lxdialog.sh
-[2]:https://github.com/sabotage-linux/sabotage/blob/3f0a6bb9/KEEP/mc-curses.patch
+[2]:https://github.com/MidnightCommander/mc/commit/38d4c655d322837574e957b4a824f4a0d1bb3b86
 [3]:https://github.com/sabotage-linux/sabotage/blob/06a4a815/KEEP/python2710-curses.patch
 [4]:https://github.com/sabotage-linux/sabotage/tree/master/pkg
 [5]:https://github.com/sabotage-linux/netbsd-curses/issues
