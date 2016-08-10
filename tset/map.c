@@ -30,11 +30,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)map.c	8.1 (Berkeley) 6/9/93";
-#endif
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <err.h>
