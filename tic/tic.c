@@ -58,40 +58,12 @@ __RCSID("$NetBSD: tic.c,v 1.24 2014/07/20 20:20:16 christos Exp $");
 #include <term_private.h>
 #include <term.h>
 #include <unistd.h>
-//#include <util.h>
+#include <netbsd_sys/emalloc.h>
+
 #ifndef DEFFILEMODE
 #define DEFFILEMODE  (S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH)
 #endif
 
-void mallerr(void) {
-	dprintf(2, "error: out of memory\n");
-	abort();
-}
-
-static inline void* emalloc(size_t x) {
-	void *p=malloc(x);
-	if(!p) mallerr();
-	return p;
-}
-static inline void* ecalloc(size_t x, size_t y) {
-	void *p=calloc(x, y);
-	if(!p) mallerr();
-	return p;
-}
-static inline char* estrdup(const char* x) {
-	char *p = strdup(x);
-	if(!p) mallerr();
-	return p;
-}
-static int easprintf(char **s, const char *fmt, ...) {
-	int ret;
-	va_list ap;
-	va_start(ap, fmt);
-	ret = vasprintf(s, fmt, ap);
-	va_end(ap);
-	if(ret == -1) mallerr();
-	return ret;
-}
 #define	HASH_SIZE	16384	/* 2012-06-01: 3600 entries */
 
 typedef struct term {
