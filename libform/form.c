@@ -30,7 +30,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: form.c,v 1.15 2004/11/24 11:57:09 blymn Exp $");
 
 #include <stdlib.h>
 #include <strings.h>

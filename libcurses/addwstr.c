@@ -35,9 +35,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-__RCSID("$NetBSD: addwstr.c,v 1.2 2007/05/28 15:01:54 blymn Exp $");
-#endif						  /* not lint */
 
 #include <string.h>
 

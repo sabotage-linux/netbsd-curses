@@ -36,7 +36,6 @@
 #endif
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: cdbw.c,v 1.5 2012/07/21 22:49:37 joerg Exp $");
 
 //#include "namespace.h"
 

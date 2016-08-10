@@ -30,7 +30,6 @@
 #include <sys/stat.h>
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: term.c,v 1.19 2015/11/26 01:03:22 christos Exp $");
 
 #include <assert.h>
 #include <netbsd_sys/cdbr.h>

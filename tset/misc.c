@@ -30,7 +30,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: misc.c,v 1.9 2010/02/10 10:33:45 roy Exp $");
 
 #include <err.h>
 #include <errno.h>

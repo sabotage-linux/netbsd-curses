@@ -36,7 +36,6 @@
 #endif
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: nbperf-bdz.c,v 1.9 2014/04/30 21:04:58 joerg Exp $");
 
 #include <err.h>
 #include <inttypes.h>

@@ -28,7 +28,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: tputs.c,v 1.3 2013/06/07 13:16:18 roy Exp $");
 
 #include <assert.h>
 #include <ctype.h>

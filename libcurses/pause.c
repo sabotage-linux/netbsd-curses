@@ -31,9 +31,6 @@
 
 #define _GNU_SOURCE
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-__RCSID("$NetBSD: pause.c,v 1.9 2009/07/22 16:57:15 roy Exp $");
-#endif				/* not lint */
 
 #include <stdarg.h>
 #include <stdlib.h>

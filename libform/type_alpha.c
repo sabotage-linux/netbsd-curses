@@ -30,7 +30,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: type_alpha.c,v 1.11 2004/11/24 11:57:09 blymn Exp $");
 
 #include <stdlib.h>
 #include <string.h>

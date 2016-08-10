@@ -30,9 +30,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-__RCSID("$NetBSD: underscore.c,v 1.11 2010/02/03 15:34:40 roy Exp $");
-#endif				/* not lint */
 
 #include "curses.h"
 #include "curses_private.h"

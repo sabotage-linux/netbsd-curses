@@ -30,13 +30,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)cur_hash.c	8.1 (Berkeley) 6/4/93";
-#else
-__RCSID("$NetBSD: cur_hash.c,v 1.12 2005/02/18 22:16:27 dsl Exp $");
-#endif
-#endif				/* not lint */
 
 #include <sys/types.h>
 

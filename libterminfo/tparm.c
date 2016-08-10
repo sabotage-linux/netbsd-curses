@@ -28,7 +28,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: tparm.c,v 1.16 2015/11/25 18:46:59 christos Exp $");
 #include <sys/param.h>
 
 #include <assert.h>

@@ -28,7 +28,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: infocmp.c,v 1.11 2016/03/16 21:01:28 christos Exp $");
 
 #include <sys/ioctl.h>
 

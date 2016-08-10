@@ -35,9 +35,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-__RCSID("$NetBSD: get_wch.c,v 1.10 2012/06/29 10:40:29 blymn Exp $");
-#endif						  /* not lint */
 
 #include <string.h>
 #include <stdlib.h>

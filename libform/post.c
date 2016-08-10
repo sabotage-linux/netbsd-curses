@@ -30,7 +30,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: post.c,v 1.9 2003/03/09 00:57:19 lukem Exp $");
 
 #include "form.h"
 #include "internals.h"

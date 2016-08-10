@@ -30,9 +30,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-__RCSID("$NetBSD: inch.c,v 1.10 2009/10/06 20:03:27 jdc Exp $");
-#endif				/* not lint */
 
 #include "curses.h"
 #include "curses_private.h"

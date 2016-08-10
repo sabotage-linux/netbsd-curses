@@ -34,7 +34,6 @@
 #include <sys/stat.h>
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: tic.c,v 1.24 2014/07/20 20:20:16 christos Exp $");
 
 #include <sys/types.h>
 #include <netbsd_sys/queue.h>

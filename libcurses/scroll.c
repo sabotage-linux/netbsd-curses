@@ -30,13 +30,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)scroll.c	8.3 (Berkeley) 5/4/94";
-#else
-__RCSID("$NetBSD: scroll.c,v 1.22 2010/02/03 15:34:40 roy Exp $");
-#endif
-#endif				/* not lint */
 
 #include "curses.h"
 #include "curses_private.h"

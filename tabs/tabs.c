@@ -33,7 +33,6 @@
 #ifndef lint
 __COPYRIGHT("@(#) Copyright (c) 2008 \
 The NetBSD Foundation, inc. All rights reserved.");
-__RCSID("$NetBSD: tabs.c,v 1.4 2011/09/16 15:39:29 joerg Exp $");
 #endif /* not lint */
 
 #include <sys/ioctl.h>

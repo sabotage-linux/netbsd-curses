@@ -36,9 +36,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-__RCSID("$NetBSD: inchstr.c,v 1.6 2012/04/21 11:33:16 blymn Exp $");
-#endif				/* not lint */
 
 #include "curses.h"
 #include "curses_private.h"

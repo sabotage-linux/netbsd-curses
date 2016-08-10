@@ -43,7 +43,6 @@
 #endif
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: mi_vector_hash.c,v 1.1 2013/12/11 01:24:08 joerg Exp $");
 
 #include <netbsd_sys/endian.h>
 

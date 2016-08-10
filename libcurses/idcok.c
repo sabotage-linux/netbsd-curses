@@ -30,13 +30,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)idcok.c	blymn 2002/06/06";
-#else
-__RCSID("$NetBSD: idcok.c,v 1.1 2002/07/19 13:22:41 blymn Exp $");
-#endif
-#endif				/* not lint */
 
 #include "curses.h"
 #include "curses_private.h"

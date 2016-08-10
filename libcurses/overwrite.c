@@ -30,13 +30,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)overwrite.c	8.2 (Berkeley) 5/4/94";
-#else
-__RCSID("$NetBSD: overwrite.c,v 1.18 2007/01/21 13:25:36 jdc Exp $");
-#endif
-#endif				/* not lint */
 
 #include <ctype.h>
 #include <string.h>

@@ -39,7 +39,6 @@ __COPYRIGHT("@(#) Copyright (c) 1980, 1988, 1993\
 #if 0
 static char sccsid[] = "@(#)tput.c	8.3 (Berkeley) 4/28/95";
 #endif
-__RCSID("$NetBSD: tput.c,v 1.26 2013/02/05 11:31:56 roy Exp $");
 #endif /* not lint */
 
 #include <termios.h>

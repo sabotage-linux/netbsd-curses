@@ -30,13 +30,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)tstp.c	8.3 (Berkeley) 5/4/94";
-#else
-__RCSID("$NetBSD: tstp.c,v 1.40 2013/10/15 13:00:52 christos Exp $");
-#endif
-#endif				/* not lint */
 
 #include <sys/ioctl.h>
 

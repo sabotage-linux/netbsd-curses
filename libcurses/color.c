@@ -31,9 +31,6 @@
 
 #include <stdint.h>
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-__RCSID("$NetBSD: color.c,v 1.38 2011/10/03 12:32:15 roy Exp $");
-#endif				/* not lint */
 
 #include "curses.h"
 #include "curses_private.h"

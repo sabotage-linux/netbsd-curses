@@ -32,7 +32,6 @@
 #endif
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: compile.c,v 1.9 2013/06/07 13:16:18 roy Exp $");
 
 #if !HAVE_NBTOOL_CONFIG_H || HAVE_SYS_ENDIAN_H
 #include <netbsd_sys/endian.h>

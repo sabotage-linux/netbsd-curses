@@ -27,7 +27,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: post.c,v 1.12 2003/04/19 12:52:39 blymn Exp $");
 
 #include <menu.h>
 #include <stdlib.h>

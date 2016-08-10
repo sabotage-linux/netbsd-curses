@@ -30,13 +30,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)touchwin.c	8.2 (Berkeley) 5/4/94";
-#else
-__RCSID("$NetBSD: touchwin.c,v 1.28 2016/01/07 07:37:08 jdc Exp $");
-#endif
-#endif				/* not lint */
 
 #include "curses.h"
 #include "curses_private.h"

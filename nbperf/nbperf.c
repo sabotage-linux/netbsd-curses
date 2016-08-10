@@ -36,7 +36,6 @@
 #endif
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: nbperf.c,v 1.5 2013/01/31 16:32:02 joerg Exp $");
 
 #include <netbsd_sys/endian.h>
 #include <err.h>

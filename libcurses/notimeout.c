@@ -27,9 +27,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-__RCSID("$NetBSD: notimeout.c,v 1.6 2014/02/28 07:58:42 blymn Exp $");
-#endif				/* not lint */
 
 #include "curses.h"
 #include "curses_private.h"

@@ -35,9 +35,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-__RCSID("$NetBSD: get_wstr.c,v 1.3 2008/04/14 20:33:59 jdc Exp $");
-#endif						  /* not lint */
 
 #include "curses.h"
 #include "curses_private.h"

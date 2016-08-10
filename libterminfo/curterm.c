@@ -28,7 +28,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: curterm.c,v 1.12 2016/04/01 19:59:08 christos Exp $");
 
 #include <assert.h>
 #include <stdlib.h>

@@ -30,13 +30,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)insertln.c	8.2 (Berkeley) 5/4/94";
-#else
-__RCSID("$NetBSD: insertln.c,v 1.13 2003/08/07 16:44:22 agc Exp $");
-#endif
-#endif				/* not lint */
 
 #include "curses.h"
 #include "curses_private.h"

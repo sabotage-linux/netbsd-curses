@@ -32,7 +32,6 @@
 #include <netbsd_sys/cdefs.h>
 __COPYRIGHT("@(#) Copyright (c) 1980, 1991, 1993\
  The Regents of the University of California.  All rights reserved.");
-__RCSID("$NetBSD: tset.c,v 1.20 2011/09/06 18:34:12 joerg Exp $");
 
 #include <sys/types.h>
 #include <sys/ioctl.h>

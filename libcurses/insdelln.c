@@ -30,9 +30,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-__RCSID("$NetBSD: insdelln.c,v 1.16 2009/07/22 16:57:15 roy Exp $");
-#endif				/* not lint */
 
 /*
  * Based on deleteln.c and insertln.c -

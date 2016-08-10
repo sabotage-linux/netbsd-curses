@@ -30,13 +30,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)overlay.c	8.2 (Berkeley) 5/4/94";
-#else
-__RCSID("$NetBSD: overlay.c,v 1.17 2007/01/21 13:25:36 jdc Exp $");
-#endif
-#endif				/* not lint */
 
 #include <ctype.h>
 

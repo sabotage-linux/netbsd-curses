@@ -35,9 +35,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-__RCSID("$NetBSD: add_wch.c,v 1.5 2016/01/07 07:36:35 jdc Exp $");
-#endif /* not lint */
 
 #include <stdlib.h>
 #include "curses.h"

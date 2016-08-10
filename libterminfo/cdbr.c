@@ -38,7 +38,6 @@
 #include <sys/stat.h>
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: cdbr.c,v 1.1 2013/12/11 01:24:08 joerg Exp $");
 
 #if !defined(_KERNEL) && !defined(_STANDALONE)
 //#include "namespace.h"

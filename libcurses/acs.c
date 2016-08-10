@@ -32,9 +32,6 @@
 #include "curses.h"
 #include "curses_private.h"
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-__RCSID("$NetBSD: acs.c,v 1.20 2012/04/21 12:27:27 roy Exp $");
-#endif                          /* not lint */
 #include "term.h"
 #include <string.h>
 chtype _acs_char[NUM_ACS];

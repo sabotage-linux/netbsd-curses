@@ -26,7 +26,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-__RCSID("$NetBSD: move.c,v 1.1 2015/10/26 23:09:49 uwe Exp $");
 
 #include "panel_impl.h"
 extern int touchoverlap(WINDOW *, WINDOW *);

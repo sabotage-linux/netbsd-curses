@@ -36,9 +36,6 @@
 
 #define _XOPEN_SOURCE 700
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-__RCSID("$NetBSD: ins_wch.c,v 1.6 2013/10/16 19:59:29 roy Exp $");
-#endif						  /* not lint */
 
 #include <string.h>
 #include <stdlib.h>

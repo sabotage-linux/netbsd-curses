@@ -36,13 +36,6 @@
  */
 
 #include <netbsd_sys/cdefs.h>
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)resize.c   blymn 2001/08/26";
-#else
-__RCSID("$NetBSD: resize.c,v 1.20 2009/07/22 16:57:15 roy Exp $");
-#endif
-#endif				/* not lint */
 
 #include <stdlib.h>
 
