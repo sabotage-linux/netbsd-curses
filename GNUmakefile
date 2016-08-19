@@ -484,6 +484,7 @@ libterminfo/hash.c: $(TOOL_NBPERF)
 libterminfo/termcap_hash.c: $(TOOL_NBPERF)
 libterminfo/compiled_terms.c: $(TOOL_TIC)
 libterminfo/term.c: libterminfo/compiled_terms.c
+libterminfo/term.o: libterminfo/compiled_terms.c
 libterminfo/termcap.c: libterminfo/termcap_hash.c
 
 CLEANFILES+=libterminfo/hash.c libterminfo/termcap_hash.c \
