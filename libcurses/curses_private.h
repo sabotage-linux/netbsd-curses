@@ -41,6 +41,7 @@
 
 #include <term.h>
 #include <termios.h>
+#include <limits.h>
 
 /* Private structure definitions for curses. */
 
@@ -254,7 +255,9 @@ struct __screen {
 	wchar_t *unget_list;
 	int unget_len, unget_pos;
 #ifdef HAVE_WCHAR
+#ifndef MB_LEN_MAX
 #define MB_LEN_MAX 8
+#endif
 #define MAX_CBUF_SIZE MB_LEN_MAX
 	int		cbuf_head;		/* header to cbuf */
 	int		cbuf_tail;		/* tail to cbuf */
