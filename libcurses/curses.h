@@ -1010,6 +1010,8 @@ int wbkgrnd(WINDOW *, const cchar_t *);
 void wbkgrndset(WINDOW *, const cchar_t *);
 int wgetbkgrnd(WINDOW *, cchar_t *);
 
+int set_escdelay(int);
+
 /* Private functions that are needed for user programs prototypes. */
 int	 __cputchar(int);
 int	 __waddbytes(WINDOW *, const char *, int, attr_t);
