@@ -162,6 +162,18 @@ if you have trouble compiling a specific package, first look at the
 if you still can't get the package to compile, feel free to open an issue
 [at the netbsd-curses issue tracker][5].
 
+License
+-------
+libcurses, tset and tput are (C) 1980-1994
+"The Regents of the University of California" licensed under the 3-clause BSD
+license.
+Everything else is (C) 1999-2016 The NetBSD Foundation, Inc. and Contributors,
+licensed under the 2-clause BSD license.
+see COPYING for the full text, and in doubt, consult the copyright clauses in
+the respective .c files. Files without copyright clauses in the file header
+are explicitly released under the terms of the 2-clause BSD license as well.
+
+
 APPENDIX A: Test Setup used for comparison in Table 1
 -----------------------------------------------------
 All tests were done on a dual core x86_64 sabotage linux system, with the following
