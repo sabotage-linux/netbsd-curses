@@ -27,6 +27,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <netbsd_sys/emalloc.h>
 #include <netbsd_sys/cdefs.h>
 
 #include <sys/ioctl.h>
@@ -39,7 +40,6 @@
 #include <term_private.h>
 #include <term.h>
 #include <unistd.h>
-#include <netbsd_sys/emalloc.h>
 
 #define SW 8
 
