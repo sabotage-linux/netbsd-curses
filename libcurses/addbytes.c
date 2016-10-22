@@ -1,4 +1,4 @@
-/*	$NetBSD: addbytes.c,v 1.42 2013/11/10 03:14:16 christos Exp $	*/
+/*	$NetBSD: addbytes.c,v 1.43 2016/10/22 21:55:06 christos Exp $	*/
 
 /*
  * Copyright (c) 1987, 1993, 1994
@@ -532,7 +532,7 @@ _cursesi_addwchar(WINDOW *win, __LINE **lnp, int *y, int *x,
 
 	if (wch->elements > 1) {
 		for (i = 1; i < wch->elements; i++) {
-			np = (nschar_t *)malloc(sizeof(nschar_t));
+			np = malloc(sizeof(nschar_t));
 			if (!np)
 				return ERR;;
 			np->ch = wch->vals[i];

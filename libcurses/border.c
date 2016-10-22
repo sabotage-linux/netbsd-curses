@@ -1,4 +1,4 @@
-/*	$NetBSD: border.c,v 1.15 2013/05/05 14:23:16 jdc Exp $	*/
+/*	$NetBSD: border.c,v 1.16 2016/10/22 21:55:06 christos Exp $	*/
 
 /*
  * Copyright (c) 2000 The NetBSD Foundation, Inc.
@@ -317,7 +317,7 @@ int wborder_set(WINDOW *win, const cchar_t *ls, const cchar_t *rs,
 				SET_WCOL( win->alines[i]->line[j], cw );
 				if ( left.elements > 1 ) {
 					for (k = 1; k < left.elements; k++) {
-						np = (nschar_t *)malloc(sizeof(nschar_t));
+						np = malloc(sizeof(nschar_t));
 						if (!np)
 							return ERR;
 						np->ch = left.vals[ k ];
@@ -360,7 +360,7 @@ int wborder_set(WINDOW *win, const cchar_t *ls, const cchar_t *rs,
 				SET_WCOL( win->alines[i]->line[j], cw );
 				if ( right.elements > 1 ) {
 					for (k = 1; k < right.elements; k++) {
-						np = (nschar_t *)malloc(sizeof(nschar_t));
+						np = malloc(sizeof(nschar_t));
 						if (!np)
 							return ERR;
 						np->ch = right.vals[ k ];
@@ -426,7 +426,7 @@ int wborder_set(WINDOW *win, const cchar_t *ls, const cchar_t *rs,
 				SET_WCOL( win->alines[ 0 ]->line[ i + j ], cw );
 				if ( top.elements > 1 ) {
 					for ( k = 1; k < top.elements; k++ ) {
-						np = (nschar_t *)malloc(sizeof(nschar_t));
+						np = malloc(sizeof(nschar_t));
 						if (!np)
 							return ERR;
 						np->ch = top.vals[ k ];
@@ -469,7 +469,8 @@ int wborder_set(WINDOW *win, const cchar_t *ls, const cchar_t *rs,
 				if ( bottom.elements > 1 ) {
 					for ( k = 1; k < bottom.elements;
 							k++ ) {
-						if ( !( np = ( nschar_t *)malloc( sizeof( nschar_t ))))
+						np = malloc(sizeof(nschar_t));
+						if (!np)
 							return ERR;
 						np->ch = bottom.vals[ k ];
 						np->next = win->alines[endy]->line[i + j].nsp;
@@ -512,7 +513,7 @@ int wborder_set(WINDOW *win, const cchar_t *ls, const cchar_t *rs,
 				if ( topleft.elements > 1 ) {
 					for ( k = 1; k < topleft.elements;
 							k++ ) {
-						np = (nschar_t *)malloc(sizeof(nschar_t));
+						np = malloc(sizeof(nschar_t));
 						if (!np)
 							return ERR;
 						np->ch = topleft.vals[ k ];
@@ -540,7 +541,7 @@ int wborder_set(WINDOW *win, const cchar_t *ls, const cchar_t *rs,
 				if ( topright.elements > 1 ) {
 					for ( k = 1; k < topright.elements;
 							k++ ) {
-						np = (nschar_t *)malloc(sizeof(nschar_t));
+						np = malloc(sizeof(nschar_t));
 						if (!np)
 							return ERR;
 						np->ch = topright.vals[ k ];
@@ -572,7 +573,7 @@ int wborder_set(WINDOW *win, const cchar_t *ls, const cchar_t *rs,
 				if ( botleft.elements > 1 ) {
 					for ( k = 1; k < botleft.elements;
 							k++ ) {
-						np = (nschar_t *)malloc(sizeof(nschar_t));
+						np = malloc(sizeof(nschar_t));
 						if (!np)
 							return ERR;
 						np->ch = botleft.vals[ k ];
@@ -600,7 +601,7 @@ int wborder_set(WINDOW *win, const cchar_t *ls, const cchar_t *rs,
 					  brcw );
 				if ( botright.elements > 1 ) {
 					for ( k = 1; k < botright.elements; k++ ) {
-						np = (nschar_t *)malloc(sizeof(nschar_t));
+						np = malloc(sizeof(nschar_t));
 						if (!np)
 							return ERR;
 						np->ch = botright.vals[ k ];

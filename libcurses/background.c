@@ -1,4 +1,4 @@
-/*	$NetBSD: background.c,v 1.15 2009/07/22 16:57:14 roy Exp $	*/
+/*	$NetBSD: background.c,v 1.16 2016/10/22 21:55:06 christos Exp $	*/
 
 /*-
  * Copyright (c) 2000 The NetBSD Foundation, Inc.
@@ -212,7 +212,7 @@ void wbkgrndset(WINDOW *win, const cchar_t *wch)
 		win->bch = wch->vals[ 0 ];
 	else {
 		if ( !np ) {
-			np = (nschar_t *)malloc(sizeof(nschar_t));
+			np = malloc(sizeof(nschar_t));
 			if (!np)
 				return;
 			np->next = NULL;
@@ -226,7 +226,7 @@ void wbkgrndset(WINDOW *win, const cchar_t *wch)
 	if ( wch->elements > 1 ) {
 		for ( i = 1; i < wch->elements; i++ ) {
 			if ( !np ) {
-				np = (nschar_t *)malloc(sizeof(nschar_t));
+				np = malloc(sizeof(nschar_t));
 				if (!np)
 					return;
 				np->next = NULL;
