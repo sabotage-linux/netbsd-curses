@@ -1,4 +1,4 @@
-/*	$NetBSD: printw.c,v 1.22 2011/07/17 20:54:34 joerg Exp $	*/
+/*	$NetBSD: printw.c,v 1.23 2016/10/23 21:20:56 christos Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -47,8 +47,6 @@ static inline void* funopen(void* a, ...) {
 /*
  * printw and friends.
  */
-
-static int __winwrite __P((void *, const char *, int));
 
 /*
  * printw --
@@ -116,24 +114,21 @@ mvwprintw(WINDOW * win, int y, int x, const char *fmt,...)
 /*
  * Internal write-buffer-to-window function.
  */
-static int
-__winwrite(cookie, buf, n)
-	void   *cookie;
-	const char *buf;
-	int     n;
+static ssize_t
+winwrite(void   *cookie, const void *vbuf, size_t n)
 {
 	WINDOW *win;
-	int     c;
+	size_t     c;
+	const char *buf = vbuf;
 
-	for (c = n, win = cookie; --c >= 0;)
-	{
+	for (c = 0, win = cookie; c < n; c++) {
 #ifdef DEBUG
 		__CTRACE(__CTRACE_MISC, "__winwrite: %c\n", *buf);
 #endif
 		if (waddch(win, (chtype) (*buf++ & __CHARTEXT)) == ERR)
 			return (-1);
 	}
-	return (n);
+	return (ssize_t)n;
 }
 /*
  * vw_printw --
@@ -142,12 +137,14 @@ __winwrite(cookie, buf, n)
 int
 vw_printw(WINDOW *win, const char *fmt, va_list ap)
 {
-	FILE   *f;
-
-	if ((f = funopen(win, NULL, __winwrite, NULL, NULL)) == NULL)
-		return (ERR);
-	(void) vfprintf(f, fmt, ap);
-	return (fclose(f) ? ERR : OK);
+	if (win->fp == NULL) {
+		win->fp = funopen2(win, NULL, winwrite, NULL, NULL, NULL);
+		if (win->fp == NULL)
+			return ERR;
+	}
+	vfprintf(win->fp, fmt, ap);
+	fflush(win->fp);
+	return OK;
 }
 
 __strong_alias(vwprintw, vw_printw)
