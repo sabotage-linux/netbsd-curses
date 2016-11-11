@@ -25,6 +25,7 @@ ifneq ($(HOSTCC),$(CC))
 CROSSCOMPILING=1
 else
 CROSSCOMPILING=0
+CFLAGS_HOST=$(CFLAGS)
 endif
 
 ifneq (,$(findstring $(PIC),$(CFLAGS)))
