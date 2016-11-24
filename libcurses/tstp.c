@@ -1,4 +1,4 @@
-/*	$NetBSD: tstp.c,v 1.40 2013/10/15 13:00:52 christos Exp $	*/
+/*	$NetBSD: tstp.c,v 1.41 2016/11/24 14:49:08 christos Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -211,6 +211,8 @@ __stopwin(void)
 #ifdef DEBUG
 	__CTRACE(__CTRACE_MISC, "__stopwin\n");
 #endif
+	if (_cursesi_screen == NULL)
+		return ERR;
 	if (_cursesi_screen->endwin)
 		return OK;
 
