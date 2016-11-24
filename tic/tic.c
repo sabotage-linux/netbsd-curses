@@ -1,4 +1,4 @@
-/* $NetBSD: tic.c,v 1.25 2016/02/24 12:01:44 roy Exp $ */
+/* $NetBSD: tic.c,v 1.26 2016/11/24 17:12:23 christos Exp $ */
 
 /*
  * Copyright (c) 2009, 2010 The NetBSD Foundation, Inc.
@@ -116,6 +116,7 @@ save_term(struct cdbw *db, TERM *term)
 		memcpy(buf + 7, term->name, slen);
 		if (cdbw_put(db, term->name, slen, buf, len))
 			err(1, "cdbw_put");
+		free(buf);
 		return 0;
 	}
 
