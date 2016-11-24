@@ -1,4 +1,4 @@
-/* $NetBSD: term.c,v 1.19 2015/11/26 01:03:22 christos Exp $ */
+/* $NetBSD: term.c,v 1.20 2016/11/24 17:09:55 christos Exp $ */
 
 /*
  * Copyright (c) 2009, 2010, 2011 The NetBSD Foundation, Inc.
@@ -84,12 +84,13 @@ _ti_readterm(TERMINAL *term, const char *cap, size_t caplen, int flags)
 	size_t len;
 	TERMUSERDEF *ud;
 
+	if (caplen == 0)
+		goto out;
 	ver = *cap++;
+	caplen--;
 	/* Only read version 1 structures */
-	if (ver != 1) {
-		errno = EINVAL;
-		return -1;
-	}
+	if (ver != 1)
+		goto out;
 
 
 	if (allocset(&term->flags, 0, TIFLAGMAX + 1, sizeof(*term->flags)) == -1)
@@ -232,8 +233,7 @@ _ti_readterm(TERMINAL *term, const char *cap, size_t caplen, int flags)
 				cap += len;
 				break;
 			default:
-				errno = EINVAL;
-				return -1;
+				goto out;
 			}
 		}
 	} else {
@@ -245,6 +245,9 @@ _ti_readterm(TERMINAL *term, const char *cap, size_t caplen, int flags)
 	}
 
 	return 1;
+out:
+	errno = EINVAL;
+	return -1;
 }
 
 static int
