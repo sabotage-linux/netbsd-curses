@@ -1,4 +1,4 @@
-/*	$NetBSD: addbytes.c,v 1.43 2016/10/22 21:55:06 christos Exp $	*/
+/*	$NetBSD: addbytes.c,v 1.44 2016/11/28 18:25:26 christos Exp $	*/
 
 /*
  * Copyright (c) 1987, 1993, 1994
@@ -212,9 +212,11 @@ _cursesi_addbyte(WINDOW *win, __LINE **lp, int *y, int *x, int c,
 		case '\t':
 			tabsize = win->screen->TABSIZE;
 			PSYNCH_OUT;
-			for (i = 0; i < (tabsize - (*x % tabsize)); i++) {
+			newx = tabsize - (*x % tabsize);
+			for (i = 0; i < newx; i++) {
 				if (waddbytes(win, blank, 1) == ERR)
 					return (ERR);
+				(*x)++;
 			}
 			PSYNCH_IN;
 			return (OK);
@@ -375,9 +377,11 @@ _cursesi_addwchar(WINDOW *win, __LINE **lnp, int *y, int *x,
 			cc.elements = 1;
 			cc.attributes = win->wattr;
 			tabsize = win->screen->TABSIZE;
-			for (i = 0; i < tabsize - (*x % tabsize); i++) {
+			newx = tabsize - (*x % tabsize);
+			for (i = 0; i < newx; i++) {
 				if (wadd_wch(win, &cc) == ERR)
 					return ERR;
+				(*x)++;
 			}
 			return OK;
 		}
