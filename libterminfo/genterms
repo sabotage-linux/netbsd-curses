@@ -48,6 +48,8 @@ screen
 rxvt-unicode
 rxvt-unicode-256color
 st-256color
+dvtm
+dvtm-256color
 "
 
 ${TOOL_TIC} -Sx ${TERMINFO} ${TERMLIST}
