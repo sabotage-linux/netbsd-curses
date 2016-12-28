@@ -155,7 +155,7 @@ a small percentage of apps written for ncurses poke at internals and need
 light patching:
 
 - [patch for midnight commander][2] - merged upstream as rev 38d4c655d
-- [patch for python 2.7][3]
+- [patch for python 2.7.x and 3.6][3]
 
 if you have trouble compiling a specific package, first look at the
 [sabotage linux build recipes][4].
