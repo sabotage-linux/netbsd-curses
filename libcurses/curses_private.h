@@ -1,4 +1,4 @@
-/*	$NetBSD: curses_private.h,v 1.51 2016/10/23 21:20:56 christos Exp $	*/
+/*	$NetBSD: curses_private.h,v 1.52 2016/12/30 22:38:38 roy Exp $	*/
 
 /*-
  * Copyright (c) 1998-2000 Brett Lymn
@@ -255,6 +255,7 @@ struct __screen {
 	int resized;
 	wchar_t *unget_list;
 	int unget_len, unget_pos;
+	int filtered;
 #ifdef HAVE_WCHAR
 #ifndef MB_LEN_MAX
 #define MB_LEN_MAX 8
