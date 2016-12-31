@@ -1,4 +1,4 @@
-/*	$NetBSD: refresh.c,v 1.80 2016/01/10 08:11:06 jdc Exp $	*/
+/*	$NetBSD: refresh.c,v 1.81 2016/12/31 22:47:01 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -31,6 +31,7 @@
 
 #include <netbsd_sys/cdefs.h>
 
+#include <poll.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -579,6 +580,16 @@ doupdate(void)
 			quickch();
 	}
 
+	if (_cursesi_screen->checkfd != -1) {
+		struct pollfd fds[1];
+
+		/* If we have input, abort the update. */
+		fds[0].fd = _cursesi_screen->checkfd;
+		fds[0].events = POLLIN;
+		if (poll(fds, 1, 0) > 0)
+			goto cleanup;
+	}
+
 #ifdef DEBUG
 	{
 		int	i, j;
@@ -709,6 +720,7 @@ doupdate(void)
 		}
 	}
 
+cleanup:
 	/* Don't leave the screen with attributes set. */
 	__unsetattr(0);
 #ifdef DEBUG
