@@ -111,6 +111,7 @@ mvwprintw(WINDOW * win, int y, int x, const char *fmt,...)
 	va_end(ap);
 	return (ret);
 }
+#if 0
 /*
  * Internal write-buffer-to-window function.
  */
@@ -130,6 +131,7 @@ winwrite(void   *cookie, const void *vbuf, size_t n)
 	}
 	return (ssize_t)n;
 }
+#endif
 /*
  * vw_printw --
  *	This routine actually executes the printf and adds it to the window.
@@ -137,6 +139,7 @@ winwrite(void   *cookie, const void *vbuf, size_t n)
 int
 vw_printw(WINDOW *win, const char *fmt, va_list ap)
 {
+#if 0
 	if (win->fp == NULL) {
 		win->fp = funopen2(win, NULL, winwrite, NULL, NULL, NULL);
 		if (win->fp == NULL)
@@ -145,6 +148,15 @@ vw_printw(WINDOW *win, const char *fmt, va_list ap)
 	vfprintf(win->fp, fmt, ap);
 	fflush(win->fp);
 	return OK;
+#else
+	char buf[4096], *p = buf;
+	int c, ret = vsnprintf(buf, sizeof buf, fmt, ap);
+	if(ret < 0 || ret >= sizeof buf) return ERR;
+	for (c = ret; --c >= 0;)
+		if (waddch(win, (chtype) (*p++ & __CHARTEXT)) == ERR)
+                        return ERR;
+	return OK;
+#endif
 }
 
 __strong_alias(vwprintw, vw_printw)
