@@ -1,4 +1,4 @@
-/*	$NetBSD: line.c,v 1.7 2017/01/02 08:44:12 roy Exp $	*/
+/*	$NetBSD: line.c,v 1.8 2017/01/02 10:28:35 roy Exp $	*/
 
 /*-
  * Copyright (c) 1998-1999 Brett Lymn
@@ -238,6 +238,7 @@ int whline_set(WINDOW *win, const cchar_t *wch, int n)
 	}
 
 	wmove(win, win->cury, ocurx);
+	__sync(win);
 	return OK;
 #endif /* HAVE_WCHAR */
 }
@@ -297,7 +298,9 @@ int wvline_set(WINDOW *win, const cchar_t *wch, int n)
 		    ocury + i, ocurx);
 #endif /* DEBUG */
 	}
+
 	wmove(win, ocury, ocurx);
+	__sync(win);
 	return OK;
 #endif /* HAVE_WCHAR */
 }

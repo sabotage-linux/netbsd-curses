@@ -1,4 +1,4 @@
-/*	$NetBSD: clrtobot.c,v 1.22 2012/02/19 19:38:13 christos Exp $	*/
+/*	$NetBSD: clrtobot.c,v 1.23 2017/01/02 10:28:34 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -107,5 +107,6 @@ wclrtobot(WINDOW *win)
 				    (int) (maxx - win->alines[y]->line));
 		startx = 0;
 	}
+	__sync(win);
 	return (OK);
 }

@@ -1,4 +1,4 @@
-/*	$NetBSD: insdelln.c,v 1.16 2009/07/22 16:57:15 roy Exp $	*/
+/*	$NetBSD: insdelln.c,v 1.17 2017/01/02 10:28:34 roy Exp $	*/
 
 /*
  * Copyright (c) 2000 The NetBSD Foundation, Inc.
@@ -174,5 +174,6 @@ winsdelln(WINDOW *win, int nlines)
 	}
 	if (win->orig != NULL)
 		__id_subwins(win->orig);
+	__sync(win);
 	return (OK);
 }

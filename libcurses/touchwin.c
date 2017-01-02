@@ -1,4 +1,4 @@
-/*	$NetBSD: touchwin.c,v 1.28 2016/01/07 07:37:08 jdc Exp $	*/
+/*	$NetBSD: touchwin.c,v 1.29 2017/01/02 10:28:35 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -35,6 +35,20 @@
 #include "curses_private.h"
 
 static int _cursesi_touchline_force(WINDOW *, int, int, int, int);
+
+/*
+ * __sync --
+ *	To be called after each window change.
+ */
+void
+__sync(WINDOW *win)
+{
+
+	if (win->flags & __IMMEDOK)
+		wrefresh(win);
+	if (win->flags & __SYNCOK)
+		wsyncup(win);
+}
 
 /*
  * is_linetouched --

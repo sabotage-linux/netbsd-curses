@@ -1,4 +1,4 @@
-/*   $NetBSD: ins_wstr.c,v 1.8 2016/10/22 21:55:06 christos Exp $ */
+/*   $NetBSD: ins_wstr.c,v 1.9 2017/01/02 10:28:34 roy Exp $ */
 
 /*
  * Copyright (c) 2005 The NetBSD Foundation Inc.
@@ -327,6 +327,7 @@ wins_nwstr(WINDOW *win, const wchar_t *wstr, int n)
 	if (newx > *lnp->lastchp)
 		*lnp->lastchp = newx;
 	__touchline(win, (int) win->cury, sx, (int) win->maxx - 1);
+	__sync(win);
 	return OK;
 #endif /* HAVE_WCHAR */
 }
