@@ -40,6 +40,10 @@
 #ifndef _CURSES_H_
 #define	_CURSES_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <sys/types.h>
 #include <stdint.h>
 #include <wchar.h>
@@ -609,9 +613,6 @@ extern int	 TABSIZE;		/* Size of a tab. */
 
 #else
 /* Use functions not macros... */
-#ifdef __cplusplus
-extern "C" {
-#endif
 int	 addbytes(const char *, int);
 int	 addch(chtype);
 int	 addchnstr(const chtype *, int);
@@ -690,9 +691,6 @@ int	 mvwgetnstr(WINDOW *, int, int, char *, int);
 int	 mvwgetstr(WINDOW *, int, int, char *);
 chtype	 mvwinch(WINDOW *, int, int);
 int	 mvwinsch(WINDOW *, int, int, chtype);
-#ifdef __cplusplus
-}
-#endif
 #endif /* _CURSES_USE_MACROS */
 
 #define	getyx(w, y, x)		(y) = getcury(w), (x) = getcurx(w)
@@ -719,9 +717,6 @@ int	 mvwinsch(WINDOW *, int, int, chtype);
 
 
 /* Public function prototypes. */
-#ifdef __cplusplus
-extern "C" {
-#endif
 int	 assume_default_colors(short, short);
 int	 baudrate(void);
 int	 beep(void);
@@ -1044,6 +1039,7 @@ int	 __waddbytes(WINDOW *, const char *, int, attr_t);
 #ifdef HAVE_WCHAR
 int __cputwchar( wchar_t );
 #endif /* HAVE_WCHAR */
+
 #ifdef __cplusplus
 }
 #endif
