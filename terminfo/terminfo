@@ -1653,11 +1653,12 @@ linux2.6|linux 2.6.x console,
 # The 3.0 kernel adds support for clearing scrollback buffer (capability E3).
 # It is the same as xterm's erase-saved-lines feature.
 linux3.0|linux 3.0 kernels,
+	acsc=aajjkkllmmqqttuuxx,
 	E3=\E[3J, use=linux2.6,
 
 # This is Linux console for ncurses.
 linux|linux console,
-	use=linux2.2,
+	use=linux3.0,
 
 # Subject: linux 2.6.26 vt back_color_erase
 # Changes to the Linux console driver broke bce model as reported in
