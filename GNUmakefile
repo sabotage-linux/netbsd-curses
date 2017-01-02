@@ -535,6 +535,11 @@ $(FO_LIBSO): $(CU_LIBSO)
 $(FO_LIBSO): $(FO_LOBJS)
 	$(CC) -shared -o $@ $^ -Wl,-soname=$(notdir $@)
 
+# Allow terminfo descriptions to be compiled into libterminfo
+${TERMINFODIR}/terminfo.cdb: $(TOOL_TIC) ${TERMINFODIR}/terminfo
+		@echo "Generating compiled terminfo database"
+		$^
+
 .PHONY: all all-static all-dynamic install install-tic install-tset \
 	install-tput install-infocmp install-tabs install-progs \
 	install-headers-curses install-headers-terminfo \
