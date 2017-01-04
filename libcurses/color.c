@@ -1,4 +1,4 @@
-/*	$NetBSD: color.c,v 1.38 2011/10/03 12:32:15 roy Exp $	*/
+/*	$NetBSD: color.c,v 1.39 2017/01/03 12:39:44 roy Exp $	*/
 
 /*
  * Copyright (c) 2000 The NetBSD Foundation, Inc.
@@ -51,6 +51,9 @@ struct __pair	__default_pair = {COLOR_WHITE, COLOR_BLACK, 0};
 static void
 __change_pair(short);
 
+static int
+init_color_value(short, short, short, short);
+
 /*
  * has_colors --
  *	Check if terminal has colours.
@@ -79,8 +82,6 @@ can_change_color(void)
 	else
 		return(FALSE);
 }
-
-static int init_color_local(short color, short red, short green, short blue);
 
 /*
  * start_color --
@@ -190,22 +191,23 @@ start_color(void)
 #endif
 
 	/* Set up initial 8 colours */
+#define	RGB_ON	680	/* Allow for bright colours */
 	if (COLORS >= COLOR_BLACK)
-		(void) init_color_local(COLOR_BLACK, 0, 0, 0);
+		(void) init_color_value(COLOR_BLACK, 0, 0, 0);
 	if (COLORS >= COLOR_RED)
-		(void) init_color_local(COLOR_RED, 680, 0, 0);
+		(void) init_color_value(COLOR_RED, RGB_ON, 0, 0);
 	if (COLORS >= COLOR_GREEN)
-		(void) init_color_local(COLOR_GREEN, 0, 680, 0);
+		(void) init_color_value(COLOR_GREEN, 0, RGB_ON, 0);
 	if (COLORS >= COLOR_YELLOW)
-		(void) init_color_local(COLOR_YELLOW, 680, 680, 0);
+		(void) init_color_value(COLOR_YELLOW, RGB_ON, RGB_ON, 0);
 	if (COLORS >= COLOR_BLUE)
-		(void) init_color_local(COLOR_BLUE, 0, 0, 680);
+		(void) init_color_value(COLOR_BLUE, 0, 0, RGB_ON);
 	if (COLORS >= COLOR_MAGENTA)
-		(void) init_color_local(COLOR_MAGENTA, 680, 0, 680);
+		(void) init_color_value(COLOR_MAGENTA, RGB_ON, 0, RGB_ON);
 	if (COLORS >= COLOR_CYAN)
-		(void) init_color_local(COLOR_CYAN, 0, 680, 680);
+		(void) init_color_value(COLOR_CYAN, 0, RGB_ON, RGB_ON);
 	if (COLORS >= COLOR_WHITE)
-		(void) init_color_local(COLOR_WHITE, 680, 680, 680);
+		(void) init_color_value(COLOR_WHITE, RGB_ON, RGB_ON, RGB_ON);
 
 	/* Initialise other colours */
 	for (i = 8; i < COLORS; i++) {
@@ -380,33 +382,41 @@ pair_content(short pair, short *forep, short *backp)
 	return(OK);
 }
 
-static int init_color_local(short color, short red, short green, short blue) {
-#ifdef DEBUG
-	__CTRACE(__CTRACE_COLOR, "init_color: %d, %d, %d, %d\n",
-	    color, red, green, blue);
-#endif
+/*
+ * init_color_Value --
+ *	Set colour red, green and blue values.
+ */
+static int
+init_color_value(short color, short red, short green, short blue)
+{
 	if (color < 0 || color >= _cursesi_screen->COLORS)
-		return(ERR);
+		return ERR;
 
 	_cursesi_screen->colours[color].red = red;
 	_cursesi_screen->colours[color].green = green;
 	_cursesi_screen->colours[color].blue = blue;
-	return (OK);
+	return OK;
 }
 
 /*
  * init_color --
  *	Set colour red, green and blue values.
+ *	Change color on screen.
  */
 int
 init_color(short color, short red, short green, short blue)
 {
-	if((ERR) == init_color_local(color, red, green, blue)) return (ERR);
-
-	if(!can_change || initialize_color == NULL) return (ERR);
-	tputs(tiparm(t_initialize_color(_cursesi_screen->term), color, red, green, blue), 0, __cputchar);
-	return (OK);
-	/* XXX: need to initialise Tek style (Ic) and support HLS */
+#ifdef DEBUG
+	__CTRACE(__CTRACE_COLOR, "init_color: %d, %d, %d, %d\n",
+	    color, red, green, blue);
+#endif
+	if (init_color_value(color, red, green, blue) == ERR)
+		return ERR;
+	if (!can_change || t_initialize_color(_cursesi_screen->term) == NULL)
+		return ERR;
+	tputs(tiparm(t_initialize_color(_cursesi_screen->term),
+	             color, red, green, blue), 0, __cputchar);
+	return OK;
 }
 
 /*
