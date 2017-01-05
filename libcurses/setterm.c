@@ -1,4 +1,4 @@
-/*	$NetBSD: setterm.c,v 1.56 2016/12/31 17:46:35 roy Exp $	*/
+/*	$NetBSD: setterm.c,v 1.57 2017/01/05 20:31:37 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -127,13 +127,15 @@ _cursesi_setterm(char *type, SCREEN *screen)
 			screen->COLS = (int) strtol(p, NULL, 0);
 	}
 	if ((p = getenv("ESCDELAY")) != NULL)
-		ESCDELAY = (int) strtol(p, NULL, 0);
+		screen->ESCDELAY = (int) strtol(p, NULL, 0);
+	else
+		screen->ESCDELAY = ESCDELAY_DEFAULT;
 	if ((p = getenv("TABSIZE")) != NULL)
 		screen->TABSIZE = (int) strtol(p, NULL, 0);
 	else if (t_init_tabs(screen->term) >= 0)
 		screen->TABSIZE = (int) t_init_tabs(screen->term);
 	else
-		screen->TABSIZE = 8;
+		screen->TABSIZE = TABSIZE_DEFAULT;
 	/*
 	 * Want cols > 4, otherwise things will fail.
 	 */
@@ -142,6 +144,7 @@ _cursesi_setterm(char *type, SCREEN *screen)
 
 	LINES = screen->LINES;
 	COLS = screen->COLS;
+	ESCDELAY = screen->ESCDELAY;
 	TABSIZE = screen->TABSIZE;
 
 #ifdef DEBUG
@@ -273,6 +276,7 @@ _cursesi_resetterm(SCREEN *screen)
 
 	LINES = screen->LINES;
 	COLS = screen->COLS;
+	ESCDELAY = screen->ESCDELAY;
 	TABSIZE = screen->TABSIZE;
 	__GT = screen->GT;
 
@@ -381,4 +385,17 @@ does_ctrl_o(const char *exit_cap, const char *acs_cap)
 		eptr++;
 	}
 	return 0;
+}
+
+/*
+ * set_tabsize --
+ *   Sets the tabsize for the current screen.
+ */
+int
+set_tabsize(int tabsize)
+{
+
+	_cursesi_screen->TABSIZE = tabsize;
+	TABSIZE = tabsize;
+	return OK;
 }
