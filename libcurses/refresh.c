@@ -1261,9 +1261,6 @@ makech(int wy)
 #endif
 #else
 				if (WCOL(*nsp) > 0) {
-/* FIXME: putting a character advances the cursor, but the internal
-   housekeeping is not updated, this prevents from using the now commented
-   out optimization in domvcur(). */
 					__cputwchar((int)nsp->ch);
 #ifdef DEBUG
 					__CTRACE(__CTRACE_REFRESH,
@@ -1344,18 +1341,8 @@ domvcur(int oy, int ox, int ny, int nx)
 	    oy, ox, ny, nx );
 #endif /* DEBUG */
 	__unsetattr(1);
-/* FIXME: we have to turn off this optimization, because the internal cursor
-   position is not updated in makech() when putting a character.
-   eventually this optimization was not here when the other code was written,
-   so the author assumed that calling domvcur() would take care of that.
-   this causes breakage in a loop like:
-   for(i...) { move(0, 0); addch("\\-/|"[i%4]); refresh(); sleep(1); }
-   which is supposed to create a rotating wheel animation, but actually wrote
-   "\-/|\-/|\-/|\-/|\-/|" etc to the screen since the move() call turned NOP. */
-#if 0
 	if ( oy == ny && ox == nx )
 		return;
-#endif
 	__mvcur(oy, ox, ny, nx, 1);
 }
 
