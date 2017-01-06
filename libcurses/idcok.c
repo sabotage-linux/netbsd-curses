@@ -1,4 +1,4 @@
-/*	$NetBSD: idcok.c,v 1.1 2002/07/19 13:22:41 blymn Exp $	*/
+/*	$NetBSD: idcok.c,v 1.2 2017/01/06 13:53:18 roy Exp $	*/
 
 /*-
  * Copyright (c) 1998-1999 Brett Lymn (blymn@baea.com.au, brett_lymn@yahoo.com)
@@ -47,5 +47,5 @@ idcok(WINDOW *win, bool bf)
 		win->flags |= __IDCHAR;
 	else
 		win->flags &= ~__IDCHAR;
-	return (OK);
+	return OK;
 }

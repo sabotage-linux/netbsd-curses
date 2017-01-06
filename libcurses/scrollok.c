@@ -1,4 +1,4 @@
-/*	$NetBSD: scrollok.c,v 1.5 2008/04/28 20:23:01 martin Exp $	*/
+/*	$NetBSD: scrollok.c,v 1.6 2017/01/06 13:53:18 roy Exp $	*/
 
 /*-
  * Copyright (c) 1999 The NetBSD Foundation, Inc.
@@ -41,9 +41,10 @@
 int
 scrollok(WINDOW *win, bool bf)
 {
+
 	if (bf)
 		win->flags |= __SCROLLOK;
 	else
 		win->flags &= ~__SCROLLOK;
-	return (OK);
+	return OK;
 }

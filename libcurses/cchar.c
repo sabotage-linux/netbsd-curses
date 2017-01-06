@@ -1,4 +1,4 @@
-/*   $NetBSD: cchar.c,v 1.5 2010/12/16 17:42:28 wiz Exp $ */
+/*   $NetBSD: cchar.c,v 1.6 2017/01/06 13:53:18 roy Exp $ */
 
 /*
  * Copyright (c) 2005 The NetBSD Foundation Inc.
@@ -48,7 +48,7 @@
  */
 int
 getcchar(const cchar_t *wcval, wchar_t *wch, attr_t *attrs,
-					 short *color_pair, void *opts)
+         short *color_pair, void *opts)
 {
 #ifndef HAVE_WCHAR
 	return ERR;
@@ -56,20 +56,20 @@ getcchar(const cchar_t *wcval, wchar_t *wch, attr_t *attrs,
 	wchar_t *wp;
 	size_t len;
 
-	if ( opts )
+	if (opts)
 		return ERR;
 
 	len = (wp = wmemchr(wcval->vals, L'\0', CCHARW_MAX))
 		? wp - wcval->vals : CCHARW_MAX;
 
 	if (wch == NULL)
-		return (int) len;
+		return (int)len;
 	if (attrs == 0 || color_pair == 0)
 		return ERR;
 	if (len > 0) {
 		*attrs = wcval->attributes;
-		*color_pair = COLOR_PAIR( wcval -> attributes );
-		wmemcpy(wch, wcval->vals, (unsigned) len);
+		*color_pair = COLOR_PAIR(wcval ->attributes);
+		wmemcpy(wch, wcval->vals, (unsigned)len);
 		wch[len] = L'\0';
 	}
 	return OK;
@@ -82,7 +82,7 @@ getcchar(const cchar_t *wcval, wchar_t *wch, attr_t *attrs,
  */
 int
 setcchar(cchar_t *wcval, const wchar_t *wch, const attr_t attrs,
-					 short color_pair, const void *opts)
+	 short color_pair, const void *opts)
 {
 #ifndef HAVE_WCHAR
 	return ERR;
@@ -108,8 +108,8 @@ setcchar(cchar_t *wcval, const wchar_t *wch, const attr_t attrs,
 
 	memset(wcval, 0, sizeof(*wcval));
 	if (len != 0) {
-		wcval -> attributes = attrs | color_pair;
-		wcval -> elements = 1;
+		wcval->attributes = attrs | color_pair;
+		wcval->elements = 1;
 		memcpy(&wcval->vals, wch, len * sizeof(wchar_t));
 	}
 

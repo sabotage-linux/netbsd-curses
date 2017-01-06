@@ -1,4 +1,4 @@
-/*	$NetBSD: inch.c,v 1.10 2009/10/06 20:03:27 jdc Exp $	*/
+/*	$NetBSD: inch.c,v 1.11 2017/01/06 13:53:18 roy Exp $	*/
 
 /*-
  * Copyright (c) 1999 The NetBSD Foundation, Inc.
@@ -43,6 +43,7 @@
 chtype
 inch(void)
 {
+
 	return winch(stdscr);
 }
 
@@ -53,6 +54,7 @@ inch(void)
 chtype
 mvinch(int y, int x)
 {
+
 	return mvwinch(stdscr, y, x);
 }
 
@@ -63,6 +65,7 @@ mvinch(int y, int x)
 chtype
 mvwinch(WINDOW *win, int y, int x)
 {
+
 	if (wmove(win, y, x) == ERR)
 		return ERR;
 

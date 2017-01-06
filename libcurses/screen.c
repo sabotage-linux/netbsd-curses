@@ -1,4 +1,4 @@
-/*	$NetBSD: screen.c,v 1.26 2016/12/31 22:47:01 roy Exp $	*/
+/*	$NetBSD: screen.c,v 1.27 2017/01/06 13:53:18 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -96,7 +96,7 @@ set_term(SCREEN *new)
 
 	_cursesi_reset_acs(new);
 #ifdef HAVE_WCHAR
-    _cursesi_reset_wacs(new);
+	_cursesi_reset_wacs(new);
 #endif /* HAVE_WCHAR */
 
 #ifdef DEBUG
@@ -119,7 +119,7 @@ newterm(char *type, FILE *outfd, FILE *infd)
 	char *sp;
 
 	sp = type;
-	if ((type == NULL) && (sp = getenv("TERM")) == NULL)
+	if (type == NULL && (sp = getenv("TERM")) == NULL)
 		return NULL;
 
 	if ((new_screen = calloc(1, sizeof(SCREEN))) == NULL)

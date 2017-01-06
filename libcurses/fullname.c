@@ -1,4 +1,4 @@
-/*	$NetBSD: fullname.c,v 1.11 2003/08/07 16:44:21 agc Exp $	*/
+/*	$NetBSD: fullname.c,v 1.12 2017/01/06 13:53:18 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993
@@ -53,5 +53,5 @@ fullname(const char *bp, char *def)
 		if (*bp == '|')
 			bp++;	/* Skip over '|' if that is case. */
 	}
-	return (def);
+	return def;
 }

@@ -1,4 +1,4 @@
-/*	$NetBSD: toucholap.c,v 1.16 2015/10/17 00:35:25 uwe Exp $	*/
+/*	$NetBSD: toucholap.c,v 1.17 2017/01/06 13:53:18 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -61,12 +61,12 @@ touchoverlap(WINDOW *win1, WINDOW *win2)
 	    win2->begx + win2->maxx);
 #endif
 	if (starty >= endy || startx >= endx)
-		return (OK);
+		return OK;
 	starty -= win2->begy;
 	startx -= win2->begx;
 	endy -= win2->begy;
 	endx -= win2->begx;
 	for (--endx, y = starty; y < endy; y++)
 		__touchline(win2, y, startx, endx);
-	return (OK);
+	return OK;
 }

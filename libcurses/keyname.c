@@ -1,4 +1,4 @@
-/*	$NetBSD: keyname.c,v 1.6 2008/04/28 20:23:01 martin Exp $	*/
+/*	$NetBSD: keyname.c,v 1.7 2017/01/06 13:53:18 roy Exp $	*/
 
 /*-
  * Copyright (c) 2003 The NetBSD Foundation, Inc.
@@ -239,4 +239,3 @@ key_name(wchar_t key)
 	return s;
 #endif /* HAVE_WCHAR */
 }
-

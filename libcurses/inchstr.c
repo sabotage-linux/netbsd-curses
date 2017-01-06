@@ -1,4 +1,4 @@
-/*	$NetBSD: inchstr.c,v 1.6 2012/04/21 11:33:16 blymn Exp $	*/
+/*	$NetBSD: inchstr.c,v 1.7 2017/01/06 13:53:18 roy Exp $	*/
 
 /*
  * Copyright 2001 Wasabi Systems, Inc.
@@ -51,12 +51,14 @@ __warn_references(inchstr,
 int
 inchstr(chtype *chstr)
 {
+
 	return winchstr(stdscr, chstr);
 }
 
 int
 inchnstr(chtype *chstr, int n)
 {
+
 	return winchnstr(stdscr, chstr, n);
 }
 
@@ -69,12 +71,14 @@ __warn_references(mvinchstr,
 int
 mvinchstr(int y, int x, chtype *chstr)
 {
+
 	return mvwinchstr(stdscr, y, x, chstr);
 }
 
 int
 mvinchnstr(int y, int x, chtype *chstr, int n)
 {
+
 	return mvwinchnstr(stdscr, y, x, chstr, n);
 }
 
@@ -87,6 +91,7 @@ __warn_references(mvwinchstr,
 int
 mvwinchstr(WINDOW *win, int y, int x, chtype *chstr)
 {
+
 	if (wmove(win, y, x) == ERR)
 		return ERR;
 
@@ -96,6 +101,7 @@ mvwinchstr(WINDOW *win, int y, int x, chtype *chstr)
 int
 mvwinchnstr(WINDOW *win, int y, int x, chtype *chstr, int n)
 {
+
 	if (wmove(win, y, x) == ERR)
 		return ERR;
 

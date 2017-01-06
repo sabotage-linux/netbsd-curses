@@ -1,4 +1,4 @@
-/*	$NetBSD: underscore.c,v 1.11 2010/02/03 15:34:40 roy Exp $	*/
+/*	$NetBSD: underscore.c,v 1.12 2017/01/06 13:53:18 roy Exp $	*/
 
 /*-
  * Copyright (c) 1999 The NetBSD Foundation, Inc.
@@ -43,6 +43,7 @@
 int
 underscore(void)
 {
+
 	return wunderscore(stdscr);
 }
 
@@ -54,6 +55,7 @@ underscore(void)
 int
 underend(void)
 {
+
 	return wunderend(stdscr);
 }
 
@@ -66,6 +68,7 @@ underend(void)
 int
 wunderscore(WINDOW *win)
 {
+
 	/* If can underscore, set the screen underscore bit. */
 	if ((enter_underline_mode != NULL && exit_underline_mode != NULL) ||
 	    underline_char != NULL)
@@ -75,7 +78,7 @@ wunderscore(WINDOW *win)
 #endif
 		win->wattr |= __UNDERSCORE;
 	}
-	return (1);
+	return 1;
 }
 
 /*
@@ -85,6 +88,7 @@ wunderscore(WINDOW *win)
 int
 wunderend(WINDOW *win)
 {
+
 	if (exit_underline_mode != NULL) {
 #ifdef DEBUG
 		__CTRACE(__CTRACE_ATTR, "wunderend\n");

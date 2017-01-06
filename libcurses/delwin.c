@@ -1,4 +1,4 @@
-/*	$NetBSD: delwin.c,v 1.19 2016/10/23 21:20:56 christos Exp $	*/
+/*	$NetBSD: delwin.c,v 1.20 2017/01/06 13:53:18 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -52,7 +52,7 @@ delwin(WINDOW *win)
 #endif
 
 	if (win == NULL)
-		return (OK);
+		return OK;
 
 	/*
 	 * Free any storage used by non-spacing characters in the window.
@@ -108,5 +108,5 @@ delwin(WINDOW *win)
 	if (win->fp)
 		fclose(win->fp);
 	free(win);
-	return (OK);
+	return OK;
 }

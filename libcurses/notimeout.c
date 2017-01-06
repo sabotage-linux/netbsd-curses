@@ -1,4 +1,4 @@
-/*      $NetBSD: notimeout.c,v 1.6 2014/02/28 07:58:42 blymn Exp $  */
+/*      $NetBSD: notimeout.c,v 1.7 2017/01/06 13:53:18 roy Exp $  */
 
 /*-
  * Copyright (c) 1998-2014 Brett Lymn (blymn@netbsd.org)
@@ -39,6 +39,7 @@
 int
 notimeout(WINDOW *win, bool bf)
 {
+
 	if (bf)
 		win->flags |= __NOTIMEOUT;
 	else

@@ -1,4 +1,4 @@
-/*	$NetBSD: clrtobot.c,v 1.23 2017/01/02 10:28:34 roy Exp $	*/
+/*	$NetBSD: clrtobot.c,v 1.24 2017/01/06 13:53:18 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -81,7 +81,7 @@ wclrtobot(WINDOW *win)
 #ifndef HAVE_WCHAR
 			if (sp->ch != win->bch || sp->attr != attr) {
 #else
-			if (sp->ch != (wchar_t)btowc((int) win->bch) ||
+			if (sp->ch != (wchar_t)btowc((int)win->bch) ||
 			    (sp->attr & WA_ATTRIBUTES) != attr || sp->nsp) {
 #endif /* HAVE_WCHAR */
 				maxx = sp;
@@ -92,10 +92,10 @@ wclrtobot(WINDOW *win)
 				else
 					sp->attr = attr;
 #ifdef HAVE_WCHAR
-				sp->ch = ( wchar_t )btowc(( int ) win->bch);
+				sp->ch = (wchar_t)btowc((int)win->bch);
 				if (_cursesi_copy_nsp(win->bnsp, sp) == ERR)
 					return ERR;
-				SET_WCOL( *sp, 1 );
+				SET_WCOL(*sp, 1);
 #else
 				sp->ch = win->bch;
 #endif /* HAVE_WCHAR */
@@ -104,9 +104,9 @@ wclrtobot(WINDOW *win)
 
 		if (minx != -1)
 			__touchline(win, y, minx,
-				    (int) (maxx - win->alines[y]->line));
+				    (int)(maxx - win->alines[y]->line));
 		startx = 0;
 	}
 	__sync(win);
-	return (OK);
+	return OK;
 }

@@ -1,4 +1,4 @@
-/*	$NetBSD: syncok.c,v 1.1 2017/01/02 10:28:35 roy Exp $	*/
+/*	$NetBSD: syncok.c,v 1.2 2017/01/06 13:53:18 roy Exp $	*/
 
 /*-
  * Copyright (c) 2017 The NetBSD Foundation, Inc.
@@ -39,9 +39,10 @@
 int
 syncok(WINDOW *win, bool bf)
 {
+
 	if (bf)
 		win->flags |= __SYNCOK;
 	else
 		win->flags &= ~__SYNCOK;
-	return (OK);
+	return OK;
 }

@@ -1,4 +1,4 @@
-/*	$NetBSD: getyx.c,v 1.5 2008/04/28 20:23:01 martin Exp $	*/
+/*	$NetBSD: getyx.c,v 1.6 2017/01/06 13:53:18 roy Exp $	*/
 
 /*
  * Copyright (c) 2000 The NetBSD Foundation, Inc.
@@ -44,13 +44,14 @@
 int
 getpary(WINDOW *win)
 {
+
 	if (win == NULL)
 		return -1;
 
 	if (win->orig == NULL)
 		return -1;
 
-	return (win->begy - win->orig->begy);
+	return win->begy - win->orig->begy;
 }
 
 /*
@@ -61,13 +62,14 @@ getpary(WINDOW *win)
 int
 getparx(WINDOW *win)
 {
+
 	if (win == NULL)
 		return -1;
 
 	if (win->orig == NULL)
 		return -1;
 
-	return (win->begx - win->orig->begx);
+	return win->begx - win->orig->begx;
 }
 
 /*
@@ -77,7 +79,8 @@ getparx(WINDOW *win)
 int
 getcury(WINDOW *win)
 {
-	return(win->cury);
+
+	return win->cury;
 }
 
 /*
@@ -87,7 +90,8 @@ getcury(WINDOW *win)
 int
 getcurx(WINDOW *win)
 {
-	return(win->curx);
+
+	return win->curx;
 }
 
 /*
@@ -97,7 +101,8 @@ getcurx(WINDOW *win)
 int
 getbegy(WINDOW *win)
 {
-	return(win->begy);
+
+	return win->begy;
 }
 
 /*
@@ -107,7 +112,8 @@ getbegy(WINDOW *win)
 int
 getbegx(WINDOW *win)
 {
-	return(win->begx);
+
+	return win->begx;
 }
 
 /*
@@ -117,7 +123,8 @@ getbegx(WINDOW *win)
 int
 getmaxy(WINDOW *win)
 {
-	return(win->maxy);
+
+	return win->maxy;
 }
 
 /*
@@ -127,5 +134,6 @@ getmaxy(WINDOW *win)
 int
 getmaxx(WINDOW *win)
 {
-	return(win->maxx);
+
+	return win->maxx;
 }

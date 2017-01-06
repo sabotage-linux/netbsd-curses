@@ -1,4 +1,4 @@
-/*	$NetBSD: move.c,v 1.17 2010/02/23 19:48:26 drochner Exp $	*/
+/*	$NetBSD: move.c,v 1.18 2017/01/06 13:53:18 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -42,6 +42,7 @@
 int
 move(int y, int x)
 {
+
 	return wmove(stdscr, y, x);
 }
 
@@ -59,14 +60,14 @@ wmove(WINDOW *win, int y, int x)
 	__CTRACE(__CTRACE_MISC, "wmove: (%d, %d)\n", y, x);
 #endif
 	if (x < 0 || y < 0)
-		return (ERR);
+		return ERR;
 	if (x >= win->maxx || y >= win->maxy)
-		return (ERR);
+		return ERR;
 	win->curx = x;
 	win->alines[win->cury]->flags &= ~__ISPASTEOL;
 	win->cury = y;
 	win->alines[y]->flags &= ~__ISPASTEOL;
-	return (OK);
+	return OK;
 }
 
 void
@@ -75,7 +76,7 @@ wcursyncup(WINDOW *win)
 
 	while (win->orig) {
 		wmove(win->orig, win->cury + win->begy - win->orig->begy,
-			win->curx + win->begx - win->orig->begx);
+		      win->curx + win->begx - win->orig->begx);
 		win = win->orig;
 	}
 }

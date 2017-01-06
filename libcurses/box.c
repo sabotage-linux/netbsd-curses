@@ -1,4 +1,4 @@
-/*	$NetBSD: box.c,v 1.14 2007/05/28 15:01:54 blymn Exp $	*/
+/*	$NetBSD: box.c,v 1.15 2017/01/06 13:53:18 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -44,12 +44,13 @@ box(WINDOW *win, chtype vert, chtype hor)
 	return (wborder(win, vert, vert, hor, hor, 0, 0, 0, 0));
 }
 
-int 
+int
 box_set(WINDOW *win, const cchar_t *verch, const cchar_t *horch)
 {
 #ifndef HAVE_WCHAR
 	return ERR;
 #else
-	return wborder_set(win, verch, verch, horch, horch, NULL, NULL, NULL, NULL);
+	return wborder_set(win, verch, verch, horch, horch,
+			   NULL, NULL, NULL, NULL);
 #endif /* HAVE_WCHAR */
 }

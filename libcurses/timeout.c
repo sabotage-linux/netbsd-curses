@@ -1,4 +1,4 @@
-/*	$NetBSD: timeout.c,v 1.8 2009/11/04 21:24:57 dsl Exp $	*/
+/*	$NetBSD: timeout.c,v 1.9 2017/01/06 13:53:18 roy Exp $	*/
 
 /*-
  * Copyright (c) 1999 The NetBSD Foundation, Inc.
@@ -43,6 +43,7 @@
 void
 timeout(int delay)
 {
+
 	wtimeout(stdscr, delay);
 }
 

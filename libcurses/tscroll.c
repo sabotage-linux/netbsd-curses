@@ -1,4 +1,4 @@
-/*	$NetBSD: tscroll.c,v 1.13 2007/01/21 13:25:36 jdc Exp $	*/
+/*	$NetBSD: tscroll.c,v 1.14 2017/01/06 13:53:18 roy Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -41,7 +41,8 @@
 char   *
 __tscroll(const char *cap, int n1, int n2)
 {
-	return (__parse_cap(cap, n1, n2));
+
+	return __parse_cap(cap, n1, n2);
 }
 
 /*
@@ -86,7 +87,7 @@ __parse_cap (char const *cap, ...)
 #ifdef DEBUG
 	{
 		int	i;
-		
+
 		__CTRACE(__CTRACE_MISC, "__parse_cap: cap = ");
 		for (i = 0; i < strlen(cap); i++)
 			__CTRACE(__CTRACE_MISC, "%s", unctrl(cap[i]));
@@ -102,7 +103,7 @@ __parse_cap (char const *cap, ...)
 		switch (c = *cap++) {
 		case 'n':
 			if (!have_input) {
-				n = va_arg (ap, int);
+				n = va_arg(ap, int);
 				have_input = 1;
 #ifdef DEBUG
 				__CTRACE(__CTRACE_MISC,
@@ -113,7 +114,7 @@ __parse_cap (char const *cap, ...)
 			continue;
 		case 'd':
 			if (!have_input) {
-				n = va_arg (ap, int);
+				n = va_arg(ap, int);
 				have_input = 1;
 #ifdef DEBUG
 				__CTRACE(__CTRACE_MISC,
@@ -127,7 +128,7 @@ __parse_cap (char const *cap, ...)
 			/* FALLTHROUGH */
 		case '3':
 			if (!have_input) {
-				n = va_arg (ap, int);
+				n = va_arg(ap, int);
 				have_input = 1;
 #ifdef DEBUG
 				__CTRACE(__CTRACE_MISC,
@@ -139,7 +140,7 @@ __parse_cap (char const *cap, ...)
 			/* FALLTHROUGH */
 		case '2':
 			if (!have_input) {
-				n = va_arg (ap, int);
+				n = va_arg(ap, int);
 				have_input = 1;
 #ifdef DEBUG
 				__CTRACE(__CTRACE_MISC,
@@ -152,7 +153,7 @@ __parse_cap (char const *cap, ...)
 			continue;
 		case '>':
 			if (!have_input) {
-				n = va_arg (ap, int);
+				n = va_arg(ap, int);
 				have_input = 1;
 #ifdef DEBUG
 				__CTRACE(__CTRACE_MISC,
@@ -166,7 +167,7 @@ __parse_cap (char const *cap, ...)
 			continue;
 		case '+':
 			if (!have_input) {
-				n = va_arg (ap, int);
+				n = va_arg(ap, int);
 				have_input = 1;
 #ifdef DEBUG
 				__CTRACE(__CTRACE_MISC,
@@ -177,7 +178,7 @@ __parse_cap (char const *cap, ...)
 			/* FALLTHROUGH */
 		case '.':
 			if (!have_input) {
-				n = va_arg (ap, int);
+				n = va_arg(ap, int);
 				have_input = 1;
 #ifdef DEBUG
 				__CTRACE(__CTRACE_MISC,
@@ -189,7 +190,7 @@ __parse_cap (char const *cap, ...)
 			continue;
 		case 'i':
 			if (!have_input) {
-				n = va_arg (ap, int);
+				n = va_arg(ap, int);
 				have_input = 1;
 #ifdef DEBUG
 				__CTRACE(__CTRACE_MISC,
@@ -203,7 +204,7 @@ __parse_cap (char const *cap, ...)
 			continue;
 		case 'B':
 			if (!have_input) {
-				n = va_arg (ap, int);
+				n = va_arg(ap, int);
 				have_input = 1;
 #ifdef DEBUG
 				__CTRACE(__CTRACE_MISC,
@@ -214,7 +215,7 @@ __parse_cap (char const *cap, ...)
 			continue;
 		case 'D':
 			if (!have_input) {
-				n = va_arg (ap, int);
+				n = va_arg(ap, int);
 				have_input = 1;
 #ifdef DEBUG
 				__CTRACE(__CTRACE_MISC,
@@ -237,9 +238,9 @@ __parse_cap (char const *cap, ...)
 		}
 	}
 	*dp = '\0';
-	va_end (ap);
-	return (result);
+	va_end(ap);
+	return result;
 
-err:	va_end (ap);
-	return ((char *) "\0");
+err:	va_end(ap);
+	return (char *)"\0";
 }

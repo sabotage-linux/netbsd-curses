@@ -1,4 +1,4 @@
-/*      $NetBSD: nodelay.c,v 1.6 2003/12/04 21:24:36 jdc Exp $  */
+/*      $NetBSD: nodelay.c,v 1.7 2017/01/06 13:53:18 roy Exp $  */
 
 /*-
  * Copyright (c) 1998-1999 Brett Lymn (blymn@baea.com.au, brett_lymn@yahoo.com)
@@ -39,9 +39,10 @@
 int
 nodelay(WINDOW *win, bool bf)
 {
+
 	if (bf)
 		win->delay = 0;
 	else
 		win->delay = -1;
-	return(OK);
+	return OK;
 }

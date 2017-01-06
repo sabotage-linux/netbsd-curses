@@ -1,4 +1,4 @@
-/*	$NetBSD: idlok.c,v 1.11 2003/08/07 16:44:22 agc Exp $	*/
+/*	$NetBSD: idlok.c,v 1.12 2017/01/06 13:53:18 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -46,5 +46,5 @@ idlok(WINDOW *win, bool bf)
 		win->flags |= __IDLINE;
 	else
 		win->flags &= ~__IDLINE;
-	return (OK);
+	return OK;
 }

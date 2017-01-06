@@ -1,4 +1,4 @@
-/*	$NetBSD: ctrace.c,v 1.20 2009/01/17 15:25:36 christos Exp $	*/
+/*	$NetBSD: ctrace.c,v 1.21 2017/01/06 13:53:18 roy Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -56,9 +56,8 @@ __CTRACE_init()
 	tm = getenv("CURSES_TRACE_MASK");
 	if (tm == NULL)
 		tracemask = __CTRACE_ALL;
-	else {
-		tracemask = (int) strtol(tm, NULL, 0);
-	}
+	else
+		tracemask = (int)strtol(tm, NULL, 0);
 	if (tracemask < 0)
 		tracemask = (0 - tracemask) ^ __CTRACE_ALL;
 	if (tracemask == 0)
@@ -85,20 +84,19 @@ __CTRACE(int area, const char *fmt,...)
 
 	if (!init_done)
 		__CTRACE_init();
-	if (tracefp == NULL || !(tracemask & area)) {
+	if (tracefp == NULL || !(tracemask & area))
 		return;
-	}
 	gettimeofday(&tv, NULL);
         if (seencr && (tracemask & __CTRACE_TSTAMP)) {
                 gettimeofday(&tv, NULL);
-                (void) fprintf(tracefp, "%llu.%06lu: ", 
+                (void)fprintf(tracefp, "%llu.%06lu: ",
 		    (long long)tv.tv_sec, (long)tv.tv_usec);
         }
 	va_start(ap, fmt);
-        (void) vfprintf(tracefp, fmt, ap);
+        (void)vfprintf(tracefp, fmt, ap);
         seencr = (strchr(fmt, '\n') != NULL);
 	va_end(ap);
-	(void) fflush(tracefp);
+	(void)fflush(tracefp);
 }
 #else
 /* this kills the empty translation unit message from lint... */

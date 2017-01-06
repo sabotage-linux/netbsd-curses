@@ -1,4 +1,4 @@
-/*	$NetBSD: mvwin.c,v 1.19 2014/02/20 09:42:42 blymn Exp $	*/
+/*	$NetBSD: mvwin.c,v 1.20 2017/01/06 13:53:18 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -96,7 +96,7 @@ mvwin(WINDOW *win, int by, int bx)
 	int     dy, dx;
 
 	if (by < 0 || by + win->maxy > LINES || bx < 0 || bx + win->maxx > COLS)
-		return (ERR);
+		return ERR;
 	dy = by - win->begy;
 	dx = bx - win->begx;
 	orig = win->orig;
@@ -119,5 +119,5 @@ mvwin(WINDOW *win, int by, int bx)
 		__set_subwin(orig, win);
 	}
 	__touchwin(win);
-	return (OK);
+	return OK;
 }

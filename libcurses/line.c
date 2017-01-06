@@ -1,4 +1,4 @@
-/*	$NetBSD: line.c,v 1.8 2017/01/02 10:28:35 roy Exp $	*/
+/*	$NetBSD: line.c,v 1.9 2017/01/06 13:53:18 roy Exp $	*/
 
 /*-
  * Copyright (c) 1998-1999 Brett Lymn
@@ -44,6 +44,7 @@
 int
 hline(chtype ch, int count)
 {
+
 	return whline(stdscr, ch, count);
 }
 
@@ -55,6 +56,7 @@ hline(chtype ch, int count)
 int
 mvhline(int y, int x, chtype ch, int count)
 {
+
 	return mvwhline(stdscr, y, x, ch, count);
 }
 
@@ -66,6 +68,7 @@ mvhline(int y, int x, chtype ch, int count)
 int
 mvwhline(WINDOW *win, int y, int x, chtype ch, int count)
 {
+
 	if (wmove(win, y, x) == ERR)
 		return ERR;
 
@@ -114,6 +117,7 @@ whline(WINDOW *win, chtype ch, int count)
 int
 vline(chtype ch, int count)
 {
+
 	return wvline(stdscr, ch, count);
 }
 
@@ -124,6 +128,7 @@ vline(chtype ch, int count)
 int
 mvvline(int y, int x, chtype ch, int count)
 {
+
 	return mvwvline(stdscr, y, x, ch, count);
 }
 
@@ -135,6 +140,7 @@ mvvline(int y, int x, chtype ch, int count)
 int
 mvwvline(WINDOW *win, int y, int x, chtype ch, int count)
 {
+
 	if (wmove(win, y, x) == ERR)
 		return ERR;
 
@@ -248,7 +254,7 @@ int vline_set(const cchar_t *wch, int n)
 #ifndef HAVE_WCHAR
 	return ERR;
 #else
-	return wvline_set( stdscr, wch, n );
+	return wvline_set(stdscr, wch, n);
 #endif /* HAVE_WCHAR */
 }
 
@@ -257,7 +263,7 @@ int mvvline_set(int y, int x, const cchar_t *wch, int n)
 #ifndef HAVE_WCHAR
 	return ERR;
 #else
-	return mvwvline_set( stdscr, y, x, wch, n );
+	return mvwvline_set(stdscr, y, x, wch, n);
 #endif /* HAVE_WCHAR */
 }
 
@@ -266,10 +272,10 @@ int mvwvline_set(WINDOW *win, int y, int x, const cchar_t *wch, int n)
 #ifndef HAVE_WCHAR
 	return ERR;
 #else
-	if ( wmove( win, y, x ) == ERR )
+	if (wmove(win, y, x) == ERR)
 		return ERR;
 
-	return wvline_set( win, wch, n );
+	return wvline_set(win, wch, n);
 #endif /* HAVE_WCHAR */
 }
 
@@ -281,16 +287,16 @@ int wvline_set(WINDOW *win, const cchar_t *wch, int n)
 	int ocury, ocurx, wcn, i;
 	cchar_t cc;
 
-	wcn = min( n, win->maxy - win->cury);
+	wcn = min(n, win->maxy - win->cury);
 #ifdef DEBUG
 	__CTRACE(__CTRACE_LINE, "wvline_set: line of %d\n", wcn);
 #endif /* DEBUG */
 	ocury = win->cury;
 	ocurx = win->curx;
 
-	memcpy( &cc, wch, sizeof( cchar_t ));
-	if (!(wch->vals[ 0 ]))
-		cc.vals[ 0 ] |= WACS_VLINE->vals[0];
+	memcpy(&cc, wch, sizeof(cchar_t));
+	if (!(wch->vals[0]))
+		cc.vals[0] |= WACS_VLINE->vals[0];
 	for (i = 0; i < wcn; i++) {
 		mvwadd_wch(win, ocury + i, ocurx, &cc);
 #ifdef DEBUG

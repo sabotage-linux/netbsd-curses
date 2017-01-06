@@ -1,4 +1,4 @@
-/*	$NetBSD: insertln.c,v 1.13 2003/08/07 16:44:22 agc Exp $	*/
+/*	$NetBSD: insertln.c,v 1.14 2017/01/06 13:53:18 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -43,7 +43,8 @@
 int
 insertln(void)
 {
-	return(winsdelln(stdscr, 1));
+
+	return winsdelln(stdscr, 1);
 }
 
 #endif
@@ -55,5 +56,6 @@ insertln(void)
 int
 winsertln(WINDOW *win)
 {
-	return(winsdelln(win, 1));
+
+	return winsdelln(win, 1);
 }

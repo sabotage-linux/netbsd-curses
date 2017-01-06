@@ -1,4 +1,4 @@
-/*	$NetBSD: resize.c,v 1.21 2017/01/05 21:25:18 roy Exp $	*/
+/*	$NetBSD: resize.c,v 1.22 2017/01/06 13:53:18 roy Exp $	*/
 
 /*
  * Copyright (c) 2001
@@ -319,7 +319,6 @@ __resizewin(WINDOW *win, int nlines, int ncols)
 		}
 	}
 
-
 	win->cury = win->curx = 0;
 	win->maxy = nlines;
 	win->maxx = ncols;
@@ -339,15 +338,15 @@ __resizewin(WINDOW *win, int nlines, int ncols)
 #ifndef HAVE_WCHAR
 			sp->ch = win->bch;
 #else
-			sp->ch = ( wchar_t )btowc(( int ) win->bch );
+			sp->ch = (wchar_t)btowc((int)win->bch);
 			sp->nsp = NULL;
 			if (_cursesi_copy_nsp(win->bnsp, sp) == ERR)
 				return ERR;
-			SET_WCOL( *sp, 1 );
+			SET_WCOL(*sp, 1);
 #endif /* HAVE_WCHAR */
 		}
 		lp->hash = __hash((char *)(void *)lp->line,
-				  (size_t) (ncols * __LDATASIZE));
+				  (size_t)(ncols * __LDATASIZE));
 	}
 
 #ifdef DEBUG

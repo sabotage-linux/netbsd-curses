@@ -1,4 +1,4 @@
-/*	$NetBSD: erase.c,v 1.25 2011/07/10 12:11:49 blymn Exp $	*/
+/*	$NetBSD: erase.c,v 1.26 2017/01/06 13:53:18 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -99,5 +99,5 @@ werase(WINDOW *win)
 	 * screen over the area covered by the window. */
 	__touchwin(win);
 	wmove(win, 0, 0);
-	return (OK);
+	return OK;
 }

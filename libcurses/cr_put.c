@@ -1,4 +1,4 @@
-/*	$NetBSD: cr_put.c,v 1.31 2011/10/03 12:32:15 roy Exp $	*/
+/*	$NetBSD: cr_put.c,v 1.32 2017/01/06 13:53:18 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -51,10 +51,10 @@ mvcur(int ly, int lx, int y, int x)
 	return (__mvcur(ly, lx, y, x, 0));
 }
 
-static void fgoto __P((int));
-static int plod __P((int, int));
-static int plodput __P((int));
-static int tabcol __P((int, int));
+static void fgoto(int);
+static int plod(int, int);
+static int plodput(int);
+static int tabcol(int, int);
 
 static int outcol, outline, destcol, destline;
 
@@ -79,8 +79,7 @@ __mvcur(int ly, int lx, int y, int x, int in_refresh)
 }
 
 static void
-fgoto(in_refresh)
-	int	 in_refresh;
+fgoto(int in_refresh)
 {
 	int	 c, l;
 	char	*cgp;
@@ -156,7 +155,7 @@ fgoto(in_refresh)
 	}
 	if (destline < outline && !(cursor_address || cursor_up))
 		destline = outline;
-	
+
 	if (cursor_address &&
 	    (cgp = tiparm(cursor_address, destline, destcol)))
 	{
@@ -177,6 +176,7 @@ fgoto(in_refresh)
 	outline = destline;
 	outcol = destcol;
 }
+
 /*
  * Move (slowly) to destination.
  * Hard thing here is using home cursor on really deficient terminals.
@@ -190,19 +190,17 @@ fgoto(in_refresh)
 static int plodcnt, plodflg;
 
 static int
-plodput(c)
-	int	 c;
+plodput(int c)
 {
 	if (plodflg)
 		--plodcnt;
 	else
 		__cputchar(c);
-	return (0);
+	return 0;
 }
 
 static int
-plod(cnt, in_refresh)
-	int	 cnt, in_refresh;
+plod(int cnt, int in_refresh)
 {
 	int	 i, j, k, soutcol, soutline;
 
@@ -451,16 +449,16 @@ out:	if (plodflg) {
 #ifdef DEBUG
 	__CTRACE(__CTRACE_OUTPUT, "plod: returns %d\n", plodcnt);
 #endif /* DEBUG */
-	return (plodcnt);
+	return plodcnt;
 }
+
 /*
  * Return the column number that results from being in column col and
  * hitting a tab, where tabs are set every ts columns.  Work right for
  * the case where col > COLS, even if ts does not divide COLS.
  */
 static int
-tabcol(col, ts)
-	int	 col, ts;
+tabcol(int col, int ts)
 {
 	int	 offset;
 

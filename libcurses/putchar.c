@@ -1,4 +1,4 @@
-/*	$NetBSD: putchar.c,v 1.21 2010/02/03 15:34:40 roy Exp $	*/
+/*	$NetBSD: putchar.c,v 1.22 2017/01/06 13:53:18 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -41,7 +41,7 @@ __cputchar(int ch)
 #ifdef DEBUG
 	__CTRACE(__CTRACE_OUTPUT, "__cputchar: %s\n", unctrl(ch));
 #endif
-	return (putc(ch, _cursesi_screen->outfd));
+	return putc(ch, _cursesi_screen->outfd);
 }
 
 /*
@@ -52,7 +52,7 @@ __cputchar(int ch)
 int
 __cputchar_args(int ch, void *args)
 {
-	FILE *outfd = (FILE *) args;
+	FILE *outfd = (FILE *)args;
 
 #ifdef DEBUG
 	__CTRACE(__CTRACE_OUTPUT, "__cputchar_args: %s on fd %d\n",
@@ -68,7 +68,7 @@ __cputwchar(wchar_t wch)
 #ifdef DEBUG
 	__CTRACE(__CTRACE_OUTPUT, "__cputwchar: 0x%x\n", wch);
 #endif
-	return (putwc(wch, _cursesi_screen->outfd));
+	return putwc(wch, _cursesi_screen->outfd);
 }
 
 /*
@@ -79,7 +79,7 @@ __cputwchar(wchar_t wch)
 int
 __cputwchar_args(wchar_t wch, void *args)
 {
-	FILE *outfd = (FILE *) args;
+	FILE *outfd = (FILE *)args;
 
 #ifdef DEBUG
 	__CTRACE(__CTRACE_OUTPUT, "__cputwchar_args: 0x%x on fd %d\n",

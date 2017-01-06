@@ -1,4 +1,4 @@
-/*   $NetBSD: inwstr.c,v 1.3 2009/07/22 16:57:15 roy Exp $ */
+/*   $NetBSD: inwstr.c,v 1.4 2017/01/06 13:53:18 roy Exp $ */
 
 /*
  * Copyright (c) 2005 The NetBSD Foundation Inc.
@@ -164,7 +164,7 @@ winnwstr(WINDOW *win, wchar_t *wstr, int n)
 
 	start = &win->alines[win->cury]->line[win->curx];
 	x = win->curx;
-	cw = WCOL( *start );
+	cw = WCOL(*start);
 	if (cw < 0) {
 		start += cw;
 		x += cw;
@@ -173,12 +173,12 @@ winnwstr(WINDOW *win, wchar_t *wstr, int n)
 	wcp = wstr;
 	/* (n - 1) to leave room for the trailing 0 element */
 	while ((x < win->maxx) && ((n < 0) || ((n > 1) && (cnt < n - 1)))) {
-		cw = WCOL( *start );
+		cw = WCOL(*start);
 		*wcp = start->ch;
 		wcp++;
 		cnt++;
 		x += cw;
-		if ( x < win->maxx ) 
+		if (x < win->maxx)
 			start += cw;
 	}
 	*wcp = L'\0';
