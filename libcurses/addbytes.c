@@ -1,4 +1,4 @@
-/*	$NetBSD: addbytes.c,v 1.45 2017/01/02 10:28:34 roy Exp $	*/
+/*	$NetBSD: addbytes.c,v 1.46 2017/01/06 14:06:45 roy Exp $	*/
 
 /*
  * Copyright (c) 1987, 1993, 1994
@@ -55,6 +55,7 @@
 int
 addbytes(const char *bytes, int count)
 {
+
 	return _cursesi_waddbytes(stdscr, bytes, count, 0, 1);
 }
 
@@ -65,6 +66,7 @@ addbytes(const char *bytes, int count)
 int
 waddbytes(WINDOW *win, const char *bytes, int count)
 {
+
 	return _cursesi_waddbytes(win, bytes, count, 0, 1);
 }
 
@@ -75,6 +77,7 @@ waddbytes(WINDOW *win, const char *bytes, int count)
 int
 mvaddbytes(int y, int x, const char *bytes, int count)
 {
+
 	return mvwaddbytes(stdscr, y, x, bytes, count);
 }
 
@@ -85,6 +88,7 @@ mvaddbytes(int y, int x, const char *bytes, int count)
 int
 mvwaddbytes(WINDOW *win, int y, int x, const char *bytes, int count)
 {
+
 	if (wmove(win, y, x) == ERR)
 		return ERR;
 
@@ -96,6 +100,7 @@ mvwaddbytes(WINDOW *win, int y, int x, const char *bytes, int count)
 int
 __waddbytes(WINDOW *win, const char *bytes, int count, attr_t attr)
 {
+
 	return _cursesi_waddbytes(win, bytes, count, attr, 1);
 }
 
