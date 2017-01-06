@@ -1033,8 +1033,6 @@ int wgetbkgrnd(WINDOW *, cchar_t *);
 bool is_keypad(const WINDOW *);
 bool is_leaveok(const WINDOW *);
 
-int set_escdelay(int);
-
 /* Private functions that are needed for user programs prototypes. */
 int	 __cputchar(int);
 int	 __waddbytes(WINDOW *, const char *, int, attr_t);
