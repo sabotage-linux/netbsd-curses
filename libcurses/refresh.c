@@ -1,4 +1,4 @@
-/*	$NetBSD: refresh.c,v 1.81 2016/12/31 22:47:01 roy Exp $	*/
+/*	$NetBSD: refresh.c,v 1.82 2017/01/06 09:14:07 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -1348,7 +1348,7 @@ domvcur(oy, ox, ny, nx)
  */
 
 static __LDATA buf[128];
-static  u_int last_hash;
+static  unsigned int last_hash;
 static  size_t last_hash_len;
 #define BLANKSIZE (sizeof(buf) / sizeof(buf[0]))
 
@@ -1360,7 +1360,7 @@ quickch(void)
 	__LINE *clp, *tmp1, *tmp2;
 	int	bsize, curs, curw, starts, startw, i, j;
 	int	n, target, cur_period, bot, top, sc_region;
-	u_int	blank_hash;
+	unsigned int	blank_hash;
 	attr_t	bcolor;
 
 #ifdef __GNUC__

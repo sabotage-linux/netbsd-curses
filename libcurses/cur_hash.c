@@ -1,4 +1,4 @@
-/*	$NetBSD: cur_hash.c,v 1.12 2005/02/18 22:16:27 dsl Exp $	*/
+/*	$NetBSD: cur_hash.c,v 1.13 2017/01/06 09:14:07 roy Exp $	*/
 
 /*
  * Copyright (c) 1992, 1993
@@ -39,10 +39,10 @@
 /*
  * __hash_more() is "hashpjw" from the Dragon Book, Aho, Sethi & Ullman, p.436.
  */
-u_int
-__hash_more(const void  *v_s, size_t len, u_int h)
+unsigned int
+__hash_more(const void  *v_s, size_t len, unsigned int h)
 {
-	u_int g;
+	unsigned int g;
 	size_t i = 0;
 	const char *s = v_s;
 
