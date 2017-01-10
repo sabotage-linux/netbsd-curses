@@ -1,4 +1,4 @@
-/*	$NetBSD: refresh.c,v 1.83 2017/01/06 13:53:18 roy Exp $	*/
+/*	$NetBSD: refresh.c,v 1.84 2017/01/10 09:32:01 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -38,7 +38,7 @@
 #include "curses.h"
 #include "curses_private.h"
 
-static void	domvcur(int, int, int, int);
+static void	domvcur(const WINDOW *, int, int, int, int);
 static int	makech(int);
 static void	quickch(void);
 static void	scrolln(int, int, int, int, int);
@@ -661,9 +661,7 @@ doupdate(void)
 #endif /* DEBUG */
 		if (!_cursesi_screen->curwin)
 			curscr->alines[wy]->hash = wlp->hash;
-		if ((wlp->flags & __ISDIRTY) ||
-		    (wlp->flags & __ISFORCED))
-		{
+		if (wlp->flags & __ISDIRTY || wlp->flags & __ISFORCED) {
 #ifdef DEBUG
 			__CTRACE(__CTRACE_REFRESH,
 			    "doupdate: [ISDIRTY]wy:%d\tf:%d\tl:%d\n", wy,
@@ -715,14 +713,14 @@ doupdate(void)
 #endif /* DEBUG */
 
 	if (_cursesi_screen->curwin)
-		domvcur(_cursesi_screen->ly, _cursesi_screen->lx,
+		domvcur(win, _cursesi_screen->ly, _cursesi_screen->lx,
 			win->cury, win->curx);
 	else {
 		if (win->flags & __LEAVEOK) {
 			curscr->cury = _cursesi_screen->ly;
 			curscr->curx = _cursesi_screen->lx;
 		} else {
-			domvcur(_cursesi_screen->ly, _cursesi_screen->lx,
+			domvcur(win, _cursesi_screen->ly, _cursesi_screen->lx,
 				win->cury, win->curx);
 			curscr->cury = win->cury;
 			curscr->curx = win->curx;
@@ -816,7 +814,7 @@ makech(int wy)
 #endif /* DEBUG */
 	/* Is the cursor still on the end of the last line? */
 	if (wy > 0 && curscr->alines[wy - 1]->flags & __ISPASTEOL) {
-		domvcur(_cursesi_screen->ly, _cursesi_screen->lx,
+		domvcur(win, _cursesi_screen->ly, _cursesi_screen->lx,
 			_cursesi_screen->ly + 1, 0);
 		_cursesi_screen->ly++;
 		_cursesi_screen->lx = 0;
@@ -924,7 +922,7 @@ makech(int wy)
 			break;
 		}
 #endif /* HAVE_WCHAR */
-		domvcur(_cursesi_screen->ly, _cursesi_screen->lx, wy, wx);
+		domvcur(win, _cursesi_screen->ly, _cursesi_screen->lx, wy, wx);
 
 #ifdef DEBUG
 		__CTRACE(__CTRACE_REFRESH, "makech: 1: wx = %d, ly= %d, "
@@ -1231,9 +1229,10 @@ makech(int wy)
 #endif /* HAVE_WCHAR */
 					}
 					if (wx < curscr->maxx) {
-						domvcur(_cursesi_screen->ly, wx,
-						    (int) (win->maxy - 1),
-						    (int) (win->maxx - 1));
+						domvcur(win,
+						    _cursesi_screen->ly, wx,
+						    (int)(win->maxy - 1),
+						    (int)(win->maxx - 1));
 					}
 					_cursesi_screen->ly = win->maxy - 1;
 					_cursesi_screen->lx = win->maxx - 1;
@@ -1290,10 +1289,11 @@ makech(int wy)
 			_cursesi_screen->lx = COLS - 1;
 		else
 			if (wx >= win->maxx) {
-				domvcur(_cursesi_screen->ly,
+				domvcur(win,
+					_cursesi_screen->ly,
 					_cursesi_screen->lx,
 					_cursesi_screen->ly,
-					(int) (win->maxx - 1));
+					(int)(win->maxx - 1));
 				_cursesi_screen->lx = win->maxx - 1;
 			}
 #ifdef DEBUG
@@ -1333,16 +1333,27 @@ makech(int wy)
  *	Do a mvcur, leaving attributes if necessary.
  */
 static void
-domvcur(int oy, int ox, int ny, int nx)
+domvcur(const WINDOW *win, int oy, int ox, int ny, int nx)
 {
 
 #ifdef DEBUG
 	__CTRACE(__CTRACE_REFRESH, "domvcur: (%x,%d)=>(%d,%d)\n",
 	    oy, ox, ny, nx );
 #endif /* DEBUG */
+
 	__unsetattr(1);
-	if ( oy == ny && ox == nx )
-		return;
+
+	/* Don't move the cursor unless we need to. */
+	if (oy == ny && ox == nx) {
+		/* Check EOL. */
+		if (!(win->alines[oy]->flags & __ISPASTEOL))
+			return;
+	}
+
+	/* Clear EOL flags. */
+	win->alines[oy]->flags &= ~__ISPASTEOL;
+	win->alines[ny]->flags &= ~__ISPASTEOL;
+
 	__mvcur(oy, ox, ny, nx, 1);
 }
 
