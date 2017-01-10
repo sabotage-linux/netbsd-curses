@@ -1,4 +1,4 @@
-/*	$NetBSD: resize.c,v 1.22 2017/01/06 13:53:18 roy Exp $	*/
+/*	$NetBSD: resize.c,v 1.23 2017/01/10 10:13:24 roy Exp $	*/
 
 /*
  * Copyright (c) 2001
@@ -137,7 +137,10 @@ bool
 is_term_resized(int nlines, int ncols)
 {
 
-	return (nlines > 0 && ncols > 0 && (nlines != LINES || ncols != COLS));
+	return (nlines > 0 && ncols > 0 &&
+	    (nlines != _cursesi_screen->LINES
+	    + _cursesi_screen->ripped_top + _cursesi_screen->ripped_bottom ||
+	    ncols != _cursesi_screen->COLS));
 }
 
 /*
@@ -183,6 +186,7 @@ resize_term(int nlines, int ncols)
 		return ERR;
 	if (__resizeterm(__virtscr, nlines, ncols) == ERR)
 		return ERR;
+	nlines -= _cursesi_screen->ripped_top - _cursesi_screen->ripped_bottom;
 	if (__resizeterm(stdscr, nlines, ncols) == ERR)
 		return ERR;
 

@@ -1,4 +1,4 @@
-/*	$NetBSD: setterm.c,v 1.59 2017/01/06 13:53:18 roy Exp $	*/
+/*	$NetBSD: setterm.c,v 1.60 2017/01/10 10:13:24 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -143,7 +143,7 @@ _cursesi_setterm(char *type, SCREEN *screen)
 	if (screen->COLS <= 4)
 		return ERR;
 
-	LINES = screen->LINES;
+	LINES = screen->LINES - screen->ripped_top - screen->ripped_bottom;
 	COLS = screen->COLS;
 	ESCDELAY = screen->ESCDELAY;
 	TABSIZE = screen->TABSIZE;
@@ -275,7 +275,7 @@ void
 _cursesi_resetterm(SCREEN *screen)
 {
 
-	LINES = screen->LINES;
+	LINES = screen->LINES - screen->ripped_top - screen->ripped_bottom;
 	COLS = screen->COLS;
 	ESCDELAY = screen->ESCDELAY;
 	TABSIZE = screen->TABSIZE;
