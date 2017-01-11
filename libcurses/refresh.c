@@ -1,4 +1,4 @@
-/*	$NetBSD: refresh.c,v 1.85 2017/01/10 10:33:49 roy Exp $	*/
+/*	$NetBSD: refresh.c,v 1.86 2017/01/11 09:54:54 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -43,8 +43,7 @@ static int	makech(int);
 static void	quickch(void);
 static void	scrolln(int, int, int, int, int);
 
-static int _cursesi_wnoutrefresh(SCREEN *, WINDOW *,
-				 int, int, int, int, int, int);
+static int	_wnoutrefresh(WINDOW *, int, int, int, int, int, int);
 
 #ifdef HAVE_WCHAR
 int cellcmp( __LDATA *, __LDATA * );
@@ -81,8 +80,8 @@ wnoutrefresh(WINDOW *win)
 	__CTRACE(__CTRACE_REFRESH, "wnoutrefresh: win %p\n", win);
 #endif
 
-	return _cursesi_wnoutrefresh(_cursesi_screen, win, 0, 0, win->begy,
-	    win->begx, win->maxy, win->maxx);
+	return _wnoutrefresh(win, 0, 0, win->begy, win->begx,
+	    win->maxy, win->maxx);
 }
 
 /*
@@ -113,7 +112,7 @@ pnoutrefresh(WINDOW *pad, int pbegy, int pbegx, int sbegy, int sbegx,
 	if (sbegx < 0)
 		sbegx = 0;
 
-	/* Calculate rectangle on pad - used by _cursesi_wnoutrefresh */
+	/* Calculate rectangle on pad - used by _wnoutrefresh */
 	pmaxy = pbegy + smaxy - sbegy + 1;
 	pmaxx = pbegx + smaxx - sbegx + 1;
 
@@ -126,22 +125,22 @@ pnoutrefresh(WINDOW *pad, int pbegy, int pbegx, int sbegy, int sbegx,
 	if (smaxy - sbegy < 0 || smaxx - sbegx < 0 )
 		return ERR;
 
-	return _cursesi_wnoutrefresh(_cursesi_screen, pad,
+	return _wnoutrefresh(pad,
 	    pad->begy + pbegy, pad->begx + pbegx, pad->begy + sbegy,
 	    pad->begx + sbegx, pmaxy, pmaxx);
 }
 
 /*
- * _cursesi_wnoutrefresh --
+ * _wnoutrefresh --
  *	Does the grunt work for wnoutrefresh to the given screen.
  *	Copies the part of the window given by the rectangle
  *	(begy, begx) to (maxy, maxx) at screen position (wbegy, wbegx).
  */
-int
-_cursesi_wnoutrefresh(SCREEN *screen, WINDOW *win, int begy, int begx,
-		      int wbegy, int wbegx, int maxy, int maxx)
+static int
+_wnoutrefresh(WINDOW *win, int begy, int begx, int wbegy, int wbegx,
+              int maxy, int maxx)
 {
-
+	SCREEN *screen = win->screen;
 	short	sy, wy, wx, y_off, x_off, mx, dy_off, dx_off, endy;
 	__LINE	*wlp, *vlp, *dwlp;
 	WINDOW	*sub_win, *orig, *swin, *dwin;
@@ -433,8 +432,8 @@ wrefresh(WINDOW *win)
 		pbegy, pbegx);
 #endif
 		}
-		retval = _cursesi_wnoutrefresh(_cursesi_screen, win, pbegy,
-		    pbegx, win->begy, win->begx, win->maxy, win->maxx);
+		retval = _wnoutrefresh(win, pbegy, pbegx, win->begy, win->begx,
+		    win->maxy, win->maxx);
 	} else
 		retval = OK;
 	if (retval == OK) {
