@@ -1,4 +1,4 @@
-/*	$NetBSD: resize.c,v 1.24 2017/01/10 23:28:45 roy Exp $	*/
+/*	$NetBSD: resize.c,v 1.25 2017/01/11 20:43:03 roy Exp $	*/
 
 /*
  * Copyright (c) 2001
@@ -156,11 +156,19 @@ resizeterm(int nlines, int ncols)
 	__CTRACE(__CTRACE_WINDOW, "resizeterm: (%d, %d)\n", nlines, ncols);
 #endif
 
+
 	if (!is_term_resized(nlines, ncols))
 		return OK;
 
 	result = resize_term(nlines, ncols);
+
+	/* Screen contents are unknown, libcurses is not libpanel, we don't
+	 * know the correct draw order. */
 	clearok(curscr, TRUE);
+
+	/* We know how to repaint the ripoffs */
+	__ripoffresize(_cursesi_screen);
+
 	return result;
 }
 
@@ -173,6 +181,7 @@ resize_term(int nlines, int ncols)
 {
 	WINDOW *win;
 	struct __winlist *list;
+	int rlines;
 
 #ifdef	DEBUG
 	__CTRACE(__CTRACE_WINDOW, "resize_term: (%d, %d)\n", nlines, ncols);
@@ -185,11 +194,13 @@ resize_term(int nlines, int ncols)
 		return ERR;
 	if (__resizeterm(__virtscr, nlines, ncols) == ERR)
 		return ERR;
-	nlines -= _cursesi_screen->ripped_top - _cursesi_screen->ripped_bottom;
-	if (__resizeterm(stdscr, nlines, ncols) == ERR)
+	rlines = nlines - __rippedlines(_cursesi_screen);
+	if (__resizeterm(stdscr, rlines, ncols) == ERR)
 		return ERR;
 
-	LINES = nlines;
+	_cursesi_screen->LINES = nlines;
+	_cursesi_screen->COLS = ncols;
+	LINES = rlines;
 	COLS = ncols;
 
 	  /* tweak the flags now that we have updated the LINES and COLS */
