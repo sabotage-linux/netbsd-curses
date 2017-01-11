@@ -1,4 +1,4 @@
-/*	$NetBSD: refresh.c,v 1.86 2017/01/11 09:54:54 roy Exp $	*/
+/*	$NetBSD: refresh.c,v 1.87 2017/01/11 10:06:32 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -263,8 +263,9 @@ _wnoutrefresh(WINDOW *win, int begy, int begx, int wbegy, int wbegx,
 				mx = maxx;
 				if (mx > *wlp->lastchp - swin->ch_off + 1)
 					mx = *dwlp->lastchp - dwin->ch_off + 1;
-				if (x_off + (mx - wx) > __virtscr->maxx)
-					mx -= (x_off + maxx) - __virtscr->maxx;
+				if (x_off + (mx - wx) > screen->__virtscr->maxx)
+					mx -= (x_off + maxx) -
+					    screen->__virtscr->maxx;
 			}
 
 			/* Copy line from "win" to "__virtscr". */
@@ -283,8 +284,7 @@ _wnoutrefresh(WINDOW *win, int begy, int begx, int wbegy, int wbegx,
 				vlp->line[x_off].attr = wlp->line[wx].attr;
 				/* Check for nca conflict with colour */
 				if ((vlp->line[x_off].attr & __COLOR) &&
-				    (vlp->line[x_off].attr &
-				    _cursesi_screen->nca))
+				    (vlp->line[x_off].attr & screen->nca))
 					vlp->line[x_off].attr &= ~__COLOR;
 				if (win->flags & __ISDERWIN) {
 					dwlp->line[dx_off].ch =
@@ -297,7 +297,7 @@ _wnoutrefresh(WINDOW *win, int begy, int begx, int wbegy, int wbegx,
 				if (wlp->line[wx].ch
 				    == (wchar_t)btowc((int) win->bch)) {
 					vlp->line[x_off].ch = win->bch;
-					SET_WCOL( vlp->line[x_off], 1 );
+					SET_WCOL(vlp->line[x_off], 1);
 					if (_cursesi_copy_nsp(win->bnsp,
 							      &vlp->line[x_off])
 					    == ERR)
