@@ -89,7 +89,8 @@ CU_SRCS_=acs.c addbytes.c addch.c addchnstr.c addnstr.c attributes.c \
 	mvwin.c newwin.c nodelay.c notimeout.c overlay.c overwrite.c pause.c \
 	printw.c putchar.c refresh.c resize.c scanw.c screen.c scroll.c \
 	scrollok.c setterm.c standout.c timeout.c toucholap.c touchwin.c \
-	tstp.c tty.c unctrl.c underscore.c immedok.c syncok.c ripoffline.c
+	tstp.c tty.c unctrl.c underscore.c immedok.c syncok.c ripoffline.c \
+	slk.c
 
 
 ifndef DISABLE_WCHAR
