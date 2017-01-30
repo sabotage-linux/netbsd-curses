@@ -1,4 +1,4 @@
-/*	$NetBSD: slk.c,v 1.1 2017/01/24 17:27:30 roy Exp $	*/
+/*	$NetBSD: slk.c,v 1.2 2017/01/30 17:15:52 roy Exp $	*/
 
 /*-
  * Copyright (c) 2017 The NetBSD Foundation, Inc.
@@ -275,8 +275,7 @@ static int
 __slk_attron(SCREEN *screen, const chtype attr)
 {
 
-	assert(screen != NULL);
-	if (screen->slk_window == NULL)
+	if (screen == NULL || screen->slk_window == NULL)
 		return ERR;
 	return wattron(screen->slk_window, attr);
 }
@@ -289,8 +288,7 @@ static int
 __slk_attr_on(SCREEN *screen, const attr_t attr, void *opt)
 {
 
-	assert(screen != NULL);
-	if (screen->slk_window == NULL)
+	if (screen == NULL || screen->slk_window == NULL)
 		return ERR;
 	return wattr_on(screen->slk_window, attr, opt);
 }
@@ -303,8 +301,7 @@ static int
 __slk_attroff(SCREEN *screen, const chtype attr)
 {
 
-	assert(screen != NULL);
-	if (screen->slk_window == NULL)
+	if (screen == NULL || screen->slk_window == NULL)
 		return ERR;
 	return wattroff(screen->slk_window, attr);
 }
@@ -317,8 +314,7 @@ static int
 __slk_attr_off(SCREEN *screen, const attr_t attr, void *opt)
 {
 
-	assert(screen != NULL);
-	if (screen->slk_window == NULL)
+	if (screen == NULL || screen->slk_window == NULL)
 		return ERR;
 	return wattr_off(screen->slk_window, attr, opt);
 }
@@ -331,8 +327,7 @@ static int
 __slk_attrset(SCREEN *screen, const chtype attr)
 {
 
-	assert(screen != NULL);
-	if (screen->slk_window == NULL)
+	if (screen == NULL || screen->slk_window == NULL)
 		return ERR;
 	return wattrset(screen->slk_window, attr);
 }
@@ -345,8 +340,7 @@ static int
 __slk_attr_set(SCREEN *screen, const attr_t attr, short pair, void *opt)
 {
 
-	assert(screen != NULL);
-	if (screen->slk_window == NULL)
+	if (screen == NULL || screen->slk_window == NULL)
 		return ERR;
 	return wattr_set(screen->slk_window, attr, pair, opt);
 }
@@ -359,7 +353,8 @@ static int
 __slk_clear(SCREEN *screen)
 {
 
-	assert(screen != NULL);
+	if (screen == NULL)
+		return ERR;
 	screen->slk_hidden = true;
 	if (screen->is_term_slk) {
 		if (t_label_off(screen->term) == NULL)
@@ -381,8 +376,7 @@ static int
 __slk_color(SCREEN *screen, short pair)
 {
 
-	assert(screen != NULL);
-	if (screen->slk_window == NULL)
+	if (screen == NULL || screen->slk_window == NULL)
 		return ERR;
 	return wcolor_set(screen->slk_window, pair, NULL);
 }
@@ -396,8 +390,7 @@ static char *
 __slk_label(SCREEN *screen, int labnum)
 {
 
-	assert(screen != NULL);
-	if (labnum < 1 || labnum > screen->slk_nlabels)
+	if (screen == NULL || labnum < 1 || labnum > screen->slk_nlabels)
 		return NULL;
 	return screen->slk_labels[--labnum].text;
 }
@@ -410,8 +403,7 @@ int
 __slk_noutrefresh(SCREEN *screen)
 {
 
-	assert(screen != NULL);
-	if (screen->slk_window == NULL)
+	if (screen == NULL || screen->slk_window == NULL)
 		return ERR;
 	return wnoutrefresh(screen->slk_window);
 }
@@ -424,7 +416,8 @@ static int
 __slk_restore(SCREEN *screen)
 {
 
-	assert(screen != NULL);
+	if (screen == NULL)
+		return ERR;
 	screen->slk_hidden = false;
 	if (screen->is_term_slk) {
 		if (t_label_on(screen->term) == NULL)
@@ -456,9 +449,8 @@ __slk_set(SCREEN *screen, int labnum, const char *label, int justify)
 	size_t wc_len;
 #endif
 
-	assert(screen != NULL);
 	/* Check args. */
-	if (labnum < 1 || labnum > screen->slk_nlabels)
+	if (screen == NULL || labnum < 1 || labnum > screen->slk_nlabels)
 		return ERR;
 	switch(justify) {
 	case SLK_JUSTIFY_LEFT:
@@ -515,8 +507,7 @@ static int
 __slk_touch(SCREEN *screen)
 {
 
-	assert(screen != NULL);
-	if (screen->slk_window == NULL)
+	if (screen == NULL || screen->slk_window == NULL)
 		return ERR;
 	return touchwin(screen->slk_window);
 }
@@ -535,7 +526,8 @@ __slk_wset(SCREEN *screen, int labnum, const wchar_t *label, int justify)
 	char *str;
 	int result = ERR;
 
-	assert(screen != NULL);
+	if (screen == NULL)
+		return ERR;
 	olabel = label;
 	if ((len = wcsrtombs(NULL, &olabel, 0, &screen->sp)) == -1)
 		return ERR;
@@ -619,7 +611,6 @@ __slk_ripoffline(WINDOW *window, int cols)
 
 	if (window == NULL)
 		return ERR;
-	assert(window->screen->slk_window == NULL);
 	window->screen->slk_window = window;
 	wattron(window,
 	    (t_no_color_video(window->screen->term) & 1) == 0
@@ -638,7 +629,8 @@ __slk_resize(SCREEN *screen, int cols)
 	int x = 0;
 	struct __slk_label *l;
 
-	assert(screen != NULL);
+	if (screen == NULL)
+		return ERR;
 	if (screen->is_term_slk || screen->slk_nlabels == 0)
 		return OK;
 
