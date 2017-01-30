@@ -1,4 +1,4 @@
-/*	$NetBSD: setterm.c,v 1.61 2017/01/11 20:43:03 roy Exp $	*/
+/*	$NetBSD: setterm.c,v 1.62 2017/01/30 14:55:58 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -397,6 +397,7 @@ set_tabsize(int tabsize)
 {
 
 	_cursesi_screen->TABSIZE = tabsize;
+	_reentrant = true;
 	TABSIZE = tabsize;
 	return OK;
 }

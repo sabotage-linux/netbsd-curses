@@ -1,4 +1,4 @@
-/*   $NetBSD: get_wch.c,v 1.12 2017/01/06 13:53:18 roy Exp $ */
+/*   $NetBSD: get_wch.c,v 1.13 2017/01/30 14:55:58 roy Exp $ */
 
 /*
  * Copyright (c) 2005 The NetBSD Foundation Inc.
@@ -88,7 +88,8 @@ inkey(wchar_t *wc, int to, int delay)
 				*working = &_cursesi_screen->cbuf_cur,
 				*end = &_cursesi_screen->cbuf_tail;
 	char		*inbuf = &_cursesi_screen->cbuf[ 0 ];
-	int		escdelay = _cursesi_screen->ESCDELAY;
+	int		escdelay = _reentrant ?
+			    _cursesi_screen->ESCDELAY : ESCDELAY;
 
 #ifdef DEBUG
 	__CTRACE(__CTRACE_INPUT, "inkey (%p, %d, %d)\n", wc, to, delay);
