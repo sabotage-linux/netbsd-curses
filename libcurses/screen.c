@@ -1,4 +1,4 @@
-/*	$NetBSD: screen.c,v 1.30 2017/01/24 17:27:30 roy Exp $	*/
+/*	$NetBSD: screen.c,v 1.31 2017/01/31 09:17:53 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -59,6 +59,8 @@ set_term(SCREEN *new)
 		old_screen->noqch = __noqch;
 		old_screen->COLS = COLS;
 		old_screen->LINES = LINES + __rippedlines(old_screen);
+		old_screen->ESCDELAY = ESCDELAY;
+		old_screen->TABSIZE = TABSIZE;
 		old_screen->COLORS = COLORS;
 		old_screen->COLOR_PAIRS = COLOR_PAIRS;
 		old_screen->GT = __GT;
@@ -74,6 +76,8 @@ set_term(SCREEN *new)
 	__noqch = new->noqch;
 	COLS = new->COLS;
 	LINES = new->LINES - __rippedlines(new);
+	ESCDELAY = new->ESCDELAY;
+	TABSIZE = new->TABSIZE;
 	COLORS = new->COLORS;
 	COLOR_PAIRS = new->COLOR_PAIRS;
 	__GT = new->GT;
