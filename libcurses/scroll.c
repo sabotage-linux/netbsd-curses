@@ -1,4 +1,4 @@
-/*	$NetBSD: scroll.c,v 1.23 2017/01/06 13:53:18 roy Exp $	*/
+/*	$NetBSD: scroll.c,v 1.24 2017/02/10 06:25:28 blymn Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -93,12 +93,7 @@ wscrl(WINDOW *win, int nlines)
 #ifdef DEBUG
 	__CTRACE(__CTRACE_WINDOW, "wscrl: y=%d\n", oy);
 #endif
-	if (oy < win->scr_t || oy > win->scr_b)
-		/* Outside scrolling region */
-		wmove(win, 0, 0);
-	else
-		/* Inside scrolling region */
-		wmove(win, win->scr_t, 0);
+	wmove(win, win->scr_t, 0);
 	winsdelln(win, 0 - nlines);
 	wmove(win, oy, ox);
 
