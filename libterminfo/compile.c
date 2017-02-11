@@ -1,4 +1,4 @@
-/* $NetBSD: compile.c,v 1.10 2017/02/11 14:57:15 roy Exp $ */
+/* $NetBSD: compile.c,v 1.11 2017/02/11 15:13:17 roy Exp $ */
 
 /*
  * Copyright (c) 2009, 2010, 2011 The NetBSD Foundation, Inc.
@@ -346,7 +346,10 @@ encode_string(const char *term, const char *cap, TBUF *tbuf, const char *str,
 					ch = '\177';
 				else if ((ch &= 037) == 0)
 					ch = (char)128;
-			}
+			} else if (!isprint((unsigned char)ch))
+				dowarn(flags,
+				    "%s: %s: unprintable character",
+				    term, cap);
 			*p++ = ch;
 			last = ch;
 			continue;
