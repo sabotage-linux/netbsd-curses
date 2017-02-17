@@ -1,4 +1,4 @@
-/*	$NetBSD: screen.c,v 1.31 2017/01/31 09:17:53 roy Exp $	*/
+/*	$NetBSD: screen.c,v 1.32 2017/02/17 11:18:38 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -128,7 +128,15 @@ newterm(char *type, FILE *outfd, FILE *infd)
 #endif
 
 	new_screen->infd = infd;
-	new_screen->checkfd = fileno(infd);
+	/*
+	 * POSIX standard says this should be set to infd by default,
+	 * but this seems to break nvi by leaving an unrefreshed screen.
+	 * Also, the line breakout optimisation advertised in ncurses
+	 * doesn't actually do anything, so explicitly disabling it here makes
+	 * sense for the time being.
+	 * A caller can always enable it by calling typeahead(3) anyway.
+	 */
+	new_screen->checkfd = -1; // fileno(infd);
 	new_screen->outfd = outfd;
 	new_screen->echoit = new_screen->nl = 1;
 	new_screen->pfast = new_screen->rawmode = new_screen->noqch = 0;
