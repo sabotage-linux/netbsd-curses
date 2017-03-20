@@ -1,4 +1,4 @@
-/*	$NetBSD: refresh.c,v 1.87 2017/01/11 10:06:32 roy Exp $	*/
+/*	$NetBSD: refresh.c,v 1.88 2017/03/20 20:42:39 christos Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -978,7 +978,7 @@ makech(int wy)
 				    "makech: line = %p, cep = %p, begx = %u\n",
 				    curscr->alines[wy]->line, cep, win->begx);
 #endif
-				if (((clsp - nlsp >= strlen(clr_eol) &&
+				if (((clsp - nlsp >= strlen(ce) &&
 				    clsp < win->maxx * __LDATASIZE) ||
 				    wy == win->maxy - 1) &&
 				    (!(lspc & __COLOR) ||
@@ -990,7 +990,7 @@ makech(int wy)
 					    (curscr->wattr & __COLOR)))
 						__set_color(curscr, lspc &
 						    __COLOR);
-					tputs(clr_eol, 0, __cputchar);
+					tputs(ce, 0, __cputchar);
 					_cursesi_screen->lx = wx + win->begx;
 					while (wx++ <= clsp) {
 						csp->attr = lspc;
