@@ -1,4 +1,4 @@
-/*	$NetBSD: cr_put.c,v 1.32 2017/01/06 13:53:18 roy Exp $	*/
+/*	$NetBSD: cr_put.c,v 1.33 2017/03/20 18:19:34 christos Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -337,8 +337,10 @@ dontcr:while (outline < destline) {
 		if (__NONL || __pfast == 0)
 			outcol = 0;
 	}
+#ifdef notdef
 	if (back_tab)
 		k = (int) strlen(back_tab);
+#endif
 	while (outcol > destcol) {
 		if (plodcnt < 0)
 			goto out;
