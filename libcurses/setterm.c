@@ -1,4 +1,4 @@
-/*	$NetBSD: setterm.c,v 1.65 2017/03/20 20:44:06 christos Exp $	*/
+/*	$NetBSD: setterm.c,v 1.66 2017/03/23 00:55:39 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -31,8 +31,6 @@
 
 #include <netbsd_sys/cdefs.h>
 
-#include <sys/ioctl.h>		/* TIOCGWINSZ on old systems. */
-
 #include <stdlib.h>
 #include <string.h>
 #include <termios.h>
@@ -43,16 +41,8 @@
 
 static int does_esc_m(const char *cap);
 static int does_ctrl_o(const char *exit_cap, const char *acs_cap);
-static bool __use_env = true;
 
 attr_t	 __mask_op, __mask_me, __mask_ue, __mask_se;
-
-void
-use_env(bool value)
-{
-
-	__use_env = value;
-}
 
 int
 setterm(char *type)
@@ -65,7 +55,6 @@ int
 _cursesi_setterm(char *type, SCREEN *screen)
 {
 	int unknown, r;
-	struct winsize win;
 	char *p;
 
 	if (type[0] == '\0')
@@ -86,20 +75,9 @@ _cursesi_setterm(char *type, SCREEN *screen)
 	__CTRACE(__CTRACE_INIT, "setterm: tty = %s\n", type);
 #endif
 
-	/* Try TIOCGWINSZ, and, if it fails, the terminfo entry. */
-	if (ioctl(fileno(screen->outfd), TIOCGWINSZ, &win) != -1 &&
-	    win.ws_row != 0 && win.ws_col != 0) {
-		screen->LINES = win.ws_row;
-		screen->COLS = win.ws_col;
-	}  else {
-		if (unknown) {
-			screen->LINES = -1;
-			screen->COLS = -1;
-		} else {
-			screen->LINES = t_lines(screen->term);
-			screen->COLS = t_columns(screen->term);
-		}
-	}
+	/* lines and cols will have been setup correctly by ti_setupterm(3). */
+	screen->LINES = t_lines(screen->term);
+	screen->COLS = t_columns(screen->term);
 
 	if (screen->filtered) {
 		/* Disable use of clear, cud, cud1, cup, cuu1 and vpa. */
@@ -115,18 +93,12 @@ _cursesi_setterm(char *type, SCREEN *screen)
 		screen->term->strs[TICODE_home] = screen->term->strs[TICODE_cr];
 		/* Set lines equal to 1. */
 		screen->LINES = 1;
+		t_lines(screen->term) = 1;
 	}
 #ifdef DEBUG
 	__CTRACE(__CTRACE_INIT, "setterm: filtered %d", screen->filtered);
 #endif
 
-	/* POSIX 1003.2 requires that the environment override. */
-	if (__use_env) {
-		if (!screen->filtered && (p = getenv("LINES")) != NULL)
-			screen->LINES = (int)strtol(p, NULL, 0);
-		if ((p = getenv("COLUMNS")) != NULL)
-			screen->COLS = (int)strtol(p, NULL, 0);
-	}
 	if ((p = getenv("ESCDELAY")) != NULL)
 		screen->ESCDELAY = (int)strtol(p, NULL, 0);
 	else
