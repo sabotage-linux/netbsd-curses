@@ -29,6 +29,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#undef _XOPEN_SOURCE
+#define _XOPEN_SOURCE 700
+#undef _GNU_SOURCE
+#define _GNU_SOURCE
+
 #include <assert.h>
 #include <ctype.h>
 #include <stdlib.h>
