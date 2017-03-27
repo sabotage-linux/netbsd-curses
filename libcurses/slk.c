@@ -33,6 +33,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
+#include <wchar.h>
 #ifdef HAVE_WCHAR
 #include <wctype.h>
 #endif
