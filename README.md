@@ -195,10 +195,17 @@ database (ncurses: 6.4MB).
 the debug info build was created with -g3 and debuginfo stripped into external
 files via objcopy.
 
+APPENDIX B: History of NetBSD curses
+------------------------------------
+
+Thomas Dickey did a [thorough investigation][6] on the history of NetBSD curses.
+
+
 [0]:http://trac.sagemath.org/ticket/18301
 [1]:https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/log/scripts/kconfig/lxdialog/check-lxdialog.sh
 [2]:https://github.com/MidnightCommander/mc/commit/38d4c655d322837574e957b4a824f4a0d1bb3b86
 [3]:https://github.com/sabotage-linux/sabotage/blob/06a4a815/KEEP/python2710-curses.patch
 [4]:https://github.com/sabotage-linux/sabotage/tree/master/pkg
 [5]:https://github.com/sabotage-linux/netbsd-curses/issues
+[6]:http://invisible-island.net/ncurses/ncurses-netbsd.html
 
