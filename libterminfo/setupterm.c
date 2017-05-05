@@ -1,4 +1,4 @@
-/* $NetBSD: setupterm.c,v 1.4 2013/06/07 13:16:18 roy Exp $ */
+/* $NetBSD: setupterm.c,v 1.6 2017/03/23 00:36:37 roy Exp $ */
 
 /*
  * Copyright (c) 2009, 2011 The NetBSD Foundation, Inc.
