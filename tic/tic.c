@@ -1,4 +1,4 @@
-/* $NetBSD: tic.c,v 1.29 2017/05/04 14:07:33 roy Exp $ */
+/* $NetBSD: tic.c,v 1.30 2017/05/05 12:21:28 christos Exp $ */
 
 /*
  * Copyright (c) 2009, 2010 The NetBSD Foundation, Inc.
@@ -593,7 +593,13 @@ main(int argc, char **argv)
 		free(term->name);
 		free(term);
 	}
+#ifndef HAVE_NBTOOL_CONFIG_H
+	/*
+	 * hdestroy1 is not standard but we don't really care if we
+	 * leak in the tools version
+	 */
 	hdestroy1(free, NULL);
+#endif
 
 	return EXIT_SUCCESS;
 }
