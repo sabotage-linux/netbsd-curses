@@ -1,4 +1,4 @@
-/* $NetBSD: term.c,v 1.23 2017/05/16 08:52:14 roy Exp $ */
+/* $NetBSD: term.c,v 1.24 2017/05/16 09:19:48 roy Exp $ */
 
 /*
  * Copyright (c) 2009, 2010, 2011 The NetBSD Foundation, Inc.
@@ -52,7 +52,7 @@
 #endif
 #endif
 
-static char database[PATH_MAX];
+static char __ti_database[PATH_MAX];
 const char *_ti_database;
 
 /* Include a generated list of pre-compiled terminfo descriptions. */
@@ -253,16 +253,13 @@ _ti_dbgetterm(TERMINAL *term, const char *path, const char *name, int flags)
 {
 	struct cdbr *db;
 	const void *data;
-	char *db_name;
 	const uint8_t *data8;
 	size_t len, klen;
 	int r;
 
-	if (asprintf(&db_name, "%s.cdb", path) < 0)
+	if (snprintf(__ti_database, sizeof(__ti_database), "%s.cdb", path) < 0)
 		return -1;
-
-	db = cdbr_open(db_name, CDBR_DEFAULT);
-	free(db_name);
+	db = cdbr_open(__ti_database, CDBR_DEFAULT);
 	if (db == NULL)
 		return -1;
 
@@ -290,8 +287,7 @@ _ti_dbgetterm(TERMINAL *term, const char *path, const char *name, int flags)
 	else if (memcmp(data8 + 3, name, klen))
 		goto fail;
 
-	snprintf(database, sizeof database, "%s", path);
-	_ti_database = database;
+	_ti_database = __ti_database;
 
 	r = _ti_readterm(term, data, len, flags);
 	cdbr_close(db);
@@ -369,7 +365,7 @@ _ti_findterm(TERMINAL *term, const char *name, int flags)
 	_DIAGASSERT(term != NULL);
 	_DIAGASSERT(name != NULL);
 
-	database[0] = '\0';
+	__ti_database[0] = '\0';
 	_ti_database = NULL;
 	r = 0;
 
