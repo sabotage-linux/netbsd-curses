@@ -1,4 +1,4 @@
-/* $NetBSD: infocmp.c,v 1.11 2016/03/16 21:01:28 christos Exp $ */
+/* $NetBSD: infocmp.c,v 1.12 2017/05/16 09:21:54 roy Exp $ */
 
 /*
  * Copyright (c) 2009, 2010 The NetBSD Foundation, Inc.
@@ -711,14 +711,10 @@ main(int argc, char **argv)
 		use_terms(t, argc - optind, argv + optind);
 
 	if ((optind + 1 != argc && nflag == 0) || uflag != 0) {
-		if (uflag == 0) {
-			printf("# Reconstructed from ");
-			if (_ti_database == NULL)
-				printf("internal database\n");
-			else
-				printf("%s%s\n", _ti_database,
-				    *_ti_database == '/' ? ".cdb" : "");
-		}
+		if (uflag == 0)
+			printf("# Reconstructed from %s\n",
+			     _ti_database == NULL ?
+			     "internal database" : _ti_database);
 		printf("%s", t->name);
 		if (t->_alias != NULL && *t->_alias != '\0')
 			printf("|%s", t->_alias);
