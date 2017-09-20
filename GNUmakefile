@@ -400,6 +400,9 @@ tic/%.o: tic/%.c
 libcurses/%.o: libcurses/%.c
 	$(CC) $(CPPFLAGS) -I./libcurses $(CFLAGS) -c -o $@ $<
 
+libterminfo/%.o: libterminfo/%.c
+	$(CC) $(CPPFLAGS) -I./libcurses $(CFLAGS) -c -o $@ $<
+
 libmenu/%.o: libmenu/%.c
 	$(CC) $(CPPFLAGS) -I./libcurses -I./libmenu $(CFLAGS) -c -o $@ $<
 
@@ -410,6 +413,7 @@ libform/%.o: libform/%.c
 	$(CC) $(CPPFLAGS) -I./libcurses -I./libmenu -I./libform $(CFLAGS) -c -o $@ $<
 
 ifeq ($(ALLPIC),1)
+
 $(CU_LOBJS): $(CU_OBJS)
 libcurses/%.lo: libcurses/%.o
 	$(LN) -sf $(notdir $<) $@
@@ -434,7 +438,7 @@ libcurses/%.lo: libcurses/%.c
 	$(CC) $(CPPFLAGS) -I./libcurses $(CFLAGS) $(PIC) -c -o $@ $<
 
 libterminfo/%.lo: libterminfo/%.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(PIC) -c -o $@ $<
+	$(CC) $(CPPFLAGS) -I./libcurses $(CFLAGS) $(PIC) -c -o $@ $<
 
 libpanel/%.lo: libpanel/%.c
 	$(CC) $(CPPFLAGS) -I./libcurses -I./libpanel $(CFLAGS) $(PIC) -c -o $@ $<
