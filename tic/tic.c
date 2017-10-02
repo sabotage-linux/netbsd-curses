@@ -1,4 +1,4 @@
-/* $NetBSD: tic.c,v 1.30 2017/05/05 12:21:28 christos Exp $ */
+/* $NetBSD: tic.c,v 1.31 2017/10/02 21:53:55 joerg Exp $ */
 
 /*
  * Copyright (c) 2009, 2010 The NetBSD Foundation, Inc.
