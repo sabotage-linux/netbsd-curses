@@ -1,4 +1,4 @@
-/*	$NetBSD: addbytes.c,v 1.47 2017/01/06 14:25:41 roy Exp $	*/
+/*	$NetBSD: addbytes.c,v 1.48 2018/08/08 02:26:08 simonb Exp $	*/
 
 /*
  * Copyright (c) 1987, 1993, 1994
@@ -577,7 +577,7 @@ _cursesi_addwchar(WINDOW *win, __LINE **lnp, int *y, int *x,
 		if (newx > *(*lnp)->lastchp)
 			*(*lnp)->lastchp = newx;
 		__touchline(win, *y, sx, (int) win->maxx - 1);
-		win->curx = sx;
+		*x = win->curx = sx;
 	} else {
 		win->curx = *x;
 
