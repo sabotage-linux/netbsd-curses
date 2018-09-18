@@ -1,4 +1,4 @@
-/*	$NetBSD: getch.c,v 1.65 2017/01/31 09:17:53 roy Exp $	*/
+/*	$NetBSD: getch.c,v 1.66 2018/09/18 22:46:18 rin Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -31,6 +31,7 @@
 
 #include <netbsd_sys/cdefs.h>
 
+#include <errno.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -869,7 +870,11 @@ wgetch(WINDOW *win)
 
 		if (ferror(infd)) {
 			clearerr(infd);
-			inp = ERR;
+			if (errno == EINTR && _cursesi_screen->resized) {
+				_cursesi_screen->resized = 0;
+				inp = KEY_RESIZE;
+			} else
+				inp = ERR;
 		} else {
 			inp = c;
 		}

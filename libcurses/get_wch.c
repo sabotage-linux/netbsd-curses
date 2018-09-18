@@ -1,4 +1,4 @@
-/*   $NetBSD: get_wch.c,v 1.14 2017/01/31 09:17:53 roy Exp $ */
+/*   $NetBSD: get_wch.c,v 1.15 2018/09/18 22:46:18 rin Exp $ */
 
 /*
  * Copyright (c) 2005 The NetBSD Foundation Inc.
@@ -36,6 +36,7 @@
 
 #include <netbsd_sys/cdefs.h>
 
+#include <errno.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -593,7 +594,12 @@ wget_wch(WINDOW *win, wint_t *ch)
 
 		if (ferror(infd)) {
 			clearerr(infd);
-			return ERR;
+			if (errno == EINTR && _cursesi_screen->resized) {
+				_cursesi_screen->resized = 0;
+				*ch = KEY_RESIZE;
+				return KEY_CODE_YES;
+			} else
+				return ERR;
 		} else {
 			ret = c;
 			inp = c;
