@@ -1,4 +1,4 @@
-/*	$NetBSD: getch.c,v 1.66 2018/09/18 22:46:18 rin Exp $	*/
+/*	$NetBSD: getch.c,v 1.67 2018/09/26 14:42:22 kamil Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -543,7 +543,11 @@ reread:
 			c = fgetc(infd);
 			if (c == EOF) {
 				clearerr(infd);
-				return ERR;
+				if (errno == EINTR && _cursesi_screen->resized) {
+					_cursesi_screen->resized = 0;
+					return KEY_RESIZE;
+				} else
+					return ERR;
 			}
 
 			if (delay && (__notimeout() == ERR))
@@ -585,7 +589,11 @@ reread:
 			c = fgetc(infd);
 			if (ferror(infd)) {
 				clearerr(infd);
-				return ERR;
+				if (errno == EINTR && _cursesi_screen->resized) {
+					_cursesi_screen->resized = 0;
+					return KEY_RESIZE;
+				} else
+					return ERR;
 			}
 
 			if ((to || delay) && (__notimeout() == ERR))
