@@ -1,4 +1,4 @@
-/*	$NetBSD: getch.c,v 1.68 2018/09/27 14:05:26 roy Exp $	*/
+/*	$NetBSD: getch.c,v 1.69 2018/09/27 14:07:55 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -805,6 +805,7 @@ wgetch(WINDOW *win)
 #endif
 	if (_cursesi_screen->resized) {
 		_cursesi_screen->resized = 0;
+		resizeterm(LINES, COLS);
 #ifdef DEBUG
 		__CTRACE(__CTRACE_INPUT, "wgetch returning KEY_RESIZE\n");
 #endif
@@ -993,5 +994,6 @@ __fgetc_resize(FILE *infd)
 	__CTRACE(__CTRACE_INPUT, "__fgetc_resize returning KEY_RESIZE\n");
 #endif
 	_cursesi_screen->resized = 0;
+	resizeterm(LINES, COLS);
 	return KEY_RESIZE;
 }

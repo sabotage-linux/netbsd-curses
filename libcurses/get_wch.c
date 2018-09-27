@@ -1,4 +1,4 @@
-/*   $NetBSD: get_wch.c,v 1.17 2018/09/27 14:05:26 roy Exp $ */
+/*   $NetBSD: get_wch.c,v 1.18 2018/09/27 14:07:55 roy Exp $ */
 
 /*
  * Copyright (c) 2005 The NetBSD Foundation Inc.
@@ -528,6 +528,7 @@ wget_wch(WINDOW *win, wint_t *ch)
 #endif
 	if (_cursesi_screen->resized) {
 		_cursesi_screen->resized = 0;
+		resizeterm(LINES, COLS);
 		*ch = KEY_RESIZE;
 		return KEY_CODE_YES;
 	}
@@ -681,6 +682,7 @@ __fgetwc_resize(FILE *infd, bool *resized)
 	__CTRACE(__CTRACE_INPUT, "__fgetwc_resize returning KEY_RESIZE\n");
 #endif
 	_cursesi_screen->resized = 0;
+	resizeterm(LINES, COLS);
 	*resized = true;
 	return c;
 }
