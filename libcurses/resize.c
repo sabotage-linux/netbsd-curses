@@ -1,4 +1,4 @@
-/*	$NetBSD: resize.c,v 1.26 2017/01/24 17:27:30 roy Exp $	*/
+/*	$NetBSD: resize.c,v 1.27 2018/09/28 15:03:48 roy Exp $	*/
 
 /*
  * Copyright (c) 2001
@@ -156,6 +156,8 @@ resizeterm(int nlines, int ncols)
 	__CTRACE(__CTRACE_WINDOW, "resizeterm: (%d, %d)\n", nlines, ncols);
 #endif
 
+	/* Unconditionally inform application screen has been resized. */
+	_cursesi_screen->resized = 1;
 
 	if (!is_term_resized(nlines, ncols))
 		return OK;
