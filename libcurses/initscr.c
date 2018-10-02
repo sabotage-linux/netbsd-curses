@@ -1,4 +1,4 @@
-/*	$NetBSD: initscr.c,v 1.32 2017/01/11 17:15:27 roy Exp $	*/
+/*	$NetBSD: initscr.c,v 1.33 2018/10/02 17:35:44 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -65,6 +65,7 @@ initscr(void)
 
 	set_term(_cursesi_screen);
 	wrefresh(curscr);
+	__ripofftouch(_cursesi_screen);
 
 	return stdscr;
 }
