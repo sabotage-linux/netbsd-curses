@@ -1,4 +1,4 @@
-/*	$NetBSD: tstp.c,v 1.43 2018/09/18 22:51:00 rin Exp $	*/
+/*	$NetBSD: tstp.c,v 1.44 2018/10/18 07:53:13 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -33,6 +33,7 @@
 #include <netbsd_sys/cdefs.h>
 
 #include <sys/ioctl.h>
+#include <sys/param.h>
 
 #include <errno.h>
 #include <signal.h>
@@ -246,7 +247,9 @@ __stopwin(void)
 	(void)tputs(cursor_normal, 0, __cputchar);
 	(void)tputs(exit_ca_mode, 0, __cputchar);
 	(void)fflush(_cursesi_screen->outfd);
+#ifdef BSD
 	(void)setvbuf(_cursesi_screen->outfd, NULL, _IOLBF, 0);
+#endif
 
 	_cursesi_screen->endwin = 1;
 

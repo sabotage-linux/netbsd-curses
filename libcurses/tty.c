@@ -1,4 +1,4 @@
-/*	$NetBSD: tty.c,v 1.46 2017/01/06 13:53:18 roy Exp $	*/
+/*	$NetBSD: tty.c,v 1.47 2018/10/18 07:53:13 roy Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -31,13 +31,14 @@
 
 #include <netbsd_sys/cdefs.h>
 
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <sys/param.h>
 #include <sys/types.h>
 
 #include <stdlib.h>
 #include <termios.h>
 #include <unistd.h>
-#include <fcntl.h>
-#include <sys/ioctl.h>
 
 #include "curses.h"
 #include "curses_private.h"
@@ -538,12 +539,21 @@ __startwin(SCREEN *screen)
 
 	(void)fflush(screen->infd);
 
+#ifdef BSD
 	/*
 	 * Some C libraries default to a 1K buffer when talking to a tty.
 	 * With a larger screen, especially across a network, we'd like
 	 * to get it to all flush in a single write.  Make it twice as big
 	 * as just the characters (so that we have room for cursor motions
 	 * and attribute information) but no more than 8K.
+	 *
+	 * However, setvbuf may only be used after opening a stream and
+	 * before any operations have been performed on it.
+	 * This means we cannot work portably if an application wants
+	 * to stop curses and start curses after a resize.
+	 * Curses resizing is not standard, and thus not strictly portable
+	 * even though all curses today support it.
+	 * The BSD systems do not suffer from this limitation on setvbuf.
 	 */
 	if (screen->stdbuf == NULL) {
 		screen->len = LINES * COLS * 2;
@@ -553,6 +563,7 @@ __startwin(SCREEN *screen)
 			screen->len = 0;
 	}
 	(void)setvbuf(screen->outfd, screen->stdbuf, _IOFBF, screen->len);
+#endif
 
 	ti_puts(screen->term, t_enter_ca_mode(screen->term), 0,
 		__cputchar_args, (void *) screen->outfd);
