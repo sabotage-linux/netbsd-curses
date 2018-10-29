@@ -1,4 +1,4 @@
-/*	$NetBSD: ctrace.c,v 1.21 2017/01/06 13:53:18 roy Exp $	*/
+/*	$NetBSD: ctrace.c,v 1.22 2018/10/29 00:25:20 uwe Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -48,8 +48,8 @@ static int tracemask;	/* Areas of trace output we want. */
 
 static int init_done = 0;
 
-void
-__CTRACE_init()
+static void
+__CTRACE_init(void)
 {
 	char *tf, *tm;
 
