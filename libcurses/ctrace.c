@@ -1,4 +1,4 @@
-/*	$NetBSD: ctrace.c,v 1.22 2018/10/29 00:25:20 uwe Exp $	*/
+/*	$NetBSD: ctrace.c,v 1.23 2018/10/29 00:31:57 uwe Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -78,7 +78,6 @@ __CTRACE_init(void)
 void
 __CTRACE(int area, const char *fmt,...)
 {
-	struct timeval tv;
         static int seencr = 1;
 	va_list ap;
 
@@ -86,8 +85,9 @@ __CTRACE(int area, const char *fmt,...)
 		__CTRACE_init();
 	if (tracefp == NULL || !(tracemask & area))
 		return;
-	gettimeofday(&tv, NULL);
+
         if (seencr && (tracemask & __CTRACE_TSTAMP)) {
+		struct timeval tv;
                 gettimeofday(&tv, NULL);
                 (void)fprintf(tracefp, "%llu.%06lu: ",
 		    (long long)tv.tv_sec, (long)tv.tv_usec);
