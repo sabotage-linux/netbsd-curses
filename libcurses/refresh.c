@@ -1,4 +1,4 @@
-/*	$NetBSD: refresh.c,v 1.91 2018/10/21 12:47:33 roy Exp $	*/
+/*	$NetBSD: refresh.c,v 1.92 2018/10/29 01:02:16 uwe Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -1247,8 +1247,9 @@ makech(int wy)
 		_cursesi_screen->ly = wy;
 		_cursesi_screen->lx = wx;
 #ifndef HAVE_WCHAR
-		while (wx <= lch && (memcmp(nsp, csp, sizeof(__LDATA)) != 0) ||
-			(wlp->flags & __ISFORCED))
+		while (wx <= lch &&
+		       ((memcmp(nsp, csp, sizeof(__LDATA)) != 0)
+			|| (wlp->flags & __ISFORCED)))
 		{
 			if (ce != NULL &&
 			    wx >= nlsp && nsp->ch == ' ' && nsp->attr == lspc)
