@@ -126,6 +126,13 @@ the `all` build can be sped up by putting `-fPIC` in CFLAGS.
 this has the effect that the same object files will be used for the dynamic and
 static libs; otherwise they will be compiled twice with different CFLAGS.
 
+Compiled-in terminal database
+-----------------------------
+support for about a dozen common TERMs is built-in already. if you need one
+that's not included, you can either add yours to `libterminfo/genterms` or
+`make terminfo/terminfo.cdb` and install the result to either
+`$PREFIX/share/terminfo.cdb` or `$HOME/.terminfo.cdb`.
+
 Compiling software against netbsd-curses
 ----------------------------------------
 the functionality that ncurses offers is usually (if not configured to split
