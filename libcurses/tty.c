@@ -1,4 +1,4 @@
-/*	$NetBSD: tty.c,v 1.47 2018/10/18 07:53:13 roy Exp $	*/
+/*	$NetBSD: tty.c,v 1.48 2018/11/16 10:12:00 blymn Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -243,11 +243,11 @@ nocbreak(void)
 	if (_cursesi_screen->notty == TRUE)
 		return OK;
 	  /* if we were in halfdelay mode then nuke the timeout */
-	if ((_cursesi_screen->half_delay == TRUE) &&
+	if ((stdscr->flags & __HALFDELAY) &&
 	    (__notimeout() == ERR))
 		return ERR;
 
-	_cursesi_screen->half_delay = FALSE;
+	stdscr->flags &= ~__HALFDELAY;
 	_cursesi_screen->curt = _cursesi_screen->useraw ?
 		&_cursesi_screen->rawt : &_cursesi_screen->baset;
 	return tcsetattr(fileno(_cursesi_screen->infd), TCSASOFT | TCSADRAIN,
@@ -268,10 +268,12 @@ halfdelay(int duration)
 	if (cbreak() == ERR)
 		return ERR;
 
-	if (__timeout(duration) == ERR)
-		return ERR;
+	if (duration > 255)
+		stdscr->delay = 255;
+	else
+		stdscr->delay = duration;
 
-	_cursesi_screen->half_delay = TRUE;
+	stdscr->flags |= __HALFDELAY;
 	return OK;
 }
 

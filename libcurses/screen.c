@@ -1,4 +1,4 @@
-/*	$NetBSD: screen.c,v 1.34 2018/10/02 17:35:44 roy Exp $	*/
+/*	$NetBSD: screen.c,v 1.35 2018/11/16 10:12:00 blymn Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -160,7 +160,6 @@ newterm(char *type, FILE *outfd, FILE *infd)
 	new_screen->__virtscr = NULL;
 	new_screen->curwin = 0;
 	new_screen->notty = FALSE;
-	new_screen->half_delay = FALSE;
 	new_screen->resized = 0;
 	new_screen->unget_len = 32;
 
