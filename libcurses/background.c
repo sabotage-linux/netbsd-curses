@@ -1,4 +1,4 @@
-/*	$NetBSD: background.c,v 1.22 2018/11/18 22:18:02 uwe Exp $	*/
+/*	$NetBSD: background.c,v 1.23 2018/11/18 22:34:32 uwe Exp $	*/
 
 /*-
  * Copyright (c) 2000 The NetBSD Foundation, Inc.
@@ -127,7 +127,7 @@ getbkgd(WINDOW *win)
 	/* Background attributes (check colour). */
 	battr = win->battr & A_ATTRIBUTES;
 	if (__using_color && ((battr & __COLOR) == __default_color))
-		battr &= ~__default_color;
+		battr &= ~__COLOR;
 
 	return ((chtype) ((win->bch & A_CHARTEXT) | battr));
 }
@@ -255,9 +255,8 @@ wgetbkgrnd(WINDOW *win, cchar_t *wch)
 
 	/* Background attributes (check colour). */
 	wch->attributes = win->battr & WA_ATTRIBUTES;
-	if (__using_color && ((wch->attributes & __COLOR)
-			== __default_color))
-		wch->attributes &= ~__default_color;
+	if (__using_color && ((wch->attributes & __COLOR) == __default_color))
+		wch->attributes &= ~__COLOR;
 	wch->vals[0] = win->bch;
 	wch->elements = 1;
 	np = win->bnsp;
