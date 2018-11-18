@@ -1,4 +1,4 @@
-/*	$NetBSD: background.c,v 1.23 2018/11/18 22:34:32 uwe Exp $	*/
+/*	$NetBSD: background.c,v 1.24 2018/11/18 22:53:22 uwe Exp $	*/
 
 /*-
  * Copyright (c) 2000 The NetBSD Foundation, Inc.
@@ -225,8 +225,6 @@ wbkgrndset(WINDOW *win, const cchar_t *wch)
 int
 wbkgrnd(WINDOW *win, const cchar_t *wch)
 {
-	attr_t battr;
-
 #ifdef DEBUG
 	__CTRACE(__CTRACE_ATTR, "wbkgrnd: (%p), '%s', %x\n",
 		win, (const char *) wunctrl(wch), wch->attributes);
@@ -236,12 +234,6 @@ wbkgrnd(WINDOW *win, const cchar_t *wch)
 	if (!wch->elements || wcwidth( wch->vals[ 0 ]) > 1)
 		return ERR;
 
-	/* Background attributes (check colour). */
-	battr = wch->attributes & WA_ATTRIBUTES;
-	if (__using_color && !( battr & __COLOR))
-		battr |= __default_color;
-
-	win->battr = battr;
 	wbkgrndset(win, wch);
 	__touchwin(win);
 	return OK;
