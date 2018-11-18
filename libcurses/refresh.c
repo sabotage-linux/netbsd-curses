@@ -1,4 +1,4 @@
-/*	$NetBSD: refresh.c,v 1.99 2018/11/18 02:34:39 uwe Exp $	*/
+/*	$NetBSD: refresh.c,v 1.100 2018/11/18 02:39:44 uwe Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -1244,16 +1244,15 @@ makech(int wy)
 		_cursesi_screen->ly = wy;
 		_cursesi_screen->lx = wx;
 		while (wx <= lch &&
-		       (!celleq(nsp, csp)
-			|| (wlp->flags & __ISFORCED)))
+		       ((wlp->flags & __ISFORCED) || !celleq(nsp, csp)))
 		{
 #ifndef HAVE_WCHAR
 			if (ce != NULL && wx >= nlsp
 			    && nsp->ch == ' ' && nsp->attr == lspc)
 #else
 			if (ce != NULL && wx >= nlsp
-			   && nsp->ch == (wchar_t)btowc((int)' ') /* XXX */
-			   && (nsp->attr & WA_ATTRIBUTES) == lspc)
+			    && nsp->ch == (wchar_t)btowc((int)' ') /* XXX */
+			    && (nsp->attr & WA_ATTRIBUTES) == lspc)
 #endif
 			{
 				/* Check for clear to end-of-line. */
