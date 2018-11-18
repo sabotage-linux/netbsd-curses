@@ -1,4 +1,4 @@
-/*	$NetBSD: refresh.c,v 1.92 2018/10/29 01:02:16 uwe Exp $	*/
+/*	$NetBSD: refresh.c,v 1.93 2018/11/18 00:45:44 uwe Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -2033,7 +2033,7 @@ int
 cellcmp( __LDATA *x, __LDATA *y )
 {
 	nschar_t *xnp = x->nsp, *ynp = y->nsp;
-	int ret = ( x->ch == y->ch ) & ( x->attr == y->attr );
+	int ret = ( x->ch == y->ch ) && ( x->attr == y->attr );
 
 	if (!ret)
 		return 0;
