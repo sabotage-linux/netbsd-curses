@@ -1,4 +1,4 @@
-/*   $NetBSD: inwstr.c,v 1.4 2017/01/06 13:53:18 roy Exp $ */
+/*   $NetBSD: inwstr.c,v 1.5 2018/11/22 22:16:45 uwe Exp $ */
 
 /*
  * Copyright (c) 2005 The NetBSD Foundation Inc.
@@ -48,21 +48,13 @@ __warn_references(inwstr,
 int
 inwstr(wchar_t *wstr)
 {
-#ifndef HAVE_WCHAR
-	return ERR;
-#else
 	return winwstr(stdscr, wstr);
-#endif /* HAVE_WCHAR */
 }
 
 int
 innwstr(wchar_t *wstr, int n)
 {
-#ifndef HAVE_WCHAR
-	return ERR;
-#else
 	return winnwstr(stdscr, wstr, n);
-#endif /* HAVE_WCHAR */
 }
 
 /*
@@ -74,21 +66,13 @@ __warn_references(mvinwstr,
 int
 mvinwstr(int y, int x, wchar_t *wstr)
 {
-#ifndef HAVE_WCHAR
-	return ERR;
-#else
 	return mvwinwstr(stdscr, y, x, wstr);
-#endif /* HAVE_WCHAR */
 }
 
 int
 mvinnwstr(int y, int x, wchar_t *wstr, int n)
 {
-#ifndef HAVE_WCHAR
-	return ERR;
-#else
 	return mvwinnwstr(stdscr, y, x, wstr, n);
-#endif /* HAVE_WCHAR */
 }
 
 /*
@@ -100,27 +84,19 @@ __warn_references(mvwinwstr,
 int
 mvwinwstr(WINDOW *win, int y, int x, wchar_t *wstr)
 {
-#ifndef HAVE_WCHAR
-	return ERR;
-#else
 	if (wmove(win, y, x) == ERR)
 		return ERR;
 
 	return winwstr(win, wstr);
-#endif /* HAVE_WCHAR */
 }
 
 int
 mvwinnwstr(WINDOW *win, int y, int x, wchar_t *wstr, int n)
 {
-#ifndef HAVE_WCHAR
-	return ERR;
-#else
 	if (wmove(win, y, x) == ERR)
 		return ERR;
 
 	return winnwstr(win, wstr, n);
-#endif /* HAVE_WCHAR */
 }
 
 /*
@@ -132,12 +108,8 @@ __warn_references(winwstr,
 int
 winwstr(WINDOW *win, wchar_t *wstr)
 {
-#ifndef HAVE_WCHAR
-	return ERR;
-#else
 
 	return winnwstr(win, wstr, -1);
-#endif /* HAVE_WCHAR */
 }
 
 /*
@@ -152,9 +124,6 @@ winwstr(WINDOW *win, wchar_t *wstr)
 int
 winnwstr(WINDOW *win, wchar_t *wstr, int n)
 {
-#ifndef HAVE_WCHAR
-	return ERR;
-#else
 	__LDATA	*start;
 	int x, cw, cnt;
 	wchar_t *wcp;
@@ -187,5 +156,4 @@ winnwstr(WINDOW *win, wchar_t *wstr, int n)
 		return OK;
 	else
 		return cnt;
-#endif /* HAVE_WCHAR */
 }

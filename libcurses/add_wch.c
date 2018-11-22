@@ -1,4 +1,4 @@
-/*   $NetBSD: add_wch.c,v 1.5 2016/01/07 07:36:35 jdc Exp $ */
+/*   $NetBSD: add_wch.c,v 1.6 2018/11/22 22:16:45 uwe Exp $ */
 
 /*
  * Copyright (c) 2005 The NetBSD Foundation Inc.
@@ -51,11 +51,7 @@
 int
 add_wch(const cchar_t *wch)
 {
-#ifndef HAVE_WCHAR
-	return ERR;
-#else
 	return wadd_wch(stdscr, wch);
-#endif /* HAVE_WCHAR */
 }
 
 
@@ -66,11 +62,7 @@ add_wch(const cchar_t *wch)
 int
 mvadd_wch(int y, int x, const cchar_t *wch)
 {
-#ifndef HAVE_WCHAR
-	return ERR;
-#else
 	return mvwadd_wch(stdscr, y, x, wch);
-#endif /* HAVE_WCHAR */
 }
 
 
@@ -81,14 +73,10 @@ mvadd_wch(int y, int x, const cchar_t *wch)
 int
 mvwadd_wch(WINDOW *win, int y, int x, const cchar_t *wch)
 {
-#ifndef HAVE_WCHAR
-	return ERR;
-#else
 	if (wmove(win, y, x) == ERR)
 		return ERR;
 
 	return wadd_wch(win, wch);
-#endif /* HAVE_WCHAR */
 }
 
 
@@ -101,9 +89,6 @@ mvwadd_wch(WINDOW *win, int y, int x, const cchar_t *wch)
 int
 wadd_wch(WINDOW *win, const cchar_t *wch)
 {
-#ifndef HAVE_WCHAR
-	return ERR;
-#else
 	int x = win->curx, y = win->cury;
 	__LINE *lnp = NULL;
 
@@ -117,5 +102,4 @@ wadd_wch(WINDOW *win, const cchar_t *wch)
 #endif
 	lnp = win->alines[y];
 	return _cursesi_addwchar(win, &lnp, &y, &x, wch, 1);
-#endif /* HAVE_WCHAR */
 }
