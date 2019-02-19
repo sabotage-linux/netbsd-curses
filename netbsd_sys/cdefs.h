@@ -6,7 +6,6 @@
 #define __BEGIN_DECLS
 #define __END_DECLS
 #endif
-#define __unused
 #define __COPYRIGHT(X)
 
 #ifndef __printflike

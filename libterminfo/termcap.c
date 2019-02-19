@@ -49,8 +49,9 @@ char *BC;
 
 /* ARGSUSED */
 int
-tgetent(__unused char *bp, const char *name)
+tgetent(char *bp, const char *name)
 {
+	(void)bp;
 	int errret;
 	static TERMINAL *last = NULL;
 
