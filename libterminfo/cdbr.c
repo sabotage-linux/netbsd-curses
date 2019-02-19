@@ -112,8 +112,9 @@ struct cdbr {
 
 #if !defined(_KERNEL) && !defined(_STANDALONE)
 static void
-cdbr_unmap(void *cookie __unused, void *base, size_t size)
+cdbr_unmap(void *cookie, void *base, size_t size)
 {
+	(void)cookie;
 	munmap(base, size);
 }
 
