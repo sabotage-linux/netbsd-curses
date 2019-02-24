@@ -1,4 +1,4 @@
-/*	$NetBSD: inchstr.c,v 1.7 2017/01/06 13:53:18 roy Exp $	*/
+/*	$NetBSD: inchstr.c,v 1.8 2019/02/24 20:20:18 roy Exp $	*/
 
 /*
  * Copyright 2001 Wasabi Systems, Inc.
@@ -47,7 +47,7 @@
  *	Return an array of characters at cursor position from stdscr.
  */
 __warn_references(inchstr,
-    "warning: this program uses inchstr(), which is unsafe.")
+    "warning: this program uses inchstr(), which is unsafe.");
 int
 inchstr(chtype *chstr)
 {
@@ -67,7 +67,7 @@ inchnstr(chtype *chstr, int n)
  *      Return an array of characters at position (y, x) from stdscr.
  */
 __warn_references(mvinchstr,
-    "warning: this program uses mvinchstr(), which is unsafe.")
+    "warning: this program uses mvinchstr(), which is unsafe.");
 int
 mvinchstr(int y, int x, chtype *chstr)
 {
@@ -87,7 +87,7 @@ mvinchnstr(int y, int x, chtype *chstr, int n)
  *      Return an array characters at position (y, x) from the given window.
  */
 __warn_references(mvwinchstr,
-    "warning: this program uses mvwinchstr(), which is unsafe.")
+    "warning: this program uses mvwinchstr(), which is unsafe.");
 int
 mvwinchstr(WINDOW *win, int y, int x, chtype *chstr)
 {
@@ -115,7 +115,7 @@ mvwinchnstr(WINDOW *win, int y, int x, chtype *chstr, int n)
  *	Return an array of characters at cursor position.
  */
 __warn_references(winchstr,
-    "warning: this program uses winchstr(), which is unsafe.")
+    "warning: this program uses winchstr(), which is unsafe.");
 int
 winchstr(WINDOW *win, chtype *chstr)
 {

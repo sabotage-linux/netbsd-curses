@@ -1,4 +1,4 @@
-/*	$NetBSD: getstr.c,v 1.24 2017/01/06 13:53:18 roy Exp $	*/
+/*	$NetBSD: getstr.c,v 1.25 2019/02/24 20:20:18 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -54,7 +54,7 @@ getnstr(char *str, int n)
  *	Get a string from stdscr starting at (cury, curx).
  */
 __warn_references(getstr,
-    "warning: this program uses getstr(), which is unsafe.")
+    "warning: this program uses getstr(), which is unsafe.");
 int
 getstr(char *str)
 {
@@ -76,7 +76,7 @@ mvgetnstr(int y, int x, char *str, int n)
  *      Get a string from stdscr starting at (y, x).
  */
 __warn_references(mvgetstr,
-    "warning: this program uses mvgetstr(), which is unsafe.")
+    "warning: this program uses mvgetstr(), which is unsafe.");
 int
 mvgetstr(int y, int x, char *str)
 {
@@ -102,7 +102,7 @@ mvwgetnstr(WINDOW *win, int y, int x, char *str, int n)
  *      Get a string from the given window starting at (y, x).
  */
 __warn_references(mvgetstr,
-    "warning: this program uses mvgetstr(), which is unsafe.")
+    "warning: this program uses mvgetstr(), which is unsafe.");
 int
 mvwgetstr(WINDOW *win, int y, int x, char *str)
 {
@@ -119,7 +119,7 @@ mvwgetstr(WINDOW *win, int y, int x, char *str)
  *	Get a string starting at (cury, curx).
  */
 __warn_references(wgetstr,
-    "warning: this program uses wgetstr(), which is unsafe.")
+    "warning: this program uses wgetstr(), which is unsafe.");
 int
 wgetstr(WINDOW *win, char *str)
 {
