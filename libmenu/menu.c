@@ -439,10 +439,6 @@ new_menu(ITEM **items)
           /* now attach the items, if any */
         if (items != NULL) {
 		if(set_menu_items(the_menu, items) < 0) {
-			if (the_menu->mark.string != NULL)
-				free(the_menu->mark.string);
-			if (the_menu->unmark.string != NULL)
-				free(the_menu->unmark.string);
 			free(the_menu);
 			return NULL;
 		}
