@@ -29,7 +29,7 @@
  * SUCH DAMAGE.
  */
 
-#define _XOPEN_SOURCE 700
+#define _BSD_SOURCE
 #include <netbsd_sys/cdefs.h>
 
 #include <sys/ioctl.h>

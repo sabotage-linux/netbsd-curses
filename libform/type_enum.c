@@ -30,7 +30,7 @@
  */
 
 #define _BSD_SOURCE
-#define _XOPEN_SOURCE 700
+#define _XOPEN_SOURCE 600
 #include <netbsd_sys/cdefs.h>
 
 #include <ctype.h>

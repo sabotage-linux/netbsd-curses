@@ -27,6 +27,11 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#undef _GNU_SOURCE
+#define _GNU_SOURCE
+#undef _XOPEN_SOURCE
+#define _XOPEN_SOURCE 700
+
 #if HAVE_NBTOOL_CONFIG_H
 #include "nbtool_config.h"
 #endif
