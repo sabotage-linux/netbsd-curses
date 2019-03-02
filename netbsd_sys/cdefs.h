@@ -1,12 +1,16 @@
 #ifndef NETBSD_SYS_CDEFS_H
 #define NETBSD_SYS_CDEFS_H
 
+#ifndef __RCSID
 #define __RCSID(X)
+#endif
 #ifndef __BEGIN_DECLS
 #define __BEGIN_DECLS
 #define __END_DECLS
 #endif
+#ifndef __COPYRIGHT
 #define __COPYRIGHT(X)
+#endif
 
 #ifndef __printflike
 #if __GNUC__ >= 3
@@ -20,7 +24,9 @@
 #endif
 #endif
 
+#ifndef __warn_references
 #define __warn_references(a, b)
+#endif
 #ifndef __P
 #define __P(X) X
 #endif
@@ -51,7 +57,8 @@
 #  define __dso_public
 #  define __dso_hidden
 #endif
-#if __GNUC__ >= 3
+#if defined(__predict_true)
+#elif __GNUC__ >= 3
 #define __predict_true(exp)     __builtin_expect((exp) != 0, 1)
 #define __predict_false(exp)    __builtin_expect((exp) != 0, 0)
 #else
