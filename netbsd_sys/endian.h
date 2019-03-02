@@ -1,7 +1,16 @@
 #ifndef NETBSD_SYS_ENDIAN_H
 #define NETBSD_SYS_ENDIAN_H
 
+#if defined(__BYTE_ORDER__)
+#define __BYTE_ORDER __BYTE_ORDER__
+#undef __LITTLE_ENDIAN
+#define __LITTLE_ENDIAN __ORDER_LITTLE_ENDIAN__
+#else
 #include <endian.h>
+#endif
+#if __LITTLE_ENDIAN+0 != 1234
+#error erroneus __LITTLE_ENDIAN macro
+#endif
 #include <stdint.h>
 
 #ifndef le32toh
