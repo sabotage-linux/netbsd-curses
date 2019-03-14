@@ -1,4 +1,4 @@
-/*	$NetBSD: getch.c,v 1.70 2018/09/28 15:03:48 roy Exp $	*/
+/*	$NetBSD: getch.c,v 1.71 2019/03/14 00:36:06 rin Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -42,7 +42,7 @@
 #include "curses_private.h"
 #include "keymap.h"
 
-short	state;		/* state of the inkey function */
+short _cursesi_state;		/* state of the inkey function */
 
 static const struct tcdata tc[] = {
 	{TICODE_kSAV, KEY_SSAVE},
@@ -439,7 +439,7 @@ __init_getch(SCREEN *screen)
 	size_t limit = 1023, l;
 
 	/* init the inkey state variable */
-	state = INKEY_NORM;
+	_cursesi_state = INKEY_NORM;
 
 	/* init the base keymap */
 	screen->base_keymap = new_keymap();
@@ -533,7 +533,7 @@ inkey(int to, int delay)
 #endif
 	for (;;) {		/* loop until we get a complete key sequence */
 reread:
-		if (state == INKEY_NORM) {
+		if (_cursesi_state == INKEY_NORM) {
 			if (delay && __timeout(delay) == ERR)
 				return ERR;
 			c = __fgetc_resize(infd);
@@ -555,9 +555,11 @@ reread:
 			inbuf[working] = k;
 			INC_POINTER(working);
 			end = working;
-			state = INKEY_ASSEMBLING;	/* go to the assembling
-							 * state now */
-		} else if (state == INKEY_BACKOUT) {
+
+			/* go to the assembling state now */
+			_cursesi_state = INKEY_ASSEMBLING;
+
+		} else if (_cursesi_state == INKEY_BACKOUT) {
 			k = inbuf[working];
 			INC_POINTER(working);
 			if (working == end) {	/* see if we have run
@@ -565,9 +567,9 @@ reread:
 						 * backlog */
 
 				/* if we have then switch to assembling */
-				state = INKEY_ASSEMBLING;
+				_cursesi_state = INKEY_ASSEMBLING;
 			}
-		} else if (state == INKEY_ASSEMBLING) {
+		} else if (_cursesi_state == INKEY_ASSEMBLING) {
 			/* assembling a key sequence */
 			if (delay) {
 				if (__timeout(to ? (ESCDELAY / 100) : delay)
@@ -599,7 +601,7 @@ reread:
 					goto reread;
 
 				k = inbuf[start];
-				state = INKEY_TIMEOUT;
+				_cursesi_state = INKEY_TIMEOUT;
 			} else {
 				k = (wchar_t) c;
 				inbuf[working] = k;
@@ -616,7 +618,7 @@ reread:
 		   * timed out and the key has not been disabled
 		   */
 		mapping = current->mapping[k];
-		if (((state == INKEY_TIMEOUT) || (mapping < 0))
+		if (((_cursesi_state == INKEY_TIMEOUT) || (mapping < 0))
 			|| ((current->key[mapping]->type == KEYMAP_LEAF)
 			    && (current->key[mapping]->enable == FALSE))) {
 			/* return the first key we know about */
@@ -626,10 +628,10 @@ reread:
 			working = start;
 
 			if (start == end) {	/* only one char processed */
-				state = INKEY_NORM;
+				_cursesi_state = INKEY_NORM;
 			} else {/* otherwise we must have more than one char
 				 * to backout */
-				state = INKEY_BACKOUT;
+				_cursesi_state = INKEY_BACKOUT;
 			}
 			return k;
 		} else {	/* must be part of a multikey sequence */
@@ -641,10 +643,10 @@ reread:
 				/* check if inbuf empty now */
 				if (start == end) {
 					/* if it is go back to normal */
-					state = INKEY_NORM;
+					_cursesi_state = INKEY_NORM;
 				} else {
 					/* otherwise go to backout state */
-					state = INKEY_BACKOUT;
+					_cursesi_state = INKEY_BACKOUT;
 				}
 
 				/* return the symbol */
