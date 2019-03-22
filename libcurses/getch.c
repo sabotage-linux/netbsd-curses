@@ -42,10 +42,6 @@
 #include "curses_private.h"
 #include "keymap.h"
 
-#ifdef NCURSES_VERSION
-#error "including ncurses!"
-#endif
-
 short	state;		/* state of the inkey function */
 
 static const struct tcdata tc[] = {
