@@ -147,11 +147,11 @@ vw_printw(WINDOW *win, const char *fmt, va_list ap)
 	return OK;
 #else
 	char buf[4096], *p = buf;
-	int c, ret = vsnprintf(buf, sizeof buf, fmt, ap);
+	int status, c, ret = vsnprintf(buf, sizeof buf, fmt, ap);
 	if(ret < 0 || ret >= sizeof buf) return ERR;
-	for (c = ret; --c >= 0;)
-		if (waddch(win, (chtype) (*p++ & __CHARTEXT)) == ERR)
-                        return ERR;
+	status = waddnstr(win, buf, ret);
+	if (status == ERR)
+		return ERR;
 	return OK;
 #endif
 }
