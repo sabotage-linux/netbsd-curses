@@ -1,4 +1,4 @@
-/*	$NetBSD: delwin.c,v 1.20 2017/01/06 13:53:18 roy Exp $	*/
+/*	$NetBSD: delwin.c,v 1.21 2019/04/01 11:39:15 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -107,6 +107,7 @@ delwin(WINDOW *win)
 		_cursesi_screen->__virtscr = NULL;
 	if (win->fp)
 		fclose(win->fp);
+	free(win->buf);
 	free(win);
 	return OK;
 }

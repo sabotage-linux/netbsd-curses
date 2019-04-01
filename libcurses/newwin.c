@@ -1,4 +1,4 @@
-/*	$NetBSD: newwin.c,v 1.54 2018/10/10 09:40:11 roy Exp $	*/
+/*	$NetBSD: newwin.c,v 1.55 2019/04/01 11:39:15 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -296,6 +296,8 @@ __makenew(SCREEN *screen, int nlines, int ncols, int by, int bx, int sub,
 	__CTRACE(__CTRACE_WINDOW, "makenew: win = %p\n", win);
 #endif
 	win->fp = NULL;
+	win->buf = NULL;
+	win->buflen = 0;
 
 	/* Set up line pointer array and line space. */
 	if ((win->alines = malloc(nlines * sizeof(__LINE *))) == NULL) {
