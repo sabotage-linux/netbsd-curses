@@ -36,14 +36,6 @@
 #include "curses.h"
 #include "curses_private.h"
 
-#if 0
-#warning "funopen unimplemented!"
-static inline void* funopen(void* a, ...) {
-	dprintf(666, "warning: funopen unimplemented\n");
-	return 0;
-}
-#endif
-
 /*
  * printw and friends.
  */
@@ -111,7 +103,6 @@ mvwprintw(WINDOW * win, int y, int x, const char *fmt,...)
 	va_end(ap);
 	return ret;
 }
-#if 0
 /*
  * Internal write-buffer-to-window function.
  */
@@ -128,7 +119,6 @@ winwrite(void *cookie, const void *vbuf, size_t n)
 
 	return (ssize_t)n;
 }
-#endif
 /*
  * vw_printw --
  *	This routine actually executes the printf and adds it to the window.
@@ -136,7 +126,6 @@ winwrite(void *cookie, const void *vbuf, size_t n)
 int
 vw_printw(WINDOW *win, const char *fmt, va_list ap)
 {
-#if 0
 	if (win->fp == NULL) {
 		win->fp = funopen2(win, NULL, winwrite, NULL, NULL, NULL);
 		if (win->fp == NULL)
@@ -145,15 +134,6 @@ vw_printw(WINDOW *win, const char *fmt, va_list ap)
 	vfprintf(win->fp, fmt, ap);
 	fflush(win->fp);
 	return OK;
-#else
-	char buf[4096], *p = buf;
-	int status, c, ret = vsnprintf(buf, sizeof buf, fmt, ap);
-	if(ret < 0 || ret >= sizeof buf) return ERR;
-	status = waddnstr(win, buf, ret);
-	if (status == ERR)
-		return ERR;
-	return OK;
-#endif
 }
 
 __strong_alias(vwprintw, vw_printw)
