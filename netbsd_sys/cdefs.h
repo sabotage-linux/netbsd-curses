@@ -30,7 +30,9 @@
 #ifndef __P
 #define __P(X) X
 #endif
+#ifndef __dead
 #define __dead __attribute__((__noreturn__))
+#endif
 #define __UNCONST(a)   (void *)(intptr_t)(a)
 # define __STRING(x)    #x
 #if 0
