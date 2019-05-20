@@ -1,4 +1,4 @@
-/*	$NetBSD: inch.c,v 1.12 2018/11/18 22:34:32 uwe Exp $	*/
+/*	$NetBSD: inch.c,v 1.13 2019/05/20 22:17:41 blymn Exp $	*/
 
 /*-
  * Copyright (c) 1999 The NetBSD Foundation, Inc.
@@ -66,7 +66,7 @@ chtype
 mvwinch(WINDOW *win, int y, int x)
 {
 
-	if (wmove(win, y, x) == ERR)
+	if (_cursesi_wmove(win, y, x, 0) == ERR)
 		return ERR;
 
 	return winch(win);

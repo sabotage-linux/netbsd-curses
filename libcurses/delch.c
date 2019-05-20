@@ -1,4 +1,4 @@
-/*	$NetBSD: delch.c,v 1.24 2017/01/06 13:53:18 roy Exp $	*/
+/*	$NetBSD: delch.c,v 1.25 2019/05/20 22:17:41 blymn Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -65,7 +65,7 @@ mvdelch(int y, int x)
 int
 mvwdelch(WINDOW *win, int y, int x)
 {
-	if (wmove(win, y, x) == ERR)
+	if (_cursesi_wmove(win, y, x, 0) == ERR)
 		return ERR;
 
 	return wdelch(win);

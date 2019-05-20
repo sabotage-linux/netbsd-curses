@@ -1,4 +1,4 @@
-/*   $NetBSD: add_wchstr.c,v 1.6 2018/11/22 22:16:45 uwe Exp $ */
+/*   $NetBSD: add_wchstr.c,v 1.7 2019/05/20 22:17:41 blymn Exp $ */
 
 /*
  * Copyright (c) 2005 The NetBSD Foundation Inc.
@@ -118,7 +118,7 @@ mvadd_wchnstr(int y, int x, const cchar_t *wchstr, int n)
 int
 mvwadd_wchnstr(WINDOW *win, int y, int x, const cchar_t *wchstr, int n)
 {
-	if (wmove(win, y, x) == ERR)
+	if (_cursesi_wmove(win, y, x, 0) == ERR)
 		return ERR;
 
 	return wadd_wchnstr(win, wchstr, n);

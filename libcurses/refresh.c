@@ -1,4 +1,4 @@
-/*	$NetBSD: refresh.c,v 1.109 2019/05/12 02:19:23 blymn Exp $	*/
+/*	$NetBSD: refresh.c,v 1.110 2019/05/20 22:17:41 blymn Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -39,7 +39,7 @@
 #include "curses.h"
 #include "curses_private.h"
 
-static void	domvcur(const WINDOW *, int, int, int, int);
+static void	domvcur(WINDOW *, int, int, int, int);
 static void	putattr(__LDATA *);
 static void	putattr_out(__LDATA *);
 static int	putch(__LDATA *, __LDATA *, int, int);
@@ -1425,7 +1425,7 @@ makech(int wy)
  *	Do a mvcur, leaving attributes if necessary.
  */
 static void
-domvcur(const WINDOW *win, int oy, int ox, int ny, int nx)
+domvcur(WINDOW *win, int oy, int ox, int ny, int nx)
 {
 
 #ifdef DEBUG
@@ -1445,6 +1445,10 @@ domvcur(const WINDOW *win, int oy, int ox, int ny, int nx)
 	/* Clear EOL flags. */
 	win->alines[oy]->flags &= ~__ISPASTEOL;
 	win->alines[ny]->flags &= ~__ISPASTEOL;
+
+	/* Update old cursor positions to current location */
+	win->ocury = ny;
+	win->ocurx = nx;
 
 	__mvcur(oy, ox, ny, nx, 1);
 }

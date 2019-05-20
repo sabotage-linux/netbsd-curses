@@ -1,4 +1,4 @@
-/*   $NetBSD: ins_wch.c,v 1.12 2018/11/22 22:16:45 uwe Exp $ */
+/*   $NetBSD: ins_wch.c,v 1.13 2019/05/20 22:17:41 blymn Exp $ */
 
 /*
  * Copyright (c) 2005 The NetBSD Foundation Inc.
@@ -70,7 +70,7 @@ mvins_wch(int y, int x, const cchar_t *wch)
 int
 mvwins_wch(WINDOW *win, int y, int x, const cchar_t *wch)
 {
-	if (wmove(win, y, x) == ERR)
+	if (_cursesi_wmove(win, y, x, 0) == ERR)
 		return ERR;
 
 	return wins_wch(stdscr, wch);

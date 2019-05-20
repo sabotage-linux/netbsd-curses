@@ -1,4 +1,4 @@
-/*	$NetBSD: newwin.c,v 1.55 2019/04/01 11:39:15 roy Exp $	*/
+/*	$NetBSD: newwin.c,v 1.56 2019/05/20 22:17:41 blymn Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -368,7 +368,7 @@ __makenew(SCREEN *screen, int nlines, int ncols, int by, int bx, int sub,
 	__CTRACE(__CTRACE_WINDOW, "makenew: ncols = %d\n", ncols);
 #endif
 	win->screen = screen;
-	win->cury = win->curx = 0;
+	win->cury = win->curx = win->ocurx = win->ocury = 0;
 	win->maxy = nlines;
 	win->maxx = ncols;
 	win->reqy = nlines;

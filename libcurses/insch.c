@@ -1,4 +1,4 @@
-/*	$NetBSD: insch.c,v 1.23 2017/01/06 13:53:18 roy Exp $	*/
+/*	$NetBSD: insch.c,v 1.24 2019/05/20 22:17:41 blymn Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -69,7 +69,7 @@ int
 mvwinsch(WINDOW *win, int y, int x, chtype ch)
 {
 
-	if (wmove(win, y, x) == ERR)
+	if (_cursesi_wmove(win, y, x, 0) == ERR)
 		return ERR;
 
 	return winsch(stdscr, ch);
@@ -119,6 +119,7 @@ winsch(WINDOW *win, chtype ch)
 			wrefresh(win);
 			scroll(win);
 			win->cury--;
+			win->ocury = win->cury;
 		} else
 			return ERR;
 	}
