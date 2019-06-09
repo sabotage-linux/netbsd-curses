@@ -1,4 +1,4 @@
-/*	$NetBSD: erase.c,v 1.27 2019/05/20 22:17:41 blymn Exp $	*/
+/*	$NetBSD: erase.c,v 1.28 2019/06/09 07:40:14 blymn Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -98,6 +98,6 @@ werase(WINDOW *win)
 	 * windows - this will result in the (intended) clearing of the
 	 * screen over the area covered by the window. */
 	__touchwin(win);
-	_cursesi_wmove(win, 0, 0, 0);
+	wmove(win, 0, 0);
 	return OK;
 }

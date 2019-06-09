@@ -1,4 +1,4 @@
-/*   $NetBSD: get_wch.c,v 1.22 2019/05/20 22:17:41 blymn Exp $ */
+/*   $NetBSD: get_wch.c,v 1.23 2019/06/09 07:40:14 blymn Exp $ */
 
 /*
  * Copyright (c) 2005 The NetBSD Foundation Inc.
@@ -470,7 +470,7 @@ mvget_wch(int y, int x, wint_t *ch)
 int
 mvwget_wch(WINDOW *win, int y, int x, wint_t *ch)
 {
-	if (_cursesi_wmove(win, y, x, 0) == ERR)
+	if (wmove(win, y, x) == ERR)
 		return ERR;
 
 	return wget_wch(win, ch);
@@ -605,7 +605,7 @@ wget_wch(WINDOW *win, wint_t *ch)
 					( inp == KEY_DC ||
 					  inp == KEY_BACKSPACE ||
 					  inp == KEY_LEFT )) {
-				_cursesi_wmove( win, win->cury, win->curx - 1, 0 );
+				wmove( win, win->cury, win->curx - 1);
 				wdelch( win );
 			}
 		} else {

@@ -1,4 +1,4 @@
-/*	$NetBSD: scroll.c,v 1.25 2019/05/20 22:17:41 blymn Exp $	*/
+/*	$NetBSD: scroll.c,v 1.26 2019/06/09 07:40:14 blymn Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -95,7 +95,7 @@ wscrl(WINDOW *win, int nlines)
 #endif
 	wmove(win, win->scr_t, 1);
 	winsdelln(win, 0 - nlines);
-	_cursesi_wmove(win, oy, ox, 1);
+	wmove(win, oy, ox);
 
 	if (win == curscr) {
 		__cputchar('\n');

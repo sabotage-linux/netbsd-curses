@@ -1,4 +1,4 @@
-/*	$NetBSD: printw.c,v 1.28 2019/05/20 22:17:41 blymn Exp $	*/
+/*	$NetBSD: printw.c,v 1.29 2019/06/09 07:40:14 blymn Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -95,7 +95,7 @@ mvwprintw(WINDOW * win, int y, int x, const char *fmt,...)
 	va_list ap;
 	int     ret;
 
-	if (_cursesi_wmove(win, y, x, 0) != OK)
+	if (wmove(win, y, x) != OK)
 		return ERR;
 
 	va_start(ap, fmt);

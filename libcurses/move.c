@@ -1,4 +1,4 @@
-/*	$NetBSD: move.c,v 1.20 2019/05/20 22:17:41 blymn Exp $	*/
+/*	$NetBSD: move.c,v 1.21 2019/06/09 07:40:14 blymn Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -43,7 +43,7 @@ int
 move(int y, int x)
 {
 
-	return _cursesi_wmove(stdscr, y, x, 1);
+	return wmove(stdscr, y, x);
 }
 
 #endif
@@ -55,21 +55,8 @@ move(int y, int x)
 int
 wmove(WINDOW *win, int y, int x)
 {
-	return _cursesi_wmove(win, y, x, 1);
-}
-
-
-/*
- * _cursesi_wmove:
- *	Moves the cursor to the given point, if keep_old == 0 then
- * update the old cursor position.
- */
-int
-_cursesi_wmove(WINDOW *win, int y, int x, int keep_old)
-{
-
 #ifdef DEBUG
-	__CTRACE(__CTRACE_MISC, "_cursesi_wmove: (%d, %d), keep_old: %d\n", y, x, keep_old);
+	__CTRACE(__CTRACE_MISC, "wmove: (%d, %d)\n", y, x);
 #endif
 	if (x < 0 || y < 0)
 		return ERR;
@@ -78,10 +65,6 @@ _cursesi_wmove(WINDOW *win, int y, int x, int keep_old)
 
 	win->curx = x;
 	win->cury = y;
-	if (keep_old == 0) {
-		win->ocurx = x;
-		win->ocury = y;
-	}
 
 	return OK;
 }
@@ -91,8 +74,8 @@ wcursyncup(WINDOW *win)
 {
 
 	while (win->orig) {
-		_cursesi_wmove(win->orig, win->cury + win->begy - win->orig->begy,
-		      win->curx + win->begx - win->orig->begx, 0);
+		wmove(win->orig, win->cury + win->begy - win->orig->begy,
+		      win->curx + win->begx - win->orig->begx);
 		win = win->orig;
 	}
 }

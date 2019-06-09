@@ -1,4 +1,4 @@
-/*	$NetBSD: inchstr.c,v 1.9 2019/05/20 22:17:41 blymn Exp $	*/
+/*	$NetBSD: inchstr.c,v 1.10 2019/06/09 07:40:14 blymn Exp $	*/
 
 /*
  * Copyright 2001 Wasabi Systems, Inc.
@@ -92,7 +92,7 @@ int
 mvwinchstr(WINDOW *win, int y, int x, chtype *chstr)
 {
 
-	if (_cursesi_wmove(win, y, x, 0) == ERR)
+	if (wmove(win, y, x) == ERR)
 		return ERR;
 
 	return winchstr(win, chstr);
@@ -102,7 +102,7 @@ int
 mvwinchnstr(WINDOW *win, int y, int x, chtype *chstr, int n)
 {
 
-	if (_cursesi_wmove(win, y, x, 0) == ERR)
+	if (wmove(win, y, x) == ERR)
 		return ERR;
 
 	return winchnstr(win, chstr, n);

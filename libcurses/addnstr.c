@@ -1,4 +1,4 @@
-/*	$NetBSD: addnstr.c,v 1.16 2019/05/20 22:17:41 blymn Exp $	*/
+/*	$NetBSD: addnstr.c,v 1.17 2019/06/09 07:40:14 blymn Exp $	*/
 
 /*
  * Copyright (c) 1993, 1994
@@ -108,7 +108,7 @@ mvaddnstr(int y, int x, const char *str, int count)
 int
 mvwaddnstr(WINDOW *win, int y, int x, const char *str, int count)
 {
-	if (_cursesi_wmove(win, y, x, 0) == ERR)
+	if (wmove(win, y, x) == ERR)
 		return ERR;
 
 	return waddnstr(win, str, count);
