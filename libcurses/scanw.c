@@ -1,4 +1,4 @@
-/*	$NetBSD: scanw.c,v 1.22 2017/01/06 13:53:18 roy Exp $	*/
+/*	$NetBSD: scanw.c,v 1.23 2019/06/30 22:16:20 blymn Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -110,9 +110,16 @@ int
 vw_scanw(WINDOW *win, const char *fmt, va_list ap)
 {
 	char    buf[1024];
+	int	ret;
 
-	return wgetnstr(win, buf, (int) sizeof(buf)) == OK ?
-	    vsscanf(buf, fmt, ap) : ERR;
+	ret = ERR;
+	if (wgetnstr(win, buf, (int) sizeof(buf)) == OK) {
+		if (vsscanf(buf, fmt, ap) > 0) {
+			ret = OK;
+		}
+	}
+
+	return ret;
 }
 
 __strong_alias(vwscanw, vw_scanw)
