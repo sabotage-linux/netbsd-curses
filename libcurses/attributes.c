@@ -1,4 +1,4 @@
-/*	$NetBSD: attributes.c,v 1.30 2018/11/24 01:04:18 uwe Exp $	*/
+/*	$NetBSD: attributes.c,v 1.31 2019/07/25 20:18:50 uwe Exp $	*/
 
 /*-
  * Copyright (c) 1999 The NetBSD Foundation, Inc.
@@ -40,6 +40,7 @@ static void __wcolor_set(WINDOW *, attr_t);
 
 
 #ifndef _CURSES_USE_MACROS
+#ifdef HAVE_WCHAR
 /*
  * attr_get --
  *	Get wide attributes and color pair from stdscr
@@ -94,6 +95,7 @@ color_set(short pair, void *opts)
 {
 	return wcolor_set(stdscr, pair, opts);
 }
+#endif /* HAVE_WCHAR */
 
 /*
  * attron --
@@ -127,6 +129,8 @@ attrset(int attr)
 }
 #endif	/* _CURSES_USE_MACROS */
 
+
+#ifdef HAVE_WCHAR
 /*
  * wattr_get --
  *	Get wide attributes and colour pair from window
@@ -220,6 +224,8 @@ wcolor_set(WINDOW *win, short pair, void *opts)
 	__wcolor_set(win, (attr_t) COLOR_PAIR(pair));
 	return OK;
 }
+#endif /* HAVE_WCHAR */
+
 
 /*
  * getattrs --
@@ -315,6 +321,8 @@ termattrs(void)
 	return ch;
 }
 
+
+#ifdef HAVE_WCHAR
 /*
  * term_attrs --
  *	Get terminal wide attributes
@@ -364,6 +372,7 @@ term_attrs(void)
 
 	return attr;
 }
+#endif /* HAVE_WCHAR */
 
 
 static int
