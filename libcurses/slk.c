@@ -1,4 +1,4 @@
-/*	$NetBSD: slk.c,v 1.5 2019/07/27 00:46:43 uwe Exp $	*/
+/*	$NetBSD: slk.c,v 1.6 2019/07/27 00:58:34 uwe Exp $	*/
 
 /*-
  * Copyright (c) 2017 The NetBSD Foundation, Inc.
@@ -62,16 +62,16 @@
 static int	 slk_fmt = SLK_FMT_INVAL;	/* fmt of slk_init */
 
 /* Safe variants of public functions. */
+static int	 __slk_attroff(SCREEN *, const chtype);
+static int	 __slk_attron(SCREEN *, const chtype);
+static int	 __slk_attrset(SCREEN *, const chtype);
 #ifdef HAVE_WCHAR
 static int	 __slk_attr_off(SCREEN *, const attr_t, void *);
 static int	 __slk_attr_on(SCREEN *, const attr_t, void *);
 static int	 __slk_attr_set(SCREEN *, const attr_t, short, void *opt);
-#endif
-static int	 __slk_attroff(SCREEN *, const chtype);
-static int	 __slk_attron(SCREEN *, const chtype);
-static int	 __slk_attrset(SCREEN *, const chtype);
-
 static int	 __slk_color(SCREEN *, short);
+#endif
+
 static int	 __slk_clear(SCREEN *);
 static char	*__slk_label(SCREEN *, int);
 static int	 __slk_restore(SCREEN *);
@@ -192,6 +192,7 @@ slk_clear(void)
 	return __slk_clear(_cursesi_screen);
 }
 
+#ifdef HAVE_WCHAR
 /*
  * slk_color --
  *	Set color pair on ripped off slk window.
@@ -202,6 +203,7 @@ slk_color(short pair)
 
 	return __slk_color(_cursesi_screen, pair);
 }
+#endif	/* HAVE_WCHAR */
 
 /*
  * slk_label --
@@ -393,6 +395,7 @@ __slk_clear(SCREEN *screen)
 	return wrefresh(screen->slk_window);
 }
 
+#ifdef HAVE_WCHAR
 /*
  * __slk_color --
  *	Set color pair on ripped off slk window.
@@ -405,7 +408,7 @@ __slk_color(SCREEN *screen, short pair)
 		return ERR;
 	return wcolor_set(screen->slk_window, pair, NULL);
 }
-
+#endif	/* HAVE_WCHAR */
 
 /*
  * __slk_label --
