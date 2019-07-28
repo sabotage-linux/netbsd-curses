@@ -1,4 +1,4 @@
-/*	$NetBSD: slk.c,v 1.6 2019/07/27 00:58:34 uwe Exp $	*/
+/*	$NetBSD: slk.c,v 1.7 2019/07/28 00:15:38 uwe Exp $	*/
 
 /*-
  * Copyright (c) 2017 The NetBSD Foundation, Inc.
@@ -498,21 +498,21 @@ __slk_set(SCREEN *screen, int labnum, const char *label, int justify)
 	end = label;
 
 #ifdef HAVE_WCHAR
-	len = 0;
+	size_t endlen = strlen(end);
 	while (*end != '\0') {
-		if ((wc_len = mbrtowc(0, end, strlen(end), &screen->sp)) == -1)
+		wc_len = mbrtowc(&wc, end, endlen, &screen->sp);
+		if ((ssize_t)wc_len < 0)
 			return ERR;
-		mbrtowc(&wc, end, wc_len, &screen->sp);
 		if (!iswprint((wint_t)wc))
 			break;
-		len += wcwidth(wc);
 		end += wc_len;
+		endlen -= wc_len;
 	}
 #else
 	while(isprint((unsigned char)*end))
 		end++;
-	len = end - label;
 #endif
+	len = end - label;
 
 	/* Take a backup, in-case we can grow the label. */
 	if ((text = strndup(label, len)) == NULL)
