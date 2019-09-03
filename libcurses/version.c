@@ -1,4 +1,4 @@
-/*	$NetBSD: version.c,v 1.1 2019/09/02 09:08:29 roy Exp $	*/
+/*	$NetBSD: version.c,v 1.2 2019/09/03 10:36:17 roy Exp $	*/
 
 /*-
  * Copyright (c) 2019 The NetBSD Foundation, Inc.
@@ -31,13 +31,16 @@
 
 #include "curses.h"
 
-#ifndef NETBSD_VERSION
-#define NETBSD_VERSION "0.3.1-git"
+#ifndef CURSES_VERSION
+/* FIXME: retrieve this by executing cursesrelease.sh
+ * and setting -DCURSES_VERSION=... from Makefile for this file.
+ */
+#define CURSES_VERSION "2.0.0"
 #endif
 
 const char *
 curses_version()
 {
 
-	return "NetBSD-Curses " NETBSD_VERSION;
+	return "NetBSD-Curses " CURSES_VERSION;
 }
