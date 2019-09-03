@@ -1,4 +1,4 @@
-/*	$NetBSD: version.c,v 1.2 2019/09/03 10:36:17 roy Exp $	*/
+/*	$NetBSD: version.c,v 1.3 2019/09/03 13:43:34 roy Exp $	*/
 
 /*-
  * Copyright (c) 2019 The NetBSD Foundation, Inc.
@@ -29,18 +29,37 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef CURSES_VERSION
+#define CURSES_VERSION "portable 0.3.1-git"
+#endif
+
 #include "curses.h"
 
 #ifndef CURSES_VERSION
-/* FIXME: retrieve this by executing cursesrelease.sh
- * and setting -DCURSES_VERSION=... from Makefile for this file.
+/*
+ * Bikeshed about what the version should be, if any:
+ * https://mail-index.netbsd.org/tech-userlevel/2019/09/02/msg012101.html
+ * This is the end result and should at least provide some amusement :)
  */
-#define CURSES_VERSION "2.0.0"
+#define	CURSES_VERSION	"believe in unicorns"
+#endif
+
+#ifdef CURSES_VERSION
+/*
+ * Any version given should be braced to give some indication it's not
+ * really a version recognised by NetBSD.
+ * It should also have some product branding to indicate from whence
+ * if came. For example, if FrobozzCo packaged it:
+ * CFLAGS+=	-DCURSES_VERSION="\"FrobozzCo 1.2.3\""
+ */
+#define	_CURSES_VERSION	" (" CURSES_VERSION ")"
+#else
+#define	_CURSES_VERSION
 #endif
 
 const char *
 curses_version()
 {
 
-	return "NetBSD-Curses " CURSES_VERSION;
+	return "NetBSD-Curses " _CURSES_VERSION;
 }
