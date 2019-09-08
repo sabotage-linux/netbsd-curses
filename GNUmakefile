@@ -183,7 +183,7 @@ install-tset: tset/tset
 
 install-tput: tput/tput tput/clear.sh
 	$(INSTALL) -Dm 755 tput/tput $(DESTDIR)$(BINDIR)/tput
-	$(INSTALL) -Dm 755 tput/clear.sh $(DESTDIR)$(BINDIR)/clear
+	$(INSTALL) -Dm 755 tput/clear.sh $(DESTDIR)$(BINDIR)/clear.sh
 
 install-infocmp: infocmp/infocmp
 	$(INSTALL) -Dm 755 infocmp/infocmp $(DESTDIR)$(BINDIR)/infocmp
