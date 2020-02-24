@@ -1,4 +1,4 @@
-/*	$NetBSD: refresh.c,v 1.111 2019/06/09 07:40:14 blymn Exp $	*/
+/*	$NetBSD: refresh.c,v 1.112 2020/02/24 12:20:29 rin Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -1430,7 +1430,7 @@ domvcur(WINDOW *win, int oy, int ox, int ny, int nx)
 {
 
 #ifdef DEBUG
-	__CTRACE(__CTRACE_REFRESH, "domvcur: (%d,%d)=>(%d,%d) win 0x%p\n",
+	__CTRACE(__CTRACE_REFRESH, "domvcur: (%d,%d)=>(%d,%d) win %p\n",
 	    oy, ox, ny, nx, win );
 #endif /* DEBUG */
 
