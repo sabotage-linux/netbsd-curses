@@ -1,4 +1,4 @@
-/*	$NetBSD: initscr.c,v 1.33 2018/10/02 17:35:44 roy Exp $	*/
+/*	$NetBSD: initscr.c,v 1.34 2020/03/11 21:33:38 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -31,6 +31,7 @@
 
 #include <netbsd_sys/cdefs.h>
 
+#include <err.h>
 #include <stdlib.h>
 
 #include "curses.h"
@@ -58,10 +59,8 @@ initscr(void)
 		sp = Def_term;
 
 	/* LINTED const castaway; newterm does not modify sp! */
-	if ((_cursesi_screen = newterm((char *) sp, stdout, stdin)) == NULL) {
-		fprintf(stderr,	"Error opening terminal: %s.\n", sp);
-		exit(1);
-	}
+	if ((_cursesi_screen = newterm((char *) sp, stdout, stdin)) == NULL)
+		errx(EXIT_FAILURE, "initscr"); /* POSIX says exit on failure */
 
 	set_term(_cursesi_screen);
 	wrefresh(curscr);
