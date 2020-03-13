@@ -1,4 +1,4 @@
-/*	$NetBSD: clrtobot.c,v 1.25 2020/03/12 12:17:15 roy Exp $	*/
+/*	$NetBSD: clrtobot.c,v 1.26 2020/03/13 02:57:26 roy Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -80,15 +80,12 @@ wclrtobot(WINDOW *win)
 		attr = win->battr & __ATTRIBUTES;
 	else
 		attr = 0;
+
 	for (y = starty; y < win->maxy; y++) {
 		minx = -1;
 		end = &win->alines[y]->line[win->maxx];
 		for (sp = &win->alines[y]->line[startx]; sp < end; sp++) {
-			if (sp->ch == bch &&
-#ifdef HAVE_WCHAR
-			    sp->nsp == NULL && WCOL(*sp) >= 0 &&
-#endif
-			    (sp->attr & WA_ATTRIBUTES) == attr)
+			if (!(__NEED_ERASE(sp, bch, attr)))
 				continue;
 
 			maxx = sp;
@@ -108,6 +105,7 @@ wclrtobot(WINDOW *win)
 				    (int)(maxx - win->alines[y]->line));
 		startx = 0;
 	}
+
 	__sync(win);
 	return OK;
 }
