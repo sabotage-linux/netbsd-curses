@@ -130,8 +130,8 @@ Compiled-in terminal database
 -----------------------------
 support for about a dozen common TERMs is built-in already. if you need one
 that's not included, you can either add yours to `libterminfo/genterms` or
-`make terminfo/terminfo.cdb` and install the result to either
-`$PREFIX/share/terminfo.cdb` or `$HOME/.terminfo.cdb`.
+`make terminfo/terminfo2.cdb` and install the result to either
+`$PREFIX/share/terminfo2.cdb` or `$HOME/.terminfo.cdb`.
 
 Compiling software against netbsd-curses
 ----------------------------------------

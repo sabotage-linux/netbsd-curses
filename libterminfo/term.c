@@ -1,7 +1,7 @@
-/* $NetBSD: term.c,v 1.29 2018/10/08 20:44:34 roy Exp $ */
+/* $NetBSD: term.c,v 1.30 2020/03/13 15:19:25 roy Exp $ */
 
 /*
- * Copyright (c) 2009, 2010, 2011 The NetBSD Foundation, Inc.
+ * Copyright (c) 2009, 2010, 2011, 2020 The NetBSD Foundation, Inc.
  *
  * This code is derived from software contributed to The NetBSD Foundation
  * by Roy Marples.
@@ -46,9 +46,9 @@
 
 #ifndef _PATH_TERMINFO
 #ifndef INSTALL_PREFIX
-#define _PATH_TERMINFO		"/usr/share/misc/terminfo"
+#define _PATH_TERMINFO		"/usr/share/misc/terminfo2:/usr/share/misc/terminfo"
 #else
-#define _PATH_TERMINFO INSTALL_PREFIX "/share/terminfo"
+#define _PATH_TERMINFO INSTALL_PREFIX "/share/terminfo2:" INSTALL_PREFIX "/share/terminfo"
 #endif
 #endif
 
@@ -78,17 +78,17 @@ allocset(void *pp, int init, size_t nelem, size_t elemsize)
 static int
 _ti_readterm(TERMINAL *term, const char *cap, size_t caplen, int flags)
 {
-	char ver;
+	char rtype;
 	uint16_t ind, num;
 	size_t len;
 	TERMUSERDEF *ud;
 
 	if (caplen == 0)
 		goto out;
-	ver = *cap++;
+	rtype = *cap++;
 	caplen--;
-	/* Only read version 1 structures */
-	if (ver != 1)
+	/* Only read type 1 or 3 records */
+	if (rtype != TERMINFO_RTYPE && rtype != TERMINFO_RTYPE_O1)
 		goto out;
 
 	if (allocset(&term->flags, 0, TIFLAGMAX+1, sizeof(*term->flags)) == -1)
@@ -152,10 +152,15 @@ _ti_readterm(TERMINAL *term, const char *cap, size_t caplen, int flags)
 		for (; num != 0; num--) {
 			ind = le16dec(cap);
 			cap += sizeof(uint16_t);
-			term->nums[ind] = (short)le16dec(cap);
+			if (rtype == TERMINFO_RTYPE_O1) {
+				term->nums[ind] = (int)le16dec(cap);
+				cap += sizeof(uint16_t);
+			} else {
+				term->nums[ind] = (int)le32dec(cap);
+				cap += sizeof(uint32_t);
+			}
 			if (flags == 0 && !VALID_NUMERIC(term->nums[ind]))
 				term->nums[ind] = ABSENT_NUMERIC;
-			cap += sizeof(uint16_t);
 		}
 	}
 
@@ -210,12 +215,17 @@ _ti_readterm(TERMINAL *term, const char *cap, size_t caplen, int flags)
 				break;
 			case 'n':
 				ud->flag = ABSENT_BOOLEAN;
-				ud->num = (short)le16dec(cap);
+				if (rtype == TERMINFO_RTYPE_O1) {
+					ud->num = (int)le16dec(cap);
+					cap += sizeof(uint16_t);
+				} else {
+					ud->num = (int)le32dec(cap);
+					cap += sizeof(uint32_t);
+				}
 				if (flags == 0 &&
 				    !VALID_NUMERIC(ud->num))
 					ud->num = ABSENT_NUMERIC;
 				ud->str = ABSENT_STRING;
-				cap += sizeof(uint16_t);
 				break;
 			case 's':
 				ud->flag = ABSENT_BOOLEAN;

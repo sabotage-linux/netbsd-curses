@@ -1,7 +1,7 @@
-/* $NetBSD: compile.c,v 1.13 2020/03/12 14:52:04 roy Exp $ */
+/* $NetBSD: compile.c,v 1.14 2020/03/13 15:19:25 roy Exp $ */
 
 /*
- * Copyright (c) 2009, 2010, 2011 The NetBSD Foundation, Inc.
+ * Copyright (c) 2009, 2010, 2011, 2020 The NetBSD Foundation, Inc.
  *
  * This code is derived from software contributed to The NetBSD Foundation
  * by Roy Marples.
@@ -110,7 +110,7 @@ _ti_find_cap(TBUF *tbuf, char type, short ind)
 			cap++;
 			break;
 		case 'n':
-			cap += sizeof(uint16_t);
+			cap += sizeof(uint32_t);
 			break;
 		case 's':
 			num = le16dec(cap);
@@ -146,7 +146,7 @@ _ti_find_extra(TBUF *tbuf, const char *code)
 			cap++;
 			break;
 		case 'n':
-			cap += sizeof(uint16_t);
+			cap += sizeof(uint32_t);
 			break;
 		case 's':
 			num = le16dec(cap);
@@ -161,7 +161,7 @@ _ti_find_extra(TBUF *tbuf, const char *code)
 }
 
 size_t
-_ti_store_extra(TIC *tic, int wrn, char *id, char type, char flag, short num,
+_ti_store_extra(TIC *tic, int wrn, char *id, char type, char flag, int num,
     char *str, size_t strl, int flags)
 {
 	size_t l;
@@ -186,7 +186,7 @@ _ti_store_extra(TIC *tic, int wrn, char *id, char type, char flag, short num,
 	}
 
 	if (!_ti_grow_tbuf(&tic->extras,
-		l + strl + (sizeof(uint16_t) * 2) + 1))
+		l + strl + sizeof(uint16_t) + sizeof(uint32_t) + 1))
 		return 0;
 	le16enc(tic->extras.buf + tic->extras.bufpos, (uint16_t)l);
 	tic->extras.bufpos += sizeof(uint16_t);
@@ -198,8 +198,8 @@ _ti_store_extra(TIC *tic, int wrn, char *id, char type, char flag, short num,
 		tic->extras.buf[tic->extras.bufpos++] = flag;
 		break;
 	case 'n':
-		le16enc(tic->extras.buf + tic->extras.bufpos, (uint16_t)num);
-		tic->extras.bufpos += sizeof(uint16_t);
+		le32enc(tic->extras.buf + tic->extras.bufpos, (uint32_t)num);
+		tic->extras.bufpos += sizeof(uint32_t);
 		break;
 	case 's':
 		le16enc(tic->extras.buf + tic->extras.bufpos, (uint16_t)strl);
@@ -243,7 +243,7 @@ _ti_flatten(uint8_t **buf, const TIC *tic)
 		return -1;
 
 	cap = *buf;
-	*cap++ = 1;
+	*cap++ = TERMINFO_RTYPE; /* Record type 3 */
 	le16enc(cap, (uint16_t)len);
 	cap += sizeof(uint16_t);
 	memcpy(cap, tic->name, len);
@@ -461,7 +461,8 @@ _ti_compile(char *cap, int flags)
 	char *token, *p, *e, *name, *desc, *alias;
 	signed char flag;
 	long cnum;
-	short ind, num;
+	short ind;
+	int num;
 	size_t len;
 	TBUF buf;
 	TIC *tic;
@@ -479,6 +480,19 @@ _ti_compile(char *cap, int flags)
 	alias = strchr(name, '|');
 	if (alias != NULL)
 		*alias++ = '\0';
+
+	if (strlen(name) > UINT16_MAX - 1) {
+		dowarn(flags, "%s: name too long", name);
+		return NULL;
+	}
+	if (desc != NULL && strlen(desc) > UINT16_MAX - 1) {
+		dowarn(flags, "%s: description too long: %s", name, desc);
+		return NULL;
+	}
+	if (alias != NULL && strlen(alias) > UINT16_MAX - 1) {
+		dowarn(flags, "%s: alias too long: %s", name, alias);
+		return NULL;
+	}
 
 	tic = calloc(sizeof(*tic), 1);
 	if (tic == NULL)
@@ -531,7 +545,7 @@ _ti_compile(char *cap, int flags)
 			if (encode_string(tic->name, token,
 				&buf, p, flags) == -1)
 				goto error;
-			if (buf.bufpos > UINT16_T_MAX) {
+			if (buf.bufpos > UINT16_MAX - 1) {
 				dowarn(flags, "%s: %s: string is too long",
 				    tic->name, token);
 				continue;
@@ -578,29 +592,26 @@ _ti_compile(char *cap, int flags)
 				    tic->name, token);
 				continue;
 			}
-			if (!VALID_NUMERIC(cnum)) {
-				dowarn(flags, "%s: %s: number out of range",
-				    tic->name, token);
+			if (!VALID_NUMERIC(cnum) || cnum > INT32_MAX) {
+				dowarn(flags, "%s: %s: number %ld out of range",
+				    tic->name, token, cnum);
 				continue;
 			}
 
-			if (cnum > SHRT_MAX)
-				num = SHRT_MAX;
-			else
-				num = (short)cnum;
+			num = (int)cnum;
 			if (ind == -1)
 				_ti_store_extra(tic, 1, token, 'n', -1,
 				    num, NULL, 0, flags);
 			else {
 				if (_ti_grow_tbuf(&tic->nums,
-					sizeof(uint16_t) * 2) == NULL)
+				    sizeof(uint16_t) + sizeof(uint32_t))==NULL)
 					goto error;
 				le16enc(tic->nums.buf + tic->nums.bufpos,
 				    (uint16_t)ind);
 				tic->nums.bufpos += sizeof(uint16_t);
-				le16enc(tic->nums.buf + tic->nums.bufpos,
-				    (uint16_t)num);
-				tic->nums.bufpos += sizeof(uint16_t);
+				le32enc(tic->nums.buf + tic->nums.bufpos,
+				    (uint32_t)num);
+				tic->nums.bufpos += sizeof(uint32_t);
 				tic->nums.entries++;
 			}
 			continue;
@@ -623,9 +634,9 @@ _ti_compile(char *cap, int flags)
 				le16enc(tic->nums.buf + tic->nums.bufpos,
 				    (uint16_t)ind);
 				tic->nums.bufpos += sizeof(uint16_t);
-				le16enc(tic->nums.buf + tic->nums.bufpos,
-				    (uint16_t)CANCELLED_NUMERIC);
-				tic->nums.bufpos += sizeof(uint16_t);
+				le32enc(tic->nums.buf + tic->nums.bufpos,
+				    (uint32_t)CANCELLED_NUMERIC);
+				tic->nums.bufpos += sizeof(uint32_t);
 				tic->nums.entries++;
 				continue;
 			} else if ((ind = (short)_ti_strindex(token)) != -1) {
