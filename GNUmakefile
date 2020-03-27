@@ -541,7 +541,7 @@ $(FO_LIBSO): $(FO_LOBJS)
 	$(CC) -shared -o $@ $^ -Wl,-soname=$(notdir $@)
 
 # Allow terminfo descriptions to be compiled into libterminfo
-${TERMINFODIR}/terminfo2.cdb: $(TOOL_TIC) ${TERMINFODIR}/terminfo
+${TERMINFODIR}/terminfo.cdb: $(TOOL_TIC) ${TERMINFODIR}/terminfo
 		@echo "Generating compiled terminfo database"
 		$^
 

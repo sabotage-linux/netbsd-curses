@@ -1,4 +1,4 @@
-/* $NetBSD: term.c,v 1.30 2020/03/13 15:19:25 roy Exp $ */
+/* $NetBSD: term.c,v 1.31 2020/03/27 15:11:57 christos Exp $ */
 
 /*
  * Copyright (c) 2009, 2010, 2011, 2020 The NetBSD Foundation, Inc.
@@ -46,9 +46,9 @@
 
 #ifndef _PATH_TERMINFO
 #ifndef INSTALL_PREFIX
-#define _PATH_TERMINFO		"/usr/share/misc/terminfo2:/usr/share/misc/terminfo"
+#define _PATH_TERMINFO		"/usr/share/misc/terminfo"
 #else
-#define _PATH_TERMINFO INSTALL_PREFIX "/share/terminfo2:" INSTALL_PREFIX "/share/terminfo"
+#define _PATH_TERMINFO INSTALL_PREFIX "/share/terminfo"
 #endif
 #endif
 
@@ -152,13 +152,7 @@ _ti_readterm(TERMINAL *term, const char *cap, size_t caplen, int flags)
 		for (; num != 0; num--) {
 			ind = le16dec(cap);
 			cap += sizeof(uint16_t);
-			if (rtype == TERMINFO_RTYPE_O1) {
-				term->nums[ind] = (int)le16dec(cap);
-				cap += sizeof(uint16_t);
-			} else {
-				term->nums[ind] = (int)le32dec(cap);
-				cap += sizeof(uint32_t);
-			}
+			term->nums[ind] = _ti_decode_num(rtype, &cap);
 			if (flags == 0 && !VALID_NUMERIC(term->nums[ind]))
 				term->nums[ind] = ABSENT_NUMERIC;
 		}
@@ -215,13 +209,7 @@ _ti_readterm(TERMINAL *term, const char *cap, size_t caplen, int flags)
 				break;
 			case 'n':
 				ud->flag = ABSENT_BOOLEAN;
-				if (rtype == TERMINFO_RTYPE_O1) {
-					ud->num = (int)le16dec(cap);
-					cap += sizeof(uint16_t);
-				} else {
-					ud->num = (int)le32dec(cap);
-					cap += sizeof(uint32_t);
-				}
+				ud->num = _ti_decode_num(rtype, &cap);
 				if (flags == 0 &&
 				    !VALID_NUMERIC(ud->num))
 					ud->num = ABSENT_NUMERIC;
@@ -325,7 +313,7 @@ _ti_dbgetterm(TERMINAL *term, const char *path, const char *name, int flags)
 		goto out;
 
 	/* If the entry is an alias, load the indexed terminfo description. */
-	if (data8[0] == 2) {
+	if (data8[0] == TERMINFO_ALIAS) {
 		if (cdbr_get(db, le32dec(data8 + 1), &data, &len))
 			goto out;
 		data8 = data;
@@ -456,6 +444,15 @@ _ti_getterm(TERMINAL *term, const char *name, int flags)
 	int r;
 	size_t i;
 	const struct compiled_term *t;
+	char *namev3;
+
+	namev3 = _ti_getname(TERMINFO_RTYPE, name);
+	if (namev3 != NULL) {
+		r = _ti_findterm(term, namev3, flags);
+		free(namev3);
+		if (r == 1)
+			return r;
+	}
 
 	r = _ti_findterm(term, name, flags);
 	if (r == 1)
