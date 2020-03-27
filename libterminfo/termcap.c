@@ -1,4 +1,4 @@
-/* $NetBSD: termcap.c,v 1.22 2017/05/04 09:42:23 roy Exp $ */
+/* $NetBSD: termcap.c,v 1.23 2020/03/27 17:39:53 christos Exp $ */
 
 /*
  * Copyright (c) 2009 The NetBSD Foundation, Inc.
@@ -511,7 +511,8 @@ captoinfo(char *cap)
 			continue;
 		name = token;
 		val = p = NULL;
-		fv = nl = 0;
+		fv = 0;
+		nl = 0;
 		if (token[1] != '\0') {
 			tok[0] = token[0];
 			tok[1] = token[1];

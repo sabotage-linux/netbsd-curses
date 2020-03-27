@@ -1,4 +1,4 @@
-/* $NetBSD: term.c,v 1.31 2020/03/27 15:11:57 christos Exp $ */
+/* $NetBSD: term.c,v 1.32 2020/03/27 17:39:53 christos Exp $ */
 
 /*
  * Copyright (c) 2009, 2010, 2011, 2020 The NetBSD Foundation, Inc.
@@ -109,20 +109,17 @@ _ti_readterm(TERMINAL *term, const char *cap, size_t caplen, int flags)
 	memcpy(term->_area, cap, term->_arealen);
 
 	cap = term->_area;
-	len = le16dec(cap);
-	cap += sizeof(uint16_t);
+	len = _ti_decode_16(&cap);
 	term->name = cap;
 	cap += len;
-	len = le16dec(cap);
-	cap += sizeof(uint16_t);
+	len = _ti_decode_16(&cap);
 	if (len == 0)
 		term->_alias = NULL;
 	else {
 		term->_alias = cap;
 		cap += len;
 	}
-	len = le16dec(cap);
-	cap += sizeof(uint16_t);
+	len = _ti_decode_16(&cap);
 	if (len == 0)
 		term->desc = NULL;
 	else {
@@ -130,44 +127,34 @@ _ti_readterm(TERMINAL *term, const char *cap, size_t caplen, int flags)
 		cap += len;
 	}
 
-	num = le16dec(cap);
-	cap += sizeof(uint16_t);
+	num = _ti_decode_16(&cap);
 	if (num != 0) {
-		num = le16dec(cap);
-		cap += sizeof(uint16_t);
+		num = _ti_decode_16(&cap);
 		for (; num != 0; num--) {
-			ind = le16dec(cap);
-			cap += sizeof(uint16_t);
+			ind = _ti_decode_16(&cap);
 			term->flags[ind] = *cap++;
 			if (flags == 0 && !VALID_BOOLEAN(term->flags[ind]))
 				term->flags[ind] = 0;
 		}
 	}
 
-	num = le16dec(cap);
-	cap += sizeof(uint16_t);
+	num = _ti_decode_16(&cap);
 	if (num != 0) {
-		num = le16dec(cap);
-		cap += sizeof(uint16_t);
+		num = _ti_decode_16(&cap);
 		for (; num != 0; num--) {
-			ind = le16dec(cap);
-			cap += sizeof(uint16_t);
-			term->nums[ind] = _ti_decode_num(rtype, &cap);
+			ind = _ti_decode_16(&cap);
+			term->nums[ind] = _ti_decode_num(&cap, rtype);
 			if (flags == 0 && !VALID_NUMERIC(term->nums[ind]))
 				term->nums[ind] = ABSENT_NUMERIC;
 		}
 	}
 
-	num = le16dec(cap);
-	cap += sizeof(uint16_t);
+	num = _ti_decode_16(&cap);
 	if (num != 0) {
-		num = le16dec(cap);
-		cap += sizeof(uint16_t);
+		num = _ti_decode_16(&cap);
 		for (; num != 0; num--) {
-			ind = le16dec(cap);
-			cap += sizeof(uint16_t);
-			len = le16dec(cap);
-			cap += sizeof(uint16_t);
+			ind = _ti_decode_16(&cap);
+			len = _ti_decode_16(&cap);
 			if (len > 0)
 				term->strs[ind] = cap;
 			else if (flags == 0)
@@ -178,11 +165,9 @@ _ti_readterm(TERMINAL *term, const char *cap, size_t caplen, int flags)
 		}
 	}
 
-	num = le16dec(cap);
-	cap += sizeof(uint16_t);
+	num = _ti_decode_16(&cap);
 	if (num != 0) {
-		num = le16dec(cap);
-		cap += sizeof(uint16_t);
+		num = _ti_decode_16(&cap);
 		if (num != term->_nuserdefs) {
 			free(term->_userdefs);
 			term->_userdefs = NULL;
@@ -193,8 +178,7 @@ _ti_readterm(TERMINAL *term, const char *cap, size_t caplen, int flags)
 			return -1;
 		for (num = 0; num < term->_nuserdefs; num++) {
 			ud = &term->_userdefs[num];
-			len = le16dec(cap);
-			cap += sizeof(uint16_t);
+			len = _ti_decode_16(&cap);
 			ud->id = cap;
 			cap += len;
 			ud->type = *cap++;
@@ -209,7 +193,7 @@ _ti_readterm(TERMINAL *term, const char *cap, size_t caplen, int flags)
 				break;
 			case 'n':
 				ud->flag = ABSENT_BOOLEAN;
-				ud->num = _ti_decode_num(rtype, &cap);
+				ud->num = _ti_decode_num(&cap, rtype);
 				if (flags == 0 &&
 				    !VALID_NUMERIC(ud->num))
 					ud->num = ABSENT_NUMERIC;
@@ -218,8 +202,7 @@ _ti_readterm(TERMINAL *term, const char *cap, size_t caplen, int flags)
 			case 's':
 				ud->flag = ABSENT_BOOLEAN;
 				ud->num = ABSENT_NUMERIC;
-				len = le16dec(cap);
-				cap += sizeof(uint16_t);
+				len = _ti_decode_16(&cap);
 				if (len > 0)
 					ud->str = cap;
 				else if (flags == 0)
