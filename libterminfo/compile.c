@@ -1,4 +1,4 @@
-/* $NetBSD: compile.c,v 1.16 2020/03/27 17:39:53 christos Exp $ */
+/* $NetBSD: compile.c,v 1.17 2020/03/28 02:38:15 christos Exp $ */
 
 /*
  * Copyright (c) 2009, 2010, 2011, 2020 The NetBSD Foundation, Inc.
@@ -420,7 +420,9 @@ _ti_get_token(char **cap, char sep)
 static int
 _ti_find_rtype(const char *cap)
 {
-	for (const char *ptr = cap; (ptr = strchr(ptr, '#')) != NULL;) {
+	const char *ptr;
+
+	for (ptr = cap; (ptr = strchr(ptr, '#')) != NULL;) {
 		if (strtol(++ptr, NULL, 0) > SHRT_MAX) {
 			return TERMINFO_RTYPE;
 		}
