@@ -1,4 +1,4 @@
-/* $NetBSD: compile.c,v 1.17 2020/03/28 02:38:15 christos Exp $ */
+/* $NetBSD: compile.c,v 1.18 2020/03/28 15:25:53 roy Exp $ */
 
 /*
  * Copyright (c) 2009, 2010, 2011, 2020 The NetBSD Foundation, Inc.
@@ -162,7 +162,7 @@ _ti_getname(int rtype, const char *orig)
 	char *name;
 
 	if (rtype == TERMINFO_RTYPE) {
-		if (asprintf(&name, "%s@v3", orig) < 0)
+		if (asprintf(&name, "%s,v3", orig) < 0)
 			name = NULL;
 	} else {
 		name = strdup(orig);
