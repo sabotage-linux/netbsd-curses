@@ -1,4 +1,4 @@
-/* $NetBSD: tic.c,v 1.39 2020/03/29 21:54:03 roy Exp $ */
+/* $NetBSD: tic.c,v 1.40 2020/03/30 00:09:06 roy Exp $ */
 
 /*
  * Copyright (c) 2009, 2010, 2020 The NetBSD Foundation, Inc.
@@ -184,10 +184,37 @@ store_term(const char *name, TERM *base_term)
 	return term;
 }
 
+static void
+alias_terms(TERM *term)
+{
+	char *p, *e, *alias;
+
+	/* Create aliased terms */
+	if (term->tic->alias == NULL)
+		return;
+
+	alias = p = estrdup(term->tic->alias);
+	while (p != NULL && *p != '\0') {
+		e = strchr(p, '|');
+		if (e != NULL)
+			*e++ = '\0';
+		/* No need to lengthcheck the alias because the main
+		 * terminfo description already stores all the aliases
+		 * in the same length field as the alias. */
+		if (find_term(p) != NULL) {
+			dowarn("%s: has alias for already assigned"
+			    " term %s", term->tic->name, p);
+		} else {
+			store_term(p, term);
+		}
+		p = e;
+	}
+	free(alias);
+}
+
 static int
 process_entry(TBUF *buf, int flags)
 {
-	char *p, *e, *alias;
 	TERM *term;
 	TIC *tic;
 	TBUF sbuf = *buf;
@@ -213,27 +240,7 @@ process_entry(TBUF *buf, int flags)
 	}
 	term = store_term(tic->name, NULL);
 	term->tic = tic;
-
-	/* Create aliased terms */
-	if (tic->alias != NULL) {
-		alias = p = estrdup(tic->alias);
-		while (p != NULL && *p != '\0') {
-			e = strchr(p, '|');
-			if (e != NULL)
-				*e++ = '\0';
-			/* No need to lengthcheck the alias because the main
-			 * terminfo description already stores all the aliases
-			 * in the same length field as the alias. */
-			if (find_term(p) != NULL) {
-				dowarn("%s: has alias for already assigned"
-				    " term %s", tic->name, p);
-			} else {
-				store_term(p, term);
-			}
-			p = e;
-		}
-		free(alias);
-	}
+	alias_terms(term);
 
 	if (tic->rtype == TERMINFO_RTYPE)
 		return process_entry(&sbuf, flags | TIC_COMPAT_V1);
@@ -361,6 +368,11 @@ promote(TIC *rtic, TIC *utic)
 	tic->name = _ti_getname(TERMINFO_RTYPE, rtic->name);
 	if (tic->name == NULL)
 		goto err;
+	if (rtic->alias != NULL) {
+		tic->alias = strdup(rtic->alias);
+		if (tic->alias == NULL)
+			goto err;
+	}
 	if (rtic->desc != NULL) {
 		tic->desc = strdup(rtic->desc);
 		if (tic->desc == NULL)
@@ -380,10 +392,12 @@ promote(TIC *rtic, TIC *utic)
 		goto err;
 
 	term = store_term(tic->name, NULL);
-	if (term != NULL) {
-		term->tic = tic;
-		return 0;
-	}
+	if (term == NULL)
+		goto err;
+
+	term->tic = tic;
+	alias_terms(term);
+	return 0;
 
 err:
 	free(tic->flags.buf);
@@ -391,6 +405,7 @@ err:
 	free(tic->strs.buf);
 	free(tic->extras.buf);
 	free(tic->desc);
+	free(tic->alias);
 	free(tic->name);
 	free(tic);
 	return -1;
