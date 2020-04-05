@@ -1,4 +1,4 @@
-/* $NetBSD: compile.c,v 1.24 2020/03/30 02:08:11 roy Exp $ */
+/* $NetBSD: compile.c,v 1.25 2020/04/05 12:31:02 roy Exp $ */
 
 /*
  * Copyright (c) 2009, 2010, 2011, 2020 The NetBSD Foundation, Inc.
@@ -68,6 +68,7 @@ dowarn(int flags, const char *fmt, ...)
 	}
 }
 
+#ifdef TERMINFO_COMPAT
 int
 _ti_promote(TIC *tic)
 {
@@ -169,6 +170,7 @@ _ti_promote(TIC *tic)
 
 	return error;
 }
+#endif
 
 char *
 _ti_grow_tbuf(TBUF *tbuf, size_t len)
@@ -261,6 +263,7 @@ _ti_find_extra(TIC *tic, TBUF *tbuf, const char *code)
 char *
 _ti_getname(int rtype, const char *orig)
 {
+#ifdef TERMINFO_COMPAT
 	const char *delim;
 	char *name;
 	const char *verstr;
@@ -290,6 +293,9 @@ _ti_getname(int rtype, const char *orig)
 	memcpy(name, orig, diff);
 	memcpy(name + diff, verstr, vlen + 1);
 	return name;
+#else
+	return strdup(orig);
+#endif
 }
 
 size_t
@@ -630,7 +636,11 @@ _ti_compile(char *cap, int flags)
 	if (tic == NULL)
 		return NULL;
 
+#ifdef TERMINFO_COMPAT
 	tic->rtype = TERMINFO_RTYPE_O1; /* will promote if needed */
+#else
+	tic->rtype = TERMINFO_RTYPE;
+#endif
 	buf.buf = NULL;
 	buf.buflen = 0;
 
