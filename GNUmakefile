@@ -79,6 +79,8 @@ libterminfo/term.o: CPPFLAGS+=-DINSTALL_PREFIX=\"$(PREFIX)\" -DTERMINFO_COMPILE 
 libterminfo/term.lo: CPPFLAGS+=-DINSTALL_PREFIX=\"$(PREFIX)\" -DTERMINFO_COMPILE -DTERMINFO_DB -DTERMINFO_COMPAT
 libterminfo/compile.o: CPPFLAGS+= -DTERMINFO_COMPILE -DTERMINFO_DB -DTERMINFO_COMPAT
 libterminfo/compile.lo: CPPFLAGS+= -DTERMINFO_COMPILE -DTERMINFO_DB -DTERMINFO_COMPAT
+libterminfo/termcap.o: CPPFLAGS+= -DTERMINFO_COMPILE -DTERMINFO_DB -DTERMINFO_COMPAT
+libterminfo/termcap.lo: CPPFLAGS+= -DTERMINFO_COMPILE -DTERMINFO_DB -DTERMINFO_COMPAT
 
 CU_SRCS_=acs.c addbytes.c addch.c addchnstr.c addnstr.c attributes.c \
 	background.c bell.c border.c box.c chgat.c clear.c clearok.c \

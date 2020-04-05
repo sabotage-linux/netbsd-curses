@@ -1,4 +1,4 @@
-/* $NetBSD: term.c,v 1.33 2020/04/05 12:31:02 roy Exp $ */
+/* $NetBSD: term.c,v 1.34 2020/04/05 14:53:39 martin Exp $ */
 
 /*
  * Copyright (c) 2009, 2010, 2011, 2020 The NetBSD Foundation, Inc.
@@ -351,6 +351,11 @@ _ti_dbgettermp(TERMINAL *term, const char *path, const char *name, int flags)
 static int
 _ti_findterm(TERMINAL *term, const char *name, int flags)
 {
+#ifndef TERMINFO_DB
+	_ti_database = NULL;
+
+	return 0;
+#else
 	int r;
 	char *c, *e;
 
@@ -361,10 +366,8 @@ _ti_findterm(TERMINAL *term, const char *name, int flags)
 	r = 0;
 
 	e = getenv("TERMINFO");
-#ifdef TERMINFO_DB
 	if (e != NULL && *e == '/')
 		return _ti_dbgetterm(term, e, name, flags);
-#endif
 
 	c = NULL;
 #ifdef TERMINFO_COMPILE
@@ -413,9 +416,7 @@ _ti_findterm(TERMINAL *term, const char *name, int flags)
 			return r;
 		}
 	}
-#endif
 
-#ifdef TERMINFO_DB
 	if ((e = getenv("TERMINFO_DIRS")) != NULL)
 		return _ti_dbgettermp(term, e, name, flags);
 
@@ -430,6 +431,7 @@ _ti_findterm(TERMINAL *term, const char *name, int flags)
 #endif
 
 	return r;
+#endif
 }
 
 int
