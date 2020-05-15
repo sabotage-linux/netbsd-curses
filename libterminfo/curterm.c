@@ -99,13 +99,13 @@ set_curterm(TERMINAL *nterm)
 
 		p = ttytype;
 		l = sizeof(ttytype);
-		if ((n = snprintf(p, l, "%s", nterm->name)) == strlen(p)) {
+		if ((n = snprintf(p, l, "%s", nterm->name)) < l) {
 			p += n;
 			l -= n;
 			*p++ = '|';
 			l--;
 			if (nterm->_alias  &&
-				(n = snprintf(p, l, "%s", nterm->_alias)) == strlen(p))
+				(n = snprintf(p, l, "%s", nterm->_alias)) < l)
 			{
 				p += n;
 				l -= n;
@@ -113,7 +113,7 @@ set_curterm(TERMINAL *nterm)
 				l--;
 			}
 			if (nterm->desc  &&
-				(n = snprintf(p, l, "%s", nterm->desc)) == strlen(p))
+				(n = snprintf(p, l, "%s", nterm->desc)) < l)
 			{
 				p += n;
 				l -= n;
