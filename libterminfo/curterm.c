@@ -1,4 +1,4 @@
-/* $NetBSD: curterm.c,v 1.13 2017/05/04 09:42:23 roy Exp $ */
+/* $NetBSD: curterm.c,v 1.14 2020/05/30 16:03:58 roy Exp $ */
 
 /*
  * Copyright (c) 2009, 2011 The NetBSD Foundation, Inc.
