@@ -11,7 +11,7 @@ SO_SUFFIX ?= .so
 
 PIC = -fPIC
 
-PREFIX=/usr/local
+PREFIX ?= /usr/local
 BINDIR=$(PREFIX)/bin
 LIBDIR=$(PREFIX)/lib
 INCDIR=$(PREFIX)/include
