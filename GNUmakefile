@@ -245,6 +245,7 @@ install-dynlib-curses: $(CU_LIBSO)
 install-dynlib-terminfo: $(TI_LIBSO)
 	$(INSTALL) -Dm 644 $< $(DESTDIR)$(LIBDIR)/$(notdir $<)
 	$(LN) -sf $(notdir $<) $(DESTDIR)$(LIBDIR)/libtermcap$(SO_SUFFIX)
+	$(LN) -sf $(notdir $<) $(DESTDIR)$(LIBDIR)/libtinfo$(SO_SUFFIX)
 
 install-dynlib-panel: $(PA_LIBSO)
 	$(INSTALL) -Dm 644 $< $(DESTDIR)$(LIBDIR)/$(notdir $<)
