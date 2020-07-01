@@ -1,4 +1,4 @@
-/*	$NetBSD: line.c,v 1.15 2020/07/01 02:14:41 uwe Exp $	*/
+/*	$NetBSD: line.c,v 1.16 2020/07/01 02:57:01 uwe Exp $	*/
 
 /*-
  * Copyright (c) 1998-1999 Brett Lymn
@@ -99,15 +99,10 @@ whline(WINDOW *win, chtype ch, int count)
 	wmove(win, ocury, ocurx);
 	return OK;
 #else
-	cchar_t cch, *cchp;
+	cchar_t cch;
 
-	if (ch & __CHARTEXT) {
-		__cursesi_chtype_to_cchar(ch, &cch);
-		cchp = & cch;
-	} else
-		cchp = WACS_HLINE;
-
-	return whline_set(win, cchp, count);
+	__cursesi_chtype_to_cchar(ch, &cch);
+	return whline_set(win, &cch, count);
 #endif
 }
 
@@ -172,15 +167,10 @@ wvline(WINDOW *win, chtype ch, int count)
 	wmove(win, ocury, ocurx);
 	return OK;
 #else
-	cchar_t cch, *cchp;
+	cchar_t cch;
 
-	if (ch & __CHARTEXT) {
-		__cursesi_chtype_to_cchar(ch, &cch);
-		cchp = & cch;
-	} else
-		cchp = WACS_VLINE;
-
-	return wvline_set(win, cchp, count);
+	__cursesi_chtype_to_cchar(ch, &cch);
+	return wvline_set(win, &cch, count);
 #endif
 }
 
@@ -222,8 +212,14 @@ int whline_set(WINDOW *win, const cchar_t *wch, int n)
 	int ocury, ocurx, wcn, i, cw;
 	cchar_t cc;
 
-	cw = wcwidth( wch->vals[ 0 ]);
-	if (cw < 0)
+	cc = *wch;
+	if (!cc.vals[0]) {
+		cc.vals[0] = WACS_HLINE->vals[0];
+		cc.attributes |= WACS_HLINE->attributes;
+	}
+
+	cw = wcwidth(cc.vals[0]);
+	if (cw <= 0)
 		cw = 1;
 	if ( ( win->maxx - win->curx ) < cw )
 		return ERR;
@@ -234,9 +230,6 @@ int whline_set(WINDOW *win, const cchar_t *wch, int n)
 	ocury = win->cury;
 	ocurx = win->curx;
 
-	memcpy( &cc, wch, sizeof( cchar_t ));
-	if (!(wch->vals[ 0 ]))
-		cc.vals[ 0 ] |= WACS_HLINE->vals[0];
 	for (i = 0; i < wcn; i++ ) {
 #ifdef DEBUG
 		__CTRACE(__CTRACE_LINE, "whline_set: (%d,%d)\n",
@@ -296,9 +289,11 @@ int wvline_set(WINDOW *win, const cchar_t *wch, int n)
 	ocury = win->cury;
 	ocurx = win->curx;
 
-	memcpy(&cc, wch, sizeof(cchar_t));
-	if (!(wch->vals[0]))
-		cc.vals[0] |= WACS_VLINE->vals[0];
+	cc = *wch;
+	if (!cc.vals[0]) {
+		cc.vals[0] = WACS_VLINE->vals[0];
+		cc.attributes |= WACS_VLINE->attributes;
+	}
 	for (i = 0; i < wcn; i++) {
 		mvwadd_wch(win, ocury + i, ocurx, &cc);
 #ifdef DEBUG
