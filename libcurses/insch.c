@@ -1,4 +1,4 @@
-/*	$NetBSD: insch.c,v 1.25 2019/06/09 07:40:14 blymn Exp $	*/
+/*	$NetBSD: insch.c,v 1.26 2020/07/06 22:46:50 uwe Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -72,7 +72,7 @@ mvwinsch(WINDOW *win, int y, int x, chtype ch)
 	if (wmove(win, y, x) == ERR)
 		return ERR;
 
-	return winsch(stdscr, ch);
+	return winsch(win, ch);
 }
 
 #endif

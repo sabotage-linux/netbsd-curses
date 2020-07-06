@@ -1,4 +1,4 @@
-/*   $NetBSD: insstr.c,v 1.7 2019/06/09 07:40:14 blymn Exp $ */
+/*   $NetBSD: insstr.c,v 1.8 2020/07/06 22:46:50 uwe Exp $ */
 
 /*
  * Copyright (c) 2005 The NetBSD Foundation Inc.
@@ -100,7 +100,7 @@ mvwinsstr(WINDOW *win, int y, int x, const char *str)
 	if (wmove(win, y, x) == ERR)
 		return ERR;
 
-	return winsstr(stdscr, str);
+	return winsstr(win, str);
 }
 
 /*
@@ -114,7 +114,7 @@ mvwinsnstr(WINDOW *win, int y, int x, const char *str, int n)
 	if (wmove(win, y, x) == ERR)
 		return ERR;
 
-	return winsnstr(stdscr, str, n);
+	return winsnstr(win, str, n);
 }
 
 #endif
