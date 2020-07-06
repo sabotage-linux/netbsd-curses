@@ -1,4 +1,4 @@
-/*	$NetBSD: getch.c,v 1.74 2020/05/14 11:50:04 simonb Exp $	*/
+/*	$NetBSD: getch.c,v 1.75 2020/07/06 23:33:38 uwe Exp $	*/
 
 /*
  * Copyright (c) 1981, 1993, 1994
@@ -794,11 +794,11 @@ wgetch(WINDOW *win)
 	    && __echoit)
 		return ERR;
 
-	if (is_wintouched(win))
-		wrefresh(win);
-	else {
-		if ((_cursesi_screen->curscr->cury != (win->begy + win->cury))
-		    || (_cursesi_screen->curscr->curx != (win->begx + win->curx))) {
+	if (!(win->flags & __ISPAD)) {
+		if (is_wintouched(win))
+			wrefresh(win);
+		else if ((_cursesi_screen->curscr->cury != (win->begy + win->cury))
+		         || (_cursesi_screen->curscr->curx != (win->begx + win->curx))) {
 #ifdef DEBUG
 			__CTRACE(__CTRACE_INPUT, "wgetch: curscr cury %d cury %d curscr curx %d curx %d\n",
 			_cursesi_screen->curscr->cury, win->begy + win->cury,
