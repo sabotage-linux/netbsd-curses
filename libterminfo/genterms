@@ -50,6 +50,7 @@ rxvt-unicode-256color
 st-256color
 dvtm
 dvtm-256color
+fbpad-256
 "
 
 ${TOOL_TIC} -Sx ${TERMINFO} ${TERMLIST}
