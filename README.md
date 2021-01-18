@@ -158,6 +158,9 @@ link to both libcurses and libterminfo.
 with these instructions it is easy to compile the majority of ncurses apps
 without problems against netbsd-curses.
 
+An alternative is to compile netbsd-curses with the option MERGE_TERMINFO=1,
+which will include the libterminfo objects in libcurses.
+
 a small percentage of apps written for ncurses poke at internals and need
 light patching:
 

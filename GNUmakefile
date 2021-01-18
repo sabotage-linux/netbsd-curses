@@ -102,6 +102,10 @@ else
 CPPFLAGS+=-DDISABLE_WCHAR
 endif
 
+ifdef MERGE_TERMINFO
+CU_SRCS_+=$(TI_SRCS)
+endif
+
 CU_SRCS=$(patsubst %,libcurses/%,$(CU_SRCS_))
 CU_INCS=libcurses/curses.h libcurses/unctrl.h
 CU_OBJS=$(CU_SRCS:.c=.o)
@@ -158,8 +162,16 @@ TA_SRCS=tabs/tabs.c
 TA_OBJS=tabs/tabs.o
 TA_MAN =$(sort $(wildcard tabs/*.1))
 
-STALIBS=$(TI_LIBA) $(CU_LIBA) $(PA_LIBA) $(ME_LIBA) $(FO_LIBA)
-DYNLIBS=$(TI_LIBSO) $(CU_LIBSO) $(PA_LIBSO) $(ME_LIBSO) $(FO_LIBSO)
+STALIBS=$(CU_LIBA) $(PA_LIBA) $(ME_LIBA) $(FO_LIBA)
+DYNLIBS=$(CU_LIBSO) $(PA_LIBSO) $(ME_LIBSO) $(FO_LIBSO)
+ifndef MERGE_TERMINFO
+STALIBS+=$(TI_LIBA)
+DYNLIBS+=$(TI_LIBSO)
+else
+TI_LIBSO=$(CU_LIBSO)
+TI_LIBA=$(CU_LIBA)
+endif
+
 PROGS=$(TOOL_TTIC) tset/tset tput/tput infocmp/infocmp tabs/tabs
 
 ifeq ($(STATIC_BINS),0)
@@ -219,9 +231,11 @@ install-stalib-curses: $(CU_LIBA)
 	$(LN) -sf $(notdir $<) $(DESTDIR)$(LIBDIR)/libncurses.a
 	$(LN) -sf $(notdir $<) $(DESTDIR)$(LIBDIR)/libncursesw.a
 
+ifndef MERGE_TERMINFO
 install-stalib-terminfo: $(TI_LIBA)
 	$(INSTALL) -Dm 644 $< $(DESTDIR)$(LIBDIR)/$(notdir $<)
 	$(LN) -sf $(notdir $<) $(DESTDIR)$(LIBDIR)/libtermcap.a
+endif
 
 install-stalib-panel: $(PA_LIBA)
 	$(INSTALL) -Dm 644 $< $(DESTDIR)$(LIBDIR)/$(notdir $<)
@@ -242,9 +256,11 @@ install-dynlib-curses: $(CU_LIBSO)
 	$(LN) -sf $(notdir $<) $(DESTDIR)$(LIBDIR)/libncurses$(SO_SUFFIX)
 	$(LN) -sf $(notdir $<) $(DESTDIR)$(LIBDIR)/libncursesw$(SO_SUFFIX)
 
+ifndef MERGE_TERMINFO
 install-dynlib-terminfo: $(TI_LIBSO)
 	$(INSTALL) -Dm 644 $< $(DESTDIR)$(LIBDIR)/$(notdir $<)
 	$(LN) -sf $(notdir $<) $(DESTDIR)$(LIBDIR)/libtermcap$(SO_SUFFIX)
+endif
 
 install-dynlib-panel: $(PA_LIBSO)
 	$(INSTALL) -Dm 644 $< $(DESTDIR)$(LIBDIR)/$(notdir $<)
@@ -258,7 +274,11 @@ install-dynlib-form: $(FO_LIBSO)
 	$(INSTALL) -Dm 644 $< $(DESTDIR)$(LIBDIR)/$(notdir $<)
 	$(LN) -sf $(notdir $<) $(DESTDIR)$(LIBDIR)/$(basename $(notdir $<))w$(SO_SUFFIX)
 
+ifndef MERGE_TERMINFO
 install-dynlibs: install-dynlib-terminfo install-dynlib-curses install-dynlib-panel install-dynlib-menu install-dynlib-form
+else
+install-dynlibs: install-dynlib-curses install-dynlib-panel install-dynlib-menu install-dynlib-form
+endif
 install-libs: install-stalibs install-dynlibs
 
 install-pc-dir:
@@ -285,7 +305,11 @@ install-pc-form: install-pc-dir
 	./genpc form "curses form library" "-lform -lcurses -lterminfo" > $(DESTDIR)$(LIBDIR)/pkgconfig/form.pc
 	./genpc formw "curses form library" "-lform -lcurses -lterminfo" > $(DESTDIR)$(LIBDIR)/pkgconfig/formw.pc
 
+ifndef MERGE_TERMINFO
 install-pcs: install-pc-form install-pc-menu install-pc-panel install-pc-terminfo install-pc-curses
+else
+install-pcs: install-pc-form install-pc-menu install-pc-panel install-pc-curses
+endif
 
 INSTALL_MANPAGES_COMMAND=test -L $< && $(INSTALL) -Dl `readlink $<` $@ || $(INSTALL) -Dm 644 $< $@
 
