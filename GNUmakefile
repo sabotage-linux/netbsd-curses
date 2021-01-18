@@ -127,7 +127,7 @@ PA_MAN =$(sort $(wildcard libpanel/*.3))
 
 ME_SRCS_=menu.c item.c userptr.c internals.c driver.c post.c attributes.c
 ME_MAN = $(sort $(wildcard libmenu/*.3))
-ME_SRCS=$(patsubst %,libmenu/%,$(ME_SRCuiS_))
+ME_SRCS=$(patsubst %,libmenu/%,$(ME_SRCS_))
 ME_INCS=libmenu/menu.h libmenu/eti.h
 ME_OBJS=$(ME_SRCS:.c=.o)
 ME_LIBA=libmenu/libmenu.a
