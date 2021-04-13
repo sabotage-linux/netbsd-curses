@@ -1,4 +1,4 @@
-/*	$NetBSD: type_alpha.c,v 1.11 2004/11/24 11:57:09 blymn Exp $	*/
+/*	$NetBSD: type_alpha.c,v 1.12 2021/04/13 00:29:42 mrg Exp $	*/
 
 /*-
  * Copyright (c) 1998-1999 Brett Lymn
@@ -135,7 +135,7 @@ alpha_check_field(FIELD *field, char *args)
 		return FALSE;
 
 	  /* set buffer 0 to the new string */
-	if ((new = (char *) malloc(sizeof(char) * (end - start))) == NULL)
+	if ((new = (char *) malloc(sizeof(char) * (end - start + 1))) == NULL)
 		return FALSE;
 
 	if ((end - start) >= 1) {
