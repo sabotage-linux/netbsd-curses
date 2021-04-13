@@ -1,4 +1,4 @@
-/*	$NetBSD: type_enum.c,v 1.12 2016/03/09 19:47:13 christos Exp $	*/
+/*	$NetBSD: type_enum.c,v 1.13 2021/04/13 13:13:04 christos Exp $	*/
 
 /*-
  * Copyright (c) 1998-1999 Brett Lymn
@@ -123,10 +123,10 @@ copy_enum_args(char *args)
 {
 	enum_args *new;
 
-	new = (enum_args *) malloc(sizeof(enum_args));
+	new = malloc(sizeof(*new));
 
 	if (new != NULL)
-		bcopy(args, new, sizeof(enum_args));
+		memcpy(new, args, sizeof(*new));
 
 	return (void *) new;
 }

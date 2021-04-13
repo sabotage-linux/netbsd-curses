@@ -1,4 +1,4 @@
-/*	$NetBSD: form.c,v 1.16 2016/03/09 19:47:13 christos Exp $	*/
+/*	$NetBSD: form.c,v 1.17 2021/04/13 13:13:04 christos Exp $	*/
 
 /*-
  * Copyright (c) 1998-1999 Brett Lymn
@@ -29,6 +29,7 @@
  *
  */
 
+#include <string.h>
 #include <netbsd_sys/cdefs.h>
 
 #include <stdlib.h>
@@ -486,12 +487,12 @@ new_form(FIELD **fields)
 {
 	FORM *new;
 
-	if ((new = (FORM *) malloc(sizeof(FORM))) == NULL)
+	if ((new = malloc(sizeof(*new))) == NULL)
 		return NULL;
 
 	
 	  /* copy in the defaults... */
-	bcopy(&_formi_default_form, new, sizeof(FORM));
+	memcpy(new, &_formi_default_form, sizeof(*new));
 
 	if (new->win == NULL)
 		new->scrwin = stdscr; /* something for curses to write to */
