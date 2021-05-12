@@ -45,6 +45,8 @@ ansi
 dumb
 vt100
 screen
+screen-256color
+tmux-256color
 rxvt-unicode
 rxvt-unicode-256color
 st-256color
