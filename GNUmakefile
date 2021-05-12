@@ -90,7 +90,7 @@ CU_SRCS_=acs.c addbytes.c addch.c addchnstr.c addnstr.c attributes.c \
 	printw.c putchar.c refresh.c resize.c scanw.c screen.c scroll.c \
 	scrollok.c setterm.c standout.c timeout.c toucholap.c touchwin.c \
 	tstp.c tty.c unctrl.c underscore.c immedok.c syncok.c ripoffline.c \
-	slk.c version.c
+	slk.c version.c mouse.c
 
 
 ifndef DISABLE_WCHAR

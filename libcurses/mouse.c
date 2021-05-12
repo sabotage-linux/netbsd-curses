@@ -29,10 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
-#ifndef lint
-__RCSID("$NetBSD: mouse.c,v 1.1 2020/03/23 13:37:36 roy Exp $");
-#endif				/* not lint */
+#include <netbsd_sys/cdefs.h>
 
 #include "curses.h"
 #include "curses_private.h"

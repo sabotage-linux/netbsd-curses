@@ -68,5 +68,9 @@
 #define __predict_false(exp)    (exp)
 #endif
 
+#ifndef __unused
+#define __unused
+#endif
+
 #endif
 
