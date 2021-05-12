@@ -71,6 +71,9 @@
  */
 
 #include <stdint.h>
+/* some comment, so patches touching includes apply
+ */
+
 #include <sys/types.h>
 
 #define _TERMINFO
