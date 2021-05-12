@@ -71,6 +71,11 @@
  */
 
 #include <stdint.h>
+#include <string.h>
+#include <netbsd_sys/endian.h>
+#ifndef _DIAGASSERT
+#define _DIAGASSERT(X)
+#endif
 /* some comment, so patches touching includes apply
  */
 
