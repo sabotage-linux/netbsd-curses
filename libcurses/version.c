@@ -30,7 +30,7 @@
  */
 
 #ifndef CURSES_VERSION
-#define CURSES_VERSION "portable 0.3.2"
+#define CURSES_VERSION "portable 0.3.2-git"
 #endif
 
 #include "curses.h"
