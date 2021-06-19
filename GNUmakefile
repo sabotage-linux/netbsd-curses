@@ -62,6 +62,8 @@ TIC_HOBJS=$(TIC_SRCS:.c=.ho)
 TOOL_TIC=$(TOOL_HOSTTIC)
 TIC_MAN=$(sort $(wildcard tic/*.1))
 
+tic/compile.o: CPPFLAGS+= -DTERMINFO_COMPILE -DTERMINFO_DB -DTERMINFO_COMPAT
+
 TI_SRCS= libterminfo/term.c libterminfo/ti.c libterminfo/setupterm.c \
          libterminfo/curterm.c libterminfo/tparm.c libterminfo/tputs.c
 TI_SRCS+=libterminfo/compile.c libterminfo/hash.c
