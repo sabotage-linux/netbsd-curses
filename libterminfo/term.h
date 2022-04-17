@@ -1958,16 +1958,14 @@ int		tigetnum(const char *);
 char *		tigetstr(const char *);
 /* You should note that the spec allows stuffing a char * into a long
  * if the platform allows and the %pN is followed immediately by %l or %s */
-char *		tparm(const char *, long, long, long, long, long,
-		long, long, long, long);
+char *		tparm(const char *, ...);
 
 /* Non standard functions, but provide a level of thread safety */
 int		ti_setupterm(TERMINAL **, const char *, int, int *);
 int		ti_getflag(const TERMINAL *, const char *);
 int		ti_getnum(const TERMINAL *, const char *);
 const char *	ti_getstr(const TERMINAL *, const char *);
-char *		ti_parm(TERMINAL *, const char *,
-    long, long, long, long, long, long, long, long, long);
+char *		ti_parm(TERMINAL *, const char *, ...);
 
 /* These functions do not use PC or speed, but the terminal */
 int		ti_puts(const TERMINAL *, const char *, int,
