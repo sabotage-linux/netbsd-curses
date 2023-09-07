@@ -33,10 +33,7 @@
 #endif
 #include <sys/stat.h>
 
-#include <netbsd_sys/cdefs.h>
-
 #include <sys/types.h>
-#include <netbsd_sys/queue.h>
 #include <sys/stat.h>
 
 #if !HAVE_NBTOOL_CONFIG_H || HAVE_SYS_ENDIAN_H
@@ -59,7 +56,10 @@
 #include <term_private.h>
 #include <term.h>
 #include <unistd.h>
+
+#include <netbsd_sys/cdefs.h>
 #include <netbsd_sys/emalloc.h>
+#include <netbsd_sys/queue.h>
 
 #ifndef DEFFILEMODE
 #define DEFFILEMODE  (S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH)
