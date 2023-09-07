@@ -2,6 +2,7 @@
 #define NETBSD_SYS_ENDIAN_H
 
 #if defined(__BYTE_ORDER__)
+#undef __BYTE_ORDER
 #define __BYTE_ORDER __BYTE_ORDER__
 #undef __LITTLE_ENDIAN
 #define __LITTLE_ENDIAN __ORDER_LITTLE_ENDIAN__
