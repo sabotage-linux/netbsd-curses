@@ -34,6 +34,10 @@
 #include "curses.h"
 #include "curses_private.h"
 
+#ifndef __unused
+#define __unused
+#endif
+
 #define	DEFAULT_MAXCLICK	166	/* ncurses default */
 
 /*
