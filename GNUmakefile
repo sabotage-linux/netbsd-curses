@@ -526,7 +526,7 @@ $(PA_LIBA): $(PA_OBJS)
 
 $(PA_LIBSO): $(CU_LIBSO)
 $(PA_LIBSO): $(PA_LOBJS)
-	$(CC) -shared -o $@ $^ -Wl,-soname=$(notdir $@)
+	$(CC) -shared -L./libterminfo -o $@ $^ -Wl,-soname=$(notdir $@)
 
 $(ME_LIBA): $(ME_OBJS)
 	rm -f $@
